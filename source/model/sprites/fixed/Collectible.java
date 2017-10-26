@@ -1,8 +1,8 @@
 package model.sprites.fixed;
 
-import model.FixedSprites;
+import model.Sprites;
 
-public class Collectible extends FixedSprites{
+public class Collectible extends Sprites{
 	
 	String fact;
 	

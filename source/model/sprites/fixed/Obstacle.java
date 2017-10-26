@@ -1,8 +1,8 @@
 package model.sprites.fixed;
 
-import model.FixedSprites;
+import model.Sprites;
 
-public class Obstacle extends FixedSprites {
+public class Obstacle extends Sprites {
 	
 	String Obstacles[];
 	

@@ -3,57 +3,96 @@ package model.sprites.dynamic;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.DynamicSprites;
+import model.Sprites;
 import model.sprites.fixed.Collectible;
 
-public class Player extends DynamicSprites {
+public class Player extends Sprites {
 	
-	int health; 
-	int score; 
-	List<Collectible> collectibles;
-	boolean invincibility; 
+	private int health; 
+	private int score; 
+	private List<Collectible> collectibles;
+	private boolean invincibility; 
 	
-	public Player() {
+	//vars for decrementing and incrementing movement
+	private int deltaX = 5;
+	private int deltaY = 5;
+	//0 = player facing left, 1 = player facing right
+	private int direction = 1;
+	
+	public Player(int xCoord, int yCoord) {	
+		super.xCoord = xCoord;
+		super.yCoord = yCoord;
+		
 		this.health = 3;
 		this.score = 0;
 		this.collectibles = new ArrayList<Collectible>(3);
 		this.invincibility = false;
 	}
 	
-	void move() {
+	public void incrementX() {
+		xCoord += deltaX;
+	}
+	
+	public void decrementX() {
+		xCoord -= deltaX;
+	}
+	
+	public void incrementY() {
+		yCoord += deltaY;
+	}
+	
+	public void decrementY() {
+		yCoord -= deltaY;
+	}
+	
+	
+	public void changeCharacter() {
 		
 	}
 	
-	void changeCharacter() {
+	public void changeHealth(int num) {
 		
 	}
 	
-	void changeHealth(int num) {
-		
+	public void changeSpeed() {
+		deltaX++;
+		deltaY++;
 	}
 	
-	void changeSpeed(int num) {
-		
+	public void incrementScore() {
+		score++;
 	}
 	
-	void addToCollectibles(Collectible item) {
+	public void addToCollectibles(Collectible item) {
 		collectibles.add(item);
 	}
 	
-	List<Collectible> getCollectibles() {
+	public List<Collectible> getCollectibles() {
 		return collectibles;
 	}
 	
-	void setInvincibility(boolean bool) {
-		this.invincibility = bool;
+	public int getDirection() {
+		return direction;
 	}
 	
-	int getScore() {
+	public String getDirectionState() {
+		if(getDirection() == 1) {
+			return ": Facing RIGHT";
+		} else {
+			return ": Facing LEFT";
+		}
+	}
+	
+	public int getScore() {
 		return score;
 	}
 	
-	void incrementScore(int i) {
-		score = score + i;
+	public void setDirection(int newDirection) {
+		direction = newDirection;
 	}
-		
+	
+	public void setInvincibility(boolean bool) {
+		this.invincibility = bool;
+	}
+	
 }

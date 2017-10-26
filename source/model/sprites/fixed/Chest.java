@@ -3,9 +3,9 @@ package model.sprites.fixed;
 import java.util.HashMap;
 import java.util.List;
 
-import model.FixedSprites;
+import model.Sprites;
 
-public class Chest extends FixedSprites{
+public class Chest extends Sprites{
 	
 	HashMap<Collectible, String> allQuestionsAndAnswers;
 	

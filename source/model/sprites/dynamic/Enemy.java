@@ -1,9 +1,9 @@
 package model.sprites.dynamic;
 
-import model.DynamicSprites;
+import model.Sprites;
 
-public abstract class Enemy extends DynamicSprites{
-	
+public abstract class Enemy extends Sprites{
+
 	boolean killable; 
 	int health;
 	
