@@ -21,8 +21,8 @@ public class Model {
 	private int groundX;
 	private int groundY;
 	private Rectangle ground;
-	private boolean changePlayerMode;
-	private int changePlayerCount = 0;
+	private boolean changeCharacterMode;
+	private int changeCharacterCount = 0;
 	
 	public Model() {
 		xBoundary = 1000;
@@ -31,7 +31,7 @@ public class Model {
 		groundX = 0;
 		groundY = 500;
 		ground = new Rectangle(groundX,groundY,xBoundary, 1);
-		changePlayerMode = false;
+		changeCharacterMode = false;
 
 	}
 	
@@ -78,19 +78,22 @@ public class Model {
 		return player.getDirectionState();
 	}
 	public void setChangePlayerMode(){
-		changePlayerMode = !changePlayerMode;
+		changeCharacterMode = !changeCharacterMode;
 	}
-	public boolean getChangePlayerMode() {
-		return changePlayerMode;
+	public boolean getChangeCharacterMode() {
+		return changeCharacterMode;
 	}
-	public void incrementChangePlayerCount() {
-		changePlayerCount++;
+	public void incrementChangeCharacterCount() {
+		changeCharacterCount++;
 	}
-	public int getChangePlayerCount() {
-		return changePlayerCount;
+	public void decrementChangeCharacterCount() {
+		changeCharacterCount--;
+	}
+	public int getChangeCharacterCount() {
+		return changeCharacterCount;
 	}
 	public String getPlayerCharacter() {
-		return player.getPlayerCharacter(changePlayerCount);
+		return player.getPlayerCharacter(changeCharacterCount);
 		
 	}
 }

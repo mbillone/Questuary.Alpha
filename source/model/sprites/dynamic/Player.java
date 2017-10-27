@@ -18,8 +18,8 @@ public class Player extends Sprites {
 	private int deltaY = 5;
 	//0 = player facing left, 1 = player facing right
 	private int direction = 1;
-	private int numOfPlayers = 2;
-	private int changePlayerCount = 0;
+	private int numOfCharacter = 2;
+	private int changeCharacterCount = 0;
 	
 	public Player(int xCoord, int yCoord) {	
 		super.xCoord = xCoord;
@@ -97,8 +97,8 @@ public class Player extends Sprites {
 		this.invincibility = bool;
 	}
 	
-	public String getPlayerCharacter(int changePlayerCount) {
-		if((changePlayerCount % numOfPlayers) == 1) {
+	public String getPlayerCharacter(int changeCharacterCount) {
+		if((changeCharacterCount % numOfCharacter) == 0) {
 			return "cat";
 		}else {
 			return "dog";

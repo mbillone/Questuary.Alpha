@@ -53,7 +53,7 @@ public class Controller {
 			// if only 1 key is pressed 
 			if (keys.size() == 1) {
 				// checks if game is not in Change player mode
-				if (!model.getChangePlayerMode()) {
+				if (!model.getChangeCharacterMode()) {
 					switch (keys.get(0)) {
 					case (KeyEvent.VK_RIGHT):
 						// if x is less than the xBoundary then increment by xVelocity
@@ -91,12 +91,12 @@ public class Controller {
 					switch (keys.get(0)) {
 					case (KeyEvent.VK_RIGHT):
 						// increment the player selector loop
-						model.incrementChangePlayerCount();
+						model.incrementChangeCharacterCount();
 						view.updateView(model.getPlayerX(), model.getPlayerY(), model.getDirection(), model.getPlayerCharacter());
 						break;
 					case (KeyEvent.VK_LEFT):
 						// increment the player selector loop
-						model.incrementChangePlayerCount();
+						model.decrementChangeCharacterCount();
 						view.updateView(model.getPlayerX(), model.getPlayerY(), model.getDirection(), model.getPlayerCharacter());
 						break;
 					}
