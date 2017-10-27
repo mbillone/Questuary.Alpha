@@ -21,6 +21,8 @@ public class Model {
 	private int groundX;
 	private int groundY;
 	private Rectangle ground;
+	private boolean changePlayerMode;
+	private int changePlayerCount = 0;
 	
 	public Model() {
 		xBoundary = 1000;
@@ -29,6 +31,7 @@ public class Model {
 		groundX = 0;
 		groundY = 500;
 		ground = new Rectangle(groundX,groundY,xBoundary, 1);
+		changePlayerMode = false;
 
 	}
 	
@@ -73,5 +76,21 @@ public class Model {
 	}
 	public String getDirectState(){
 		return player.getDirectionState();
+	}
+	public void setChangePlayerMode(){
+		changePlayerMode = !changePlayerMode;
+	}
+	public boolean getChangePlayerMode() {
+		return changePlayerMode;
+	}
+	public void incrementChangePlayerCount() {
+		changePlayerCount++;
+	}
+	public int getChangePlayerCount() {
+		return changePlayerCount;
+	}
+	public String getPlayerCharacter() {
+		return player.getPlayerCharacter(changePlayerCount);
+		
 	}
 }
