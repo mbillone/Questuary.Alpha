@@ -14,8 +14,8 @@ public class Player extends Sprites {
 	private boolean invincibility; 
 	
 	//vars for decrementing and incrementing movement
-	private int deltaX = 5;
-	private int deltaY = 5;
+	private int deltaX = 10;
+	private int deltaY = 10;
 	//0 = player facing left, 1 = player facing right
 	private int direction = 1;
 	private int numOfCharacter = 2;
@@ -88,6 +88,8 @@ public class Player extends Sprites {
 	public int getScore() {
 		return score;
 	}
+	
+	
 	
 	public void setDirection(int newDirection) {
 		direction = newDirection;

@@ -13,10 +13,12 @@ import view.View;
 
 public class Model {
 	
-	private Player player = new Player(100,500);
 	private View view;
 	private int xBoundary;
 	private int yBoundary;
+	private int startingX = 0;
+	private int startingY = 500;
+	private Player player = new Player(startingX,startingY);
 	
 	private int groundX;
 	private int groundY;
@@ -94,6 +96,15 @@ public class Model {
 	}
 	public String getPlayerCharacter() {
 		return player.getPlayerCharacter(changeCharacterCount);
+		
+	}
+	
+	
+	//change room player is in
+	public void changeRoom(){
+		if (getPlayerX() >= (xBoundary - (view.getImgwidth()/2))) {
+			player.setX(startingX);
+		}
 		
 	}
 }

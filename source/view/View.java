@@ -22,6 +22,12 @@ public class View extends JPanel {
 	final static int imgWidth = 160;
 	final static int imgHeight = imgWidth + 2;
 	
+	
+	
+	public static int getImgwidth() {
+		return imgWidth;
+	}
+
 	//player's x and y coordinates
 	int playerX = 0;
 	int playerY = 0;

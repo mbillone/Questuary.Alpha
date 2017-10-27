@@ -59,6 +59,7 @@ public class Controller {
 						// if x is less than the xBoundary then increment by xVelocity
 						if (model.getPlayerX() < model.getXBoundary()) {
 							// change in the model
+							model.changeRoom();
 							model.incrementX();
 							model.setDirection(1);
 							view.updateView(model.getPlayerX(), model.getPlayerY(), model.getDirection(), model.getPlayerCharacter());
