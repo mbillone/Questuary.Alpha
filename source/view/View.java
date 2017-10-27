@@ -31,7 +31,7 @@ public class View extends JPanel {
 	Rectangle ground;
 	
 	//View constructor
-	public View(int xBoundary, int yBoundary) {
+	public View(int xBoundary, int yBoundary, String playerCharacter) {
 		//load in the cat images
 		pics = new BufferedImage[2][10];
 		
@@ -39,7 +39,7 @@ public class View extends JPanel {
 		
 		//load in the images
 		for (int i = 0; i < frameCount; i++) {
-			BufferedImage image = createImage("images/cat/Walk (" + (i+1) + ")" + ".png");
+			BufferedImage image = createImage("images/" + playerCharacter + "/Walk (" + (i+1) + ")" + ".png
 			pics[1][i] = image;
 			//pics[i] = image.getSubimage(0,0,imgWidth, imgHeight);
 		}
@@ -59,10 +59,16 @@ public class View extends JPanel {
 	}
 	
 	//update the image and repaint the image
-	public void updateView(int playerX, int playerY, int direction) {
+	public void updateView(int playerX, int playerY, int direction, String playerCharacter) {
 		this.playerX = playerX;
 		this.playerY = playerY;
 		this.direction = direction;
+		//load in the images
+		for (int i = 0; i < frameCount; i++) {
+			BufferedImage image = createImage("images/" + playerCharacter + "/Walk (" + (i + 1) + ")" + ".png");
+			pics[1][i] = image;
+			// pics[i] = image.getSubimage(0,0,imgWidth, imgHeight);
+		}
 		frame.repaint();
 	}
 	
