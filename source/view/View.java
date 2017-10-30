@@ -1,5 +1,4 @@
 package view;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -8,153 +7,115 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import model.Model;
-import model.sprites.dynamic.Player;
+import view.dynamic.CatImage;
+import view.dynamic.DogImage;
+import view.dynamic.ImageObject;
 
 public class View extends JPanel{
 	
 	private JFrame frame;
-	//fields related to pictures
-	final int frameCount = 10;
-	int picNum = 0;
-	BufferedImage[][] pics;
+	//HashMap used for character change
+	HashMap<String,ImageObject>characterImages = new HashMap<String,ImageObject>();
+	
+	//Cat image object that will be responsible in returning the cat image
+	CatImage catImage = new CatImage();
+	//Dog image object responsible for dog image
+	DogImage dogImage = new DogImage();
 	
 	//boolean determines player should animate
 	boolean animate = false;
 	
-	private int imgWidth;
-	private int imgHeight;
+	///get screen's dimensions
+	private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	
-	int direction = Model.getPlayerDirection();
-	double playerX = Model.getStartingX();
-	double playerY = Model.getStartingY();
+	double ratio = screenWidth/screenHeight; 
+	int imgWidth;
+	int imgHeight;
 	
+	//player's x and y coordinates
+	int playerX = 0;
+	int playerY = 0;
+	//player's direction
+	int direct = 1;
 	//ground 
 	Rectangle ground;
+	String playerCharacter = "cat";
+	//******************
+	//Constructor
 	
-	public View(double playerX, double playerY, int width, int height, int direct, String playerCharacter) {
-		this.playerX = (int)playerX;
-		this.playerY = (int)playerY;
-		this.imgWidth = width;
-		this.imgHeight = height;
-		this.direction = direct;
+	public View(){
 		
-		//load in the cat images
-		pics = new BufferedImage[2][10];
+		characterImages.put("cat", catImage);
+		characterImages.put("dog", dogImage);
 		
 		frame = new JFrame();
-		
-		//load in the images
-		for (int i = 0; i < frameCount; i++) {
-			BufferedImage image = createImage("images/" + playerCharacter + "/Walk (" + (i+1) + ")" + ".png");
-			pics[1][i] = image;
-		}
-		
-		for (int i = 0; i < frameCount; i++) {
-			pics[0][i] = flip(pics[1][i]);
-		}
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Questary Alpha");
 		
-		frame.setSize(new Dimension(Model.getScreenHeight(), Model.getScreenWidth()));
-		frame.setExtendedState(frame.MAXIMIZED_BOTH);
-		frame.setUndecorated(false);
+		frame.setSize(new Dimension((int)screenWidth,(int)screenHeight));
+		setSize(new Dimension((int)screenWidth, (int)screenHeight));
+		frame.setLocationRelativeTo(null);
 		frame.getContentPane().add(this);
 		frame.setVisible(true);
-	}
-	
-  	//the String imageFile is the file name
-	private BufferedImage createImage(String imageFile) {
-		BufferedImage bufferedImage;
-		try {
-			bufferedImage = ImageIO.read(new File(imageFile));
-			return bufferedImage;
-		} catch (IOException except) {
-			System.out.println("Error with file upload");
-			except.printStackTrace();		
-		}
-		return null;
-	}
-	
-	private BufferedImage flip(BufferedImage image) {
-		 int width = image.getWidth();
-		 int height = image.getHeight();
-		 
-		 BufferedImage mimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		 for(int y = 0; y < height; y++) {
-			 for(int lx = 0, rx = width-1; lx < width; lx++, rx--)
-			 {
-				 int p = image.getRGB(lx, y);
-				 mimg.setRGB(rx, y, p);
-			 }
-		 }
-		 return mimg;
-	}
-	
-
-	// Override the JPanel's paint method
-	@Override
-	public void paint(Graphics graphic) {
-		picNum = modPicNum();		
-		graphic.setColor(Color.blue);
-		graphic.fillRect((int)playerX, (int)playerY, imgWidth, imgHeight);
 		
-		graphic.drawImage(pics[direction][picNum], (int)playerX, (int)playerY, imgWidth, imgHeight, this);
-		
-		graphic.setColor(Color.gray);
-		graphic.fillRect((int)ground.getX(), (int)ground.getY() + imgHeight, (int)ground.getWidth(), (int)ground.getHeight());
 	}
-	
-/*	//Override the JPanel's paint method
-	@Override
-	public void paint(Graphics graphic) {
-		picNum = modPicNum();	
-		graphic.drawImage(pics[Player.getDirection()][picNum], Model.getPlayerX(), Model.getPlayerY(), imgWidth, imgHeight, this);
-		graphic.fillRect((int)ground.getX(), (int)ground.getY() + imgHeight, (int)ground.getWidth(), (int)ground.getHeight());
-	}*/
-	
-	//update the data and repaint the image
-	public void updateView(double playerX, double playerY, int width, int height, int direct, String playerCharacter){ 
-		this.playerX = (int)playerX;
-		this.playerY = (int)playerY;
-		this.imgWidth = width;
-		this.imgHeight = height;
-		this.direction = direct;
-		frame.repaint();		
-	} 
-
-	//mod picNum by frameCount
-	public int modPicNum() {
-		if(animate) {
-			picNum = (picNum + 1) % frameCount;
-		}
-		return picNum;
-	} 
-  
-	//getter for the frame
-	public JFrame getFrame() {
-		return frame;
-	}
+	  
+	 //getter for the frame
+	 public JFrame getFrame(){
+		 return frame;
+	 }
 	 
-
-	public int getImgWidth() {
-		return imgWidth;
-	}
-	
 	//setter for the ground
 	public void setGroundImage(Rectangle ground){
 		this.ground = ground;
 	}
 	
-	//setter for animation
-	public void setAnimation(boolean bool) {
-		animate = bool;
+	//setter for picNum
+	public void setPicNum(){
+		if(playerCharacter == "cat") {
+			catImage.nextImage(animate);
+		}else if(playerCharacter == "dog") {
+			dogImage.nextImage(animate);
+		}
+		
 	}
-  
+	
+	//setter for animation
+	public void setAnimation(boolean b){
+		animate = b;
+	}
+	
+	 //Override the JPanel's paint method
+	 @Override
+	 public void paint(Graphics g){
+		 g.setColor(Color.blue);
+		 g.fillRect(playerX, playerY,imgWidth,imgHeight);
+		 if(playerCharacter == "cat") {
+			 g.drawImage(catImage.show(direct), playerX, playerY, catImage.getWidth(), catImage.getHeight(),this);
+		 }else if(playerCharacter =="dog") {
+			 g.drawImage(dogImage.show(direct), playerX, playerY, dogImage.getWidth(), dogImage.getHeight(),this);
+		 }
+		
+
+		 g.setColor(Color.gray);
+		 g.fillRect((int)ground.getX(), (int)ground.getY(), (int)ground.getWidth(), (int)ground.getHeight());
+	 }
+	 
+	//update the data and repaint the image
+	public void updateView(int playerX, int playerY, int direct, String playerCharacter){ 
+		this.playerX = playerX;
+		this.playerY = playerY;
+		this.direct = direct;
+		this.playerCharacter = playerCharacter;
+		frame.repaint();		
+	}
+		
 }

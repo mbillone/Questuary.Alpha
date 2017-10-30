@@ -1,4 +1,5 @@
-package model;
+package model.sprites.fixed;
+
 import java.awt.Rectangle;
 
 public class Ground extends Rectangle{
