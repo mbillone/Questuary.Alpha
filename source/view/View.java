@@ -1,3 +1,5 @@
+package view;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,6 +13,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import model.Model;
+import model.sprites.dynamic.Player;
+
 public class View extends JPanel{
 	
 	private JFrame frame;
@@ -22,25 +27,23 @@ public class View extends JPanel{
 	//boolean determines player should animate
 	boolean animate = false;
 	
-	double ratio = screenWidth/screenHeight; 
-	int imgWidth;
-	int imgHeight;
+	private int imgWidth;
+	private int imgHeight;
 	
-	public static int getImgwidth() {
-		return imgWidth;
-	}
-
-	//player's x and y coordinates
-	int playerX = 0;
-	int playerY = 0;
-  
-	//player's direction
-	int direct = 1;
-  
+	int direction = Model.getPlayerDirection();
+	double playerX = Model.getStartingX();
+	double playerY = Model.getStartingY();
+	
 	//ground 
 	Rectangle ground;
 	
-	public View(int xBoundary, int yBoundary, String playerCharacter) {
+	public View(double playerX, double playerY, int width, int height, int direct, String playerCharacter) {
+		this.playerX = (int)playerX;
+		this.playerY = (int)playerY;
+		this.imgWidth = width;
+		this.imgHeight = height;
+		this.direction = direct;
+		
 		//load in the cat images
 		pics = new BufferedImage[2][10];
 		
@@ -58,14 +61,15 @@ public class View extends JPanel{
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Questary Alpha");
-		frame.setSize(new Dimension(,(int)screenHeight));
-		setSize(new Dimension(model.getScreenHeight(), model.getScreenWidth()));
-		frame.setLocationRelativeTo(null);
+		
+		frame.setSize(new Dimension(Model.getScreenHeight(), Model.getScreenWidth()));
+		frame.setExtendedState(frame.MAXIMIZED_BOTH);
+		frame.setUndecorated(false);
 		frame.getContentPane().add(this);
 		frame.setVisible(true);
 	}
 	
-  //The String imageFile is the file name
+  	//the String imageFile is the file name
 	private BufferedImage createImage(String imageFile) {
 		BufferedImage bufferedImage;
 		try {
@@ -78,17 +82,10 @@ public class View extends JPanel{
 		return null;
 	}
 	
-	//Override the JPanel's paint method
-	@Override
-	public void paint(Graphics graphic) {
-		picNum = (picNum + 1) % frameCount;
-		graphic.drawImage(pics[direction][picNum], playerX, playerY, imgWidth, imgHeight, this);
-		graphic.fillRect((int)ground.getX(), (int)ground.getY() + imgHeight, (int)ground.getWidth(), (int)ground.getHeight());
-	}
-		
 	private BufferedImage flip(BufferedImage image) {
 		 int width = image.getWidth();
 		 int height = image.getHeight();
+		 
 		 BufferedImage mimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		 for(int y = 0; y < height; y++) {
 			 for(int lx = 0, rx = width-1; lx < width; lx++, rx--)
@@ -98,54 +95,66 @@ public class View extends JPanel{
 			 }
 		 }
 		 return mimg;
-	 }
-  
-  	/* //Override the JPanel's paint method
-	 @Override
-	 public void paint(Graphics g) {
-		 g.setColor(Color.blue);
-		 g.fillRect(playerX, playerY,imgWidth,imgHeight);
-		 
-		 g.drawImage(pics[direct][picNum], playerX, playerY, imgWidth , imgHeight,this);
-
-		 g.setColor(Color.gray);
-		 g.fillRect((int)ground.getX(), (int)ground.getY(), (int)ground.getWidth(), (int)ground.getHeight());
-	 } */
-  
-  //update the image and repaint the image
-	public void updateView(int playerX, int playerY, int direction, String playerCharacter) {
-		this.playerX = playerX;
-		this.playerY = playerY;
-		this.direction = direction;
-		//load in the images
-		for (int i = 0; i < frameCount; i++) {
-			BufferedImage image = createImage("images/" + playerCharacter + "/Walk (" + (i + 1) + ")" + ".png");
-			pics[1][i] = image;
-			// pics[i] = image.getSubimage(0,0,imgWidth, imgHeight);
-		}
-		frame.repaint();
-	}
-	  
-  
-	 //getter for the frame
-	 public JFrame getFrame() {
-		 return frame;
-	 }
-	 
-	//setter for the ground
-	public void setGroundImage(Rectangle ground) {
-		this.ground = ground;
 	}
 	
-	//setter for picNum
-	public void setPicNum() {
+
+	// Override the JPanel's paint method
+	@Override
+	public void paint(Graphics graphic) {
+		picNum = modPicNum();		
+		graphic.setColor(Color.blue);
+		graphic.fillRect((int)playerX, (int)playerY, imgWidth, imgHeight);
+		
+		graphic.drawImage(pics[direction][picNum], (int)playerX, (int)playerY, imgWidth, imgHeight, this);
+		
+		graphic.setColor(Color.gray);
+		graphic.fillRect((int)ground.getX(), (int)ground.getY() + imgHeight, (int)ground.getWidth(), (int)ground.getHeight());
+	}
+	
+/*	//Override the JPanel's paint method
+	@Override
+	public void paint(Graphics graphic) {
+		picNum = modPicNum();	
+		graphic.drawImage(pics[Player.getDirection()][picNum], Model.getPlayerX(), Model.getPlayerY(), imgWidth, imgHeight, this);
+		graphic.fillRect((int)ground.getX(), (int)ground.getY() + imgHeight, (int)ground.getWidth(), (int)ground.getHeight());
+	}*/
+	
+	//update the data and repaint the image
+	public void updateView(double playerX, double playerY, int width, int height, int direct, String playerCharacter){ 
+		this.playerX = (int)playerX;
+		this.playerY = (int)playerY;
+		this.imgWidth = width;
+		this.imgHeight = height;
+		this.direction = direct;
+		frame.repaint();		
+	} 
+
+	//mod picNum by frameCount
+	public int modPicNum() {
 		if(animate) {
 			picNum = (picNum + 1) % frameCount;
 		}
+		return picNum;
+	} 
+  
+	//getter for the frame
+	public JFrame getFrame() {
+		return frame;
 	}
+	 
+
+	public int getImgWidth() {
+		return imgWidth;
+	}
+	
+	//setter for the ground
+	public void setGroundImage(Rectangle ground){
+		this.ground = ground;
+	}
+	
 	//setter for animation
-	public void setAnimation(boolean b) {
-		animate = b;
+	public void setAnimation(boolean bool) {
+		animate = bool;
 	}
   
 }

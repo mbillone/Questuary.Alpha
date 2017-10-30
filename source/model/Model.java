@@ -1,40 +1,41 @@
+package model;
+
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+
+import model.sprites.dynamic.Player;
+import view.View;
 
 public class Model {
 
 	//get the screen's dimensions
-	final private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	final private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-  
+	final private static double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	final private static double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	final private static double screenRatio = screenWidth/screenHeight;
+	
+	private static View view;
 	private int xBoundary;
 	private int yBoundary;
-	private double screenRatio;
 	
 	//fixed gravity constant
 	private int gravity = 10;
-	private View view;
-  
-	private int startingX = 0;
-	private int startingY = 500;
-	
-	private int groundX;
-	private int groundY;
-	private Rectangle ground;
+		
+	private static Player player;
+	private static int startingX = 0;
+	private static int startingY = 500;
   
 	private boolean changeCharacterMode;
 	private int changeCharacterCount = 0;
 	
-	private Ground ground;
+	private static Ground ground;
+	private int groundX;
+	private int groundY;
 	private int groundOffSet = 100;
-	private Player player;
+	
 	
 	//************************
 	//Constructor
-	public Model(){
-		
-		//get the screen's ratio
-		screenRatio = screenWidth/screenHeight;
+	public Model() {
     
 		int playerWidth = (int) (screenWidth * 0.1);
 		int playerHeight = (int) (playerWidth * screenRatio);
@@ -51,6 +52,67 @@ public class Model {
     
 		changeCharacterMode = false;
 	}
+
+	//setter for player's deltax
+	public void playerMoveLeft() {
+		player.setDirection(0);
+		//check if player is going out of x bound
+		if(player.getX() >= 0) {
+			System.out.println("Boundary valid " + xBoundary);
+			player.moveLeft();
+			System.out.println("ground" + ground.getWidth());
+		} else {
+      //if out of bound then don't increment the x
+			System.out.println("Boundary invalid 0");
+			System.out.println("Player is out of Boundary to Left");
+			player.setDeltaXOff();
+		}
+	}
+  
+	public void playerMoveRight() {
+		player.setDirection(1);
+		//check if player is going out of x bound
+		if(player.getX() <= xBoundary) {
+			System.out.println("Boundary valid " + xBoundary);
+			player.moveRight();
+			System.out.println("ground" + ground.getWidth());
+		} else {
+			System.out.println("Boundary invalid " + xBoundary);
+			System.out.println("Player is out of Boundary to Right");
+			player.setDeltaXOff();
+		}
+	}
+
+	public void resetChangePlayerMode() {
+		changeCharacterMode = !changeCharacterMode;
+	}
+  
+	public void incrementChangeCharacterCount() {
+		changeCharacterCount++;
+	}
+  
+	public void decrementChangeCharacterCount() {
+		changeCharacterCount--;
+	}
+	
+	//getter for screenWidth
+	public static int getScreenWidth() {
+		return (int)screenWidth;
+	}
+	
+	//getter for screenHeight() {
+	public static int getScreenHeight() {
+		return (int)screenHeight;
+	}
+
+	public static double getScreenRatio() {
+		return screenRatio;
+	}
+	
+	//getter for ground
+	public Ground getGround() {
+		return ground;
+	}
 	
 	//getters for the boundaries
 	public int getXBoundary() {
@@ -59,86 +121,38 @@ public class Model {
 	public int getYBoundary() {
 		return yBoundary;
 	}
+	
+	public boolean getChangeCharacterMode() {
+		return changeCharacterMode;
+	}
   
-  //getter for screenWidth
-  public int getScreenWidth() {
-    return (int)screenWidth;
-  }
-  
-  //getter fot screenHeight() {
-  public int getScreenHeight() {
-    return (int)screenHeight;
-  }
-	
-	//getter for player dimensions
-	public double getPlayerWidth() {
-		return player.getWidth();
-	}
-	public double getPlayerHeight() {
-		return player.getHeight();
+	public int getChangeCharacterCount() {
+		return changeCharacterCount;
 	}
 	
-	//getter for player's coordinates
-	public int getPlayerX() {
-		return (int) player.getX();
-	}
-	public int getPlayerY() {
-		return (int) player.getY();
+	public static int getStartingX() {
+		return startingX;
 	}
 	
-	//getter for ground
-	public Rectangle getGround() {
-		return ground;
+	public static int getStartingY() {
+		return startingY;
 	}
-	
-	//move the player
+
 	public void movePlayer() {
-		player.move();
+		player.move();		
 	}
-	
-	//setter for player's dx
-	public void playerMoveLeft() {
-		player.setDirection(0);
-		//check if player is going out of x bound
-		if(player.getX() >= 0) {
-			System.out.println("Boundary invalid " + xBoundary);
-			player.moveLeft();
-			System.out.println("ground" + ground.getWidth());
-		} else {
-      //if out of bound then don't increment the x
-			System.out.println("Boundary invalid 0");
-			System.out.println("Player is out of Boundary to Left");
-			player.setDxOff();
+
+	//change room player is in
+	public void changeRoom(){
+		if (getPlayerX() >= (xBoundary/2)) {
+			player.setX(startingX);
 		}
-	}
-  
-	public void playerMoveRight() {
-		player.setDirection(1);
-		//check if player is going out of x bound
-		if(player.getX() <= xBoundary) {
-			System.out.println("Boundary invalid " + xBoundary);
-			player.moveRight();
-			System.out.println("ground" + ground.getWidth());
-		} else {
-			System.out.println("Boundary invalid " + xBoundary);
-			System.out.println("Player is out of Boundary to Right");
-			player.setDxOff();
-		}
-	}
-  
-	public void setPlayerDxOff(){
-		player.setDxOff();
-	}
+	} 
 	
-	//getter for player's direction
-	public int getPlayerDirection(){
-		return player.getDirection();
+	public void setPlayerDeltaXOff(){
+		player.setDeltaXOff();
 	}
-  
-	public String getPlayerDirectionString(){
-		return player.getDirectionString();
-	}
-	
+
 	//getters for player falling and jumping
 	public boolean isPlayerJumping(){
 		return player.getJumping();
@@ -157,36 +171,34 @@ public class Model {
 	public void gravity(){
 		player.gravityEffect(ground);
 	}
-  
-	public void setChangePlayerMode(){
-		changeCharacterMode = !changeCharacterMode;
+	
+	//getter for player's coordinates
+	public double getPlayerX() {
+		return player.getX();
+	}
+	public double getPlayerY() {
+		return player.getY();
+	}	
+	
+	//getter for player dimensions
+	public double getPlayerWidth() {
+		return player.getWidth();
+	}
+	public double getPlayerHeight() {
+		return player.getHeight();
+	}
+	
+	//getter for player's direction
+	public static int getPlayerDirection() {
+		return player.getDirection();
 	}
   
-	public boolean getChangeCharacterMode() {
-		return changeCharacterMode;
-	}
-  
-	public void incrementChangeCharacterCount() {
-		changeCharacterCount++;
-	}
-  
-	public void decrementChangeCharacterCount() {
-		changeCharacterCount--;
-	}
-  
-	public int getChangeCharacterCount() {
-		return changeCharacterCount;
+	public String getPlayerDirectionString() {
+		return player.getDirectionState();
 	}
   
 	public String getPlayerCharacter() {
 		return player.getPlayerCharacter(changeCharacterCount);
 	}
-	
-	//change room player is in
-	public void changeRoom(){
-		if (getPlayerX() >= (xBoundary - (view.getImgwidth()/2))) {
-			player.setX(startingX);
-		}
-	}
-  
+	  
 }

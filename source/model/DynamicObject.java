@@ -1,3 +1,5 @@
+package model;
+
 import java.awt.Rectangle;
 
 //the Rectangle has data fields for the coordinates of x and y 
@@ -36,12 +38,10 @@ public abstract class DynamicObject extends Rectangle{
 	}
 	//get the string version of direction
 	public String getDirectionString(){
-		if(direction == 0)
-		{
+		if(direction == 0) {
 			return "LEFT";
 		}
-		else
-		{
+		else {
 			return "RIGHT";
 		}
 	}

@@ -1,19 +1,24 @@
 package model;
 
+import java.awt.Rectangle;
+
 import model.sprites.dynamic.Enemy;
 import model.sprites.dynamic.Player;
 import model.sprites.fixed.Obstacle;
 
-public class Sprites {
+public class Sprites extends Rectangle {
 
-	protected int xCoord; 
-	protected int yCoord; 	
+	protected static int xCoord; 
+	protected static int yCoord; 	
 	
-	public int getX() {
+	protected int width;
+	protected int height;
+	
+	public double getX() {
 		return xCoord;
 	}
 	
-	public int getY() {
+	public double getY() {
 		return yCoord;
 	}
 	
@@ -23,6 +28,11 @@ public class Sprites {
 	
 	public void setY(int newY) {
 		yCoord = newY;
+	}
+	
+	public void setSize(int newWidth, int	newHeight) {
+		width = newWidth;
+		height = newHeight;
 	}
 	
 }
