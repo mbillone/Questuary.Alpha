@@ -9,7 +9,7 @@ import view.View;
 
 public class Model {
 
-	final private int startingXOffSet = 200;
+	final private int startingXOffSet = 192;
 	//get the screen's dimensions
 	final private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	final private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -126,9 +126,9 @@ public class Model {
 		//check if player is going out of x bound
 		if(player.getX() >= 0)
 		{
-			System.out.println("Boundary invalid " + xBoundary);
+			//System.out.println("Boundary invalid " + xBoundary);
 			player.moveLeft();
-			System.out.println("ground" + ground.getWidth());
+			//System.out.println("ground" + ground.getWidth());
 		}
 		//if out of bound then don't increment the x
 		else
@@ -143,9 +143,9 @@ public class Model {
 		//check if player is going out of x bound
 		if(player.getX() <= xBoundary)
 		{
-			System.out.println("Boundary invalid " + xBoundary);
+			//System.out.println("Boundary invalid " + xBoundary);
 			player.moveRight();
-			System.out.println("ground" + ground.getWidth());
+			//System.out.println("ground" + ground.getWidth());
 		}
 		else
 		{
@@ -206,5 +206,43 @@ public class Model {
 			createNewPlatform();
 		}
 	}
+	
+	public static void main(String[] args) {
+        System.out.println("Hello World");
+        Model model = new Model();
+       
+       
+        for(int i = 0; i< 10; i++) {
+            System.out.println();
+            model.incrementChangeCharacterCount();
+            model.playerMoveRight();
+            System.out.println("Current character is a " + model.getPlayerCharacter() +
+                    " and is moving "+ model.getPlayerDirectionString());
+           
+            for(int j = 0; j < 6 ;j++) {
+                System.out.println("Player Coords: (" +model.getPlayerX() +", "+ model.getPlayerY()+")");
+                model.movePlayer();
+                System.out.println("movePlayer() executed");
+            }
+           
+            System.out.println();
+           
+            model.playerMoveLeft();
+            System.out.println("Changing Character and Direction");
+            model.incrementChangeCharacterCount();
+            System.out.println("Current character is a " + model.getPlayerCharacter() +
+                    " and is facing "+ model.getPlayerDirectionString());
+           
+            System.out.println();
+           
+            for(int k = 0; k < 6 ;k++) {
+                System.out.println("Player Coords: (" +model.getPlayerX() +", "+ model.getPlayerY()+")");
+                model.movePlayer();
+                System.out.println("movePlayer() executed");
+            }
+           
+           
+        }
+    }
 	
 }

@@ -70,7 +70,7 @@ public class Controller{
 							break;
 						case (KeyEvent.VK_LEFT):
 							//make player go left in model
-							
+							model.changeRoom();
 							model.playerMoveLeft();
 							view.setAnimation(true);
 							System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")" + model.getPlayerDirectionString());
@@ -130,6 +130,16 @@ public class Controller{
 					}
 					
 				}
+				else if (keys.contains(KeyEvent.VK_UP) && keys.contains(KeyEvent.VK_LEFT)) {
+					model.changeRoom();
+					model.playerMoveLeft();
+					if(!(model.isPlayerFalling()))
+					{
+						model.makePlayerJump();
+						System.out.println("makePlayerJump is executed");
+					}
+					
+				}
 
 			}
 
@@ -167,6 +177,7 @@ public class Controller{
 
 		public void actionPerformed(ActionEvent arg0) {
 			//test the player on falling and jumping
+			model.changeRoom();
 			model.gravity();
 			model.checkCollision();
 			//increment the player's x and y
