@@ -4,6 +4,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Line2D.Double;
 
 import model.DynamicObject;
+import model.Platform;
 
 public class Player extends DynamicObject{
 	
@@ -23,8 +24,6 @@ public class Player extends DynamicObject{
 	private boolean falling = true;
 	private boolean jumping = false;
 	
-	//drawing hitLines
-	Line2D = new Line2D();
 	
 	private int changeCharacterCount = 0;
 	private int numOfCharacter = 2;
@@ -41,7 +40,7 @@ public class Player extends DynamicObject{
 		super.setSize(width, height);
 		
 		//set max jumping height
-		maxJumpingHeight = height/2;
+		maxJumpingHeight = height;
 		
 		//set gravity location
 		this.gravity = gravity;
@@ -171,6 +170,22 @@ public class Player extends DynamicObject{
 
 		System.out.println("finish playerJumping");
 	}
+	
+	public void playerPlatCollision(Platform plat) {
+		if (this.intersects(plat.getLeft()) && this.getDirection() == 1) {
+			this.setDx(0);
+		}
+		else if (this.intersects(plat.getRight()) && this.getDirection() == 0) {
+			this.setDx(0);
+		}
+		/*else if(!this.intersects(plat.getLeft()) && this.getDirection() == 1) {
+			this.setDx(20);
+		}
+		else if (!this.intersects(plat.getRight()) && this.getDirection() == 0) {
+			this.setDx(-20);
+		}*/
+	}
+	
 
 	public String getPlayerCharacter(int changeCharacterCount) {
 		// TODO Auto-generated method stub

@@ -120,6 +120,16 @@ public class Controller{
 					// changes game mode to switching player
 					model.setChangePlayerMode();
 				}
+				else if (keys.contains(KeyEvent.VK_UP) && keys.contains(KeyEvent.VK_RIGHT)) {
+					model.changeRoom();
+					model.playerMoveRight();
+					if(!(model.isPlayerFalling()))
+					{
+						model.makePlayerJump();
+						System.out.println("makePlayerJump is executed");
+					}
+					
+				}
 
 			}
 
@@ -158,6 +168,7 @@ public class Controller{
 		public void actionPerformed(ActionEvent arg0) {
 			//test the player on falling and jumping
 			model.gravity();
+			model.checkCollision();
 			//increment the player's x and y
 			model.movePlayer();
 			view.setPicNum();

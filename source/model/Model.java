@@ -51,7 +51,7 @@ public class Model {
 		//create Player object
 		player = new Player(startingX,startingY,((int) (playerWidth*.75)),playerHeight, gravity);
 		//create Ground object
-		ground = new Platform(0, (int)(screenHeight - groundOffSet),(int)(screenWidth),groundOffSet);
+		ground = new Platform(-500, (int)(screenHeight - groundOffSet),(int)(screenWidth*2),groundOffSet);
 		platform1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 1000), (int) ThreadLocalRandom.current().nextInt(765, 900), 350, 50);
 	}
 	
@@ -88,6 +88,10 @@ public class Model {
 	}
 	
 	public Rectangle getPlatform() {
+		return platform1;
+	}
+	
+	public Platform getPlat() {
 		return platform1;
 	}
 	
@@ -186,12 +190,17 @@ public class Model {
 		
 	}
 	
+	public void checkCollision() {
+		player.playerPlatCollision(platform1);
+	}
+	
+	
 	public void createNewPlatform() {
 		platform1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 1000), (int) ThreadLocalRandom.current().nextInt(765,900), 350, 50);
 	}
 	
 	public void changeRoom() {
-		if (player.getX() >= xBoundary) {
+		if (player.getX() > xBoundary || player.getY() > yBoundary) {
 			player.setLocation(startingX, startingY);
 			
 			createNewPlatform();
