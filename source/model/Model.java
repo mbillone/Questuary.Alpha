@@ -1,29 +1,37 @@
 package model;
 import java.awt.Rectangle;
+import java.util.concurrent.ThreadLocalRandom;
+
 import java.awt.Toolkit;
 import model.sprites.dynamic.Player;
+import view.View;
 
 
 public class Model {
 
+	final private int startingXOffSet = 200;
 	//get the screen's dimensions
 	final private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	final private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	private double screenRatio;
 	
 	private int xBoundary;
 	private int yBoundary;
-	private double screenRatio;
+	
+	private Platform ground;
+	private Platform platform1;
+	int groundOffSet = 100;
+	private Player player;
 	
 	//fixed gravity constant
 	private int gravity = 10;
 	
 	private boolean changeCharacterMode = false;
 	private int changeCharacterCount = 0;
+	private int startingY;
+	private int startingX;
 	
 	
-	private Ground ground;
-	int groundOffSet = 100;
-	private Player player;
 	
 	//************************
 	//Constructor
@@ -34,14 +42,17 @@ public class Model {
 		int playerWidth = (int) (screenWidth * 0.1);
 		int playerHeight = (int) (playerWidth * screenRatio);
 		
+		startingY = (int) (screenHeight - groundOffSet - playerHeight);
+		startingX = playerWidth - startingXOffSet;
 		//set the boundaries
 		xBoundary = (int)screenWidth - playerWidth;
 		yBoundary = (int)screenHeight - playerHeight;
 		
 		//create Player object
-		player = new Player(100,200,playerWidth,playerHeight, gravity);
+		player = new Player(startingX,startingY,((int) (playerWidth*.75)),playerHeight, gravity);
 		//create Ground object
-		ground = new Ground(0, (int)(screenHeight - groundOffSet),(int)(screenWidth),groundOffSet);
+		ground = new Platform(0, (int)(screenHeight - groundOffSet),(int)(screenWidth),groundOffSet);
+		platform1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 1000), (int) ThreadLocalRandom.current().nextInt(765, 900), 350, 50);
 	}
 	
 	//************************
@@ -74,6 +85,10 @@ public class Model {
 	//getter for ground
 	public Rectangle getGround(){
 		return ground;
+	}
+	
+	public Rectangle getPlatform() {
+		return platform1;
 	}
 	
 	//move the player
@@ -162,6 +177,25 @@ public class Model {
 	
 	//checks if it is colliding
 	public void gravity(){
-		player.gravityEffect(ground);
+		boolean stillFalling;
+			stillFalling = player.gravityEffect(ground);
+			if(stillFalling)
+			{
+				player.gravityEffect(platform1);
+			}
+		
 	}
+	
+	public void createNewPlatform() {
+		platform1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 1000), (int) ThreadLocalRandom.current().nextInt(765,900), 350, 50);
+	}
+	
+	public void changeRoom() {
+		if (player.getX() >= xBoundary) {
+			player.setLocation(startingX, startingY);
+			
+			createNewPlatform();
+		}
+	}
+	
 }

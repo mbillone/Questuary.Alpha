@@ -18,7 +18,7 @@ public class Controller{
 	View view;
 	JFrame frame;
 	Timer timer;
-	ArrayList<Integer> keys=new ArrayList();
+	ArrayList<Integer> keys = new ArrayList();
 	
 	//*************
 	//Constructor
@@ -30,6 +30,7 @@ public class Controller{
 		//get the ground from model
 		view.setGroundImage(model.getGround());
 		
+		view.setPlatformImage(model.getPlatform());
 		//update the view of the player's location
 		view.updateView(model.getPlayerX(), model.getPlayerY(),model.getPlayerDirection(), model.getPlayerCharacter());
 		
@@ -62,15 +63,17 @@ public class Controller{
 						case (KeyEvent.VK_RIGHT):
 							// if x is less than the xBoundary then increment by xVelocity
 							//make player go right in model
+							model.changeRoom();
 							model.playerMoveRight();
 							view.setAnimation(true);
 							System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")" + model.getPlayerDirectionString());
 							break;
 						case (KeyEvent.VK_LEFT):
 							//make player go left in model
+							
 							model.playerMoveLeft();
 							view.setAnimation(true);
-							System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")" + model.getPlayerDirectionString());	
+							System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")" + model.getPlayerDirectionString());
 							break;
 						case (KeyEvent.VK_UP):
 							if(!(model.isPlayerFalling()))
@@ -81,6 +84,15 @@ public class Controller{
 							System.out.println("Up key is pressed");
 							System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")" + model.getPlayerDirectionString());
 							break;
+						/*case (KeyEvent.VK_DOWN):
+							if((model.isPlayerFalling()))
+							{
+								model.makePlayerJump();
+								System.out.println("makePlayerJump is executed");
+							}
+							System.out.println("Up key is pressed");
+							System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")" + model.getPlayerDirectionString());
+							break;*/
 						case (KeyEvent.VK_Q):
 							// if q is press then quit
 							System.exit(0);
@@ -103,7 +115,7 @@ public class Controller{
 					}
 					
 				}// if more then 1 key is pressed
-				else if(keys.contains(KeyEvent.VK_DOWN) & keys.contains(KeyEvent.VK_RIGHT)) {
+				else if(keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
 					//System.exit(0);
 					// changes game mode to switching player
 					model.setChangePlayerMode();
@@ -151,7 +163,7 @@ public class Controller{
 			view.setPicNum();
 			//update the view and draw the image
 			view.updateView(model.getPlayerX(), model.getPlayerY(),model.getPlayerDirection(),model.getPlayerCharacter());
-			
+			view.setPlatformImage(model.getPlatform());
 		}
 		
 	}

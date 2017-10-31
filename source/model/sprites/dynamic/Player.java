@@ -1,5 +1,7 @@
 package model.sprites.dynamic;
 import java.awt.Rectangle;
+import java.awt.geom.Line2D;
+import java.awt.geom.Line2D.Double;
 
 import model.DynamicObject;
 
@@ -21,8 +23,12 @@ public class Player extends DynamicObject{
 	private boolean falling = true;
 	private boolean jumping = false;
 	
+	//drawing hitLines
+	Line2D = new Line2D();
+	
 	private int changeCharacterCount = 0;
 	private int numOfCharacter = 2;
+	
 	
 	
 	//*************************************************
@@ -35,7 +41,7 @@ public class Player extends DynamicObject{
 		super.setSize(width, height);
 		
 		//set max jumping height
-		maxJumpingHeight = height;
+		maxJumpingHeight = height/2;
 		
 		//set gravity location
 		this.gravity = gravity;
@@ -88,15 +94,21 @@ public class Player extends DynamicObject{
 		maxJumpingHeight = j;
 	}
 	
+	public int getMaxJumpingHeight() {
+		return maxJumpingHeight;
+	}
+	
 	//determines if touching the ground with appropriate actions for jumping and falling
-	public void gravityEffect(Rectangle ground){
+	public boolean gravityEffect(Rectangle ground){
+		Rectangle r = new Rectangle( (int)ground.getX(), (int) ground.getY(),(int) (ground.getWidth()*.75), (int) ground.getHeight());
 		//determine if the player is falling
-		falling = !(this.intersects(ground));
+		falling = !(this.intersects(r));
 		
 		//if player is not touching the ground and is not jumping then the player is falling
 		if(falling && !jumping)
 		{
 			playerFalling();
+			return true;
 		}
 		//if player is not touching the ground but is jumping then allow player to jump
 		else if (falling && jumping)
@@ -113,6 +125,7 @@ public class Player extends DynamicObject{
 				//if max height reached then player stops jumping/ascending
 				jumping = false;
 			}
+			return true;
 		}
 		//if player is touching the ground but is not jumping then allow player to jump
 		else if (!falling && jumping)
@@ -127,11 +140,13 @@ public class Player extends DynamicObject{
 				System.out.println("finish second case gravity effect");
 				jumping = false;
 			}
+			return false;
 		}
 		//if player is on a surface then set dy to 0
 		else
 		{
 			super.setDy(0);
+			return false;
 		}
 	}
 	
@@ -159,7 +174,7 @@ public class Player extends DynamicObject{
 
 	public String getPlayerCharacter(int changeCharacterCount) {
 		// TODO Auto-generated method stub
-		if(changeCharacterCount % numOfCharacter ==0) {
+		if(changeCharacterCount % numOfCharacter == 0) {
 			return "cat";
 		}else {
 			return "dog";

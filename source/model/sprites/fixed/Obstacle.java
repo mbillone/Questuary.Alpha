@@ -6,4 +6,5 @@ public class Obstacle extends Sprites {
 	
 	String Obstacles[];
 	
+	
 }

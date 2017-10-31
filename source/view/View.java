@@ -36,9 +36,17 @@ public class View extends JPanel{
 	private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	
 	double ratio = screenWidth/screenHeight; 
-	int imgWidth;
-	int imgHeight;
+	private int imgWidth;
+	private int imgHeight;
 	
+	public int getImgWidth() {
+		return imgWidth;
+	}
+
+	public int getImgHeight() {
+		return imgHeight;
+	}
+
 	//player's x and y coordinates
 	int playerX = 0;
 	int playerY = 0;
@@ -46,6 +54,7 @@ public class View extends JPanel{
 	int direct = 1;
 	//ground 
 	Rectangle ground;
+	Rectangle platform1;
 	String playerCharacter = "cat";
 	//******************
 	//Constructor
@@ -78,6 +87,10 @@ public class View extends JPanel{
 		this.ground = ground;
 	}
 	
+	public void setPlatformImage(Rectangle platform1) {
+		this.platform1 = platform1;
+	}
+	
 	//setter for picNum
 	public void setPicNum(){
 		if(playerCharacter == "cat") {
@@ -107,6 +120,7 @@ public class View extends JPanel{
 
 		 g.setColor(Color.gray);
 		 g.fillRect((int)ground.getX(), (int)ground.getY(), (int)ground.getWidth(), (int)ground.getHeight());
+		 g.fillRect((int)platform1.getX(), (int) platform1.getY(), (int) platform1.getWidth(), (int) platform1.getHeight());
 	 }
 	 
 	//update the data and repaint the image
