@@ -8,6 +8,11 @@ import javax.imageio.ImageIO;
 
 import view.dynamic.ImageObject;
 
+
+/*
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
+
 public class CatImage extends ImageObject{
 	
 	//2D array for the images

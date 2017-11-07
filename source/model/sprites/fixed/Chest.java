@@ -5,6 +5,10 @@ import java.util.List;
 
 import model.Sprites;
 
+/*
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
+
 public class Chest extends Sprites{
 	
 	HashMap<Collectible, String> allQuestionsAndAnswers;

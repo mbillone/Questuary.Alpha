@@ -3,6 +3,12 @@ import java.awt.Rectangle;
 
 import model.sprites.fixed.Obstacle;
 
+
+/*
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
+
+
 public class Platform extends Rectangle{
 	
 	

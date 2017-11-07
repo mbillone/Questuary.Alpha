@@ -10,7 +10,14 @@ public abstract class DynamicObject extends Rectangle{
 	private int direction;
 	
 	
-	
+	/*
+	 *
+	 * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+	 * 
+	 * This sets the velocity of a dynamic object
+	 * @param dx the velocity of that will be set by the function
+	 * @
+	 */
 	//setters for the x and y velocities
 	public void setDx(int dx){
 		xVelocity = dx;

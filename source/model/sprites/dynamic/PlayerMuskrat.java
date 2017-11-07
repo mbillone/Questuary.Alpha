@@ -1,5 +1,11 @@
 package model.sprites.dynamic;
 
+
+/*
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
+
+
 public class PlayerMuskrat extends Player{
 
 	public PlayerMuskrat(int xCoord, int yCoord, int width, int height, int gravity) {

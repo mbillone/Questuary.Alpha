@@ -6,6 +6,12 @@ import model.sprites.dynamic.Enemy;
 import model.sprites.dynamic.Player;
 import model.sprites.fixed.Obstacle;
 
+
+/*
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
+
+
 public class Sprites extends Rectangle {
 
 	protected static int xCoord; 

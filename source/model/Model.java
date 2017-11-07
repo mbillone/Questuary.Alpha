@@ -7,6 +7,11 @@ import model.sprites.dynamic.Player;
 import view.View;
 
 
+
+/*
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
+
 public class Model {
 
 	final private int startingXOffSet = 192;
@@ -33,8 +38,11 @@ public class Model {
 	
 	
 	
-	//************************
-	//Constructor
+	
+	
+	/**
+	 * 	Constructor
+	 */
 	public Model(){
 		
 		//get the screen's ratio
@@ -57,45 +65,107 @@ public class Model {
 	
 	//************************
 	//Methods
-	
 	//getters for the boundaries
+	
+	
+	/**
+	 * Returns an int value of the screen X-Boundary
+	 *
+	 * @return      X-Boundary specific to your screen size
+	 * @see         int
+	 */
 	public int getXBoundary(){
 		return xBoundary;
 	}
+	
+	/**
+	 * Returns an int value of the screen Y-Boundary
+	 *
+	 * @return      Y-Boundary specific to your screen size
+	 * @see         int
+	 */
 	public int getYBoundary(){
 		return yBoundary;
 	}
 	
 	//getter for player dimensions
+	/**
+	 * Returns an double value of the player image width
+	 *
+	 * @return      width of the player image
+	 * @see         double
+	 */
 	public double getPlayerWidth(){
 		return player.getWidth();
 	}
+	
+	/**
+	 * Returns an double value of the player image height
+	 *
+	 * @return      height of the player image
+	 * @see         double
+	 */
 	public double getPlayerHeight(){
 		return player.getHeight();
 	}
 	
-	//getter for player's coordinates
+	/**
+	 * Returns an int value of the player X-Location
+	 *
+	 * @return      Player X-Coordinate
+	 * @see         int
+	 */
 	public int getPlayerX(){
 		return (int) player.getX();
 	}
+	
+	/**
+	 * Returns an int value of the player Y-Location
+	 *
+	 * @return      Player Y-Coordinate
+	 * @see         int
+	 */
 	public int getPlayerY(){
 		return (int) player.getY();
 	}
 	
 	//getter for ground
+	/**
+	 * Returns a rectangle object that is supposed to be ground for the game
+	 *
+	 * @return      Rectangle ground object
+	 * @see         Rectangle
+	 */
 	public Rectangle getGround(){
 		return ground;
 	}
 	
+	/**
+	 * Returns a rectangle object that is supposed to be platform for the game
+	 *
+	 * @return      Rectangle platform object
+	 * @see         Rectangle
+	 */
 	public Rectangle getPlatform() {
 		return platform1;
 	}
 	
+	/**
+	 * Returns a rectangle object that is supposed to be platform for the game
+	 *
+	 * @return      Rectangle platform object
+	 * @see         Rectangle
+	 */
 	public Platform getPlat() {
 		return platform1;
 	}
 	
 	//move the player
+	/**
+	 * Updates player x and y coordinates 
+	 *
+	 * @see         Rectangle
+	 */
 	public void movePlayer(){
 		player.move();
 	}

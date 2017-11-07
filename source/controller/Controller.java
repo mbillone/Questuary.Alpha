@@ -13,6 +13,13 @@ import javax.swing.Timer;
 import view.View;
 import model.Model;
 
+
+
+/*
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
+
+
 public class Controller{
 	Model model;
 	View view;

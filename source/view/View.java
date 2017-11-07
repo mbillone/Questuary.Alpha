@@ -16,7 +16,17 @@ import javax.swing.JPanel;
 import view.dynamic.CatImage;
 import view.dynamic.DogImage;
 import view.dynamic.ImageObject;
-
+/**
+ * Class in charge of drawing the images
+ * <p>
+ * The View class extends the JPanel that is later added to JFrame.
+ * This class holds JFrame frame for the JFrame object. The HashMap characterImages holds all ImageObject objects. 
+ * CatImage holds an image of the cat. DogImage holds an image of the dog. It has a boolean animate variable used to increment the images.
+ * imgWidth and imgHeight determines the image dimensions. PlayerX and PlayerY contains the player's coordinates, with direct determining 
+ * which way the player is facing. The Rectangle ground and platform help draw the ground and platform.
+ * @author David Chan, Akash Sharma
+ *
+ */
 public class View extends JPanel{
 	
 	private JFrame frame;
@@ -38,14 +48,7 @@ public class View extends JPanel{
 	double ratio = screenWidth/screenHeight; 
 	private int imgWidth;
 	private int imgHeight;
-	
-	public int getImgWidth() {
-		return imgWidth;
-	}
 
-	public int getImgHeight() {
-		return imgHeight;
-	}
 
 	//player's x and y coordinates
 	int playerX = 0;
@@ -58,6 +61,15 @@ public class View extends JPanel{
 	String playerCharacter = "cat";
 	//******************
 	//Constructor
+	
+	/**
+	 * Constructor used to create a view object
+	 * <p>
+	 * This constructor puts cat image and dog image into the characterImage hashmap.
+	 * Creates a JFrame object and sets the title, dimensions, visibility of the JFrame.
+	 * 
+	 * @param none
+	 */
 	
 	public View(){
 		
@@ -76,14 +88,33 @@ public class View extends JPanel{
 		frame.setVisible(true);
 		
 	}
-	  
+	  /**
+	   * Returns the frame of the View 
+	   * @param none
+	   * @return the JFrame frame in the view
+	   * @see JFrame
+	   */
 	 //getter for the frame
 	 public JFrame getFrame(){
 		 return frame;
 	 }
 	 
+	  /**
+	   * Returns the player image's width 
+	   * @param none
+	   * @return the image's width
+	   * @see int
+	   */
+	 public int getImgWidth() {
+		return imgWidth;
+	}
+
+	public int getImgHeight() {
+		return imgHeight;
+	}
+	 
 	//setter for the ground
-	public void setGroundImage(Rectangle ground){
+	public void setGroundImage(Rectangle ground){ 
 		this.ground = ground;
 	}
 	

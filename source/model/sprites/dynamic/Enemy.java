@@ -2,6 +2,10 @@ package model.sprites.dynamic;
 
 import model.Sprites;
 
+/*
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
+
 public abstract class Enemy extends Sprites{
 
 	boolean killable; 

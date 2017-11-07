@@ -6,6 +6,12 @@ import java.awt.geom.Line2D.Double;
 import model.DynamicObject;
 import model.Platform;
 
+
+/*
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
+
+
 public class Player extends DynamicObject{
 	
 	//The state of the player
