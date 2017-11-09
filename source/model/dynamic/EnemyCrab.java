@@ -1,10 +1,10 @@
 package model.dynamic;
 
+
+/**
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
+
 public class EnemyCrab extends Enemy {
-	
-	@Override
-	protected void move() {
-		
-	}
 
 }

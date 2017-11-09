@@ -2,12 +2,15 @@ package model.fixed;
 
 import model.StaticObject;
 
+/**
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
+
 public class Obstacle extends StaticObject {
-	
-	public Obstacle(int x, int y, int width, int height) {
-		super(x, y, width, height);
-	}
+
+	// *************************************************
+	// Fields
 
 	String Obstacles[];
-	
+
 }

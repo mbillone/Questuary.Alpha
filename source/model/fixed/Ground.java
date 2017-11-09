@@ -2,6 +2,10 @@ package model.fixed;
 
 import java.awt.Rectangle;
 
+/**
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
+
 public class Ground extends Rectangle {
 
 	// *************************************************

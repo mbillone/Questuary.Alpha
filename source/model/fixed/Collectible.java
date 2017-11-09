@@ -2,21 +2,36 @@ package model.fixed;
 
 import model.StaticObject;
 
+/**
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
+
 public class Collectible extends StaticObject {
+
+	// *************************************************
+	// Fields
 	
-	public Collectible(int x, int y, int width, int height) {
-		super(x, y, width, height);
+	String fact;
+
+	// *************************************************
+	// Constructor
+	
+	public Collectible(String fact) {
+		this.fact = fact;
 	}
 
-	String fact;
-	
-	
+	// *************************************************
+	// Methods
+
+	void IncrementScore() {
+
+	}
+
+	// *************************************************
+	// Getters
+
 	String getFact() {
 		return fact;
-	}
-	
-	void IncrementScore() {
-		
 	}
 
 }

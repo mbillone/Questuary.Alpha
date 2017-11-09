@@ -1,35 +1,29 @@
 package model.dynamic;
 
-import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
+import java.awt.geom.Line2D;
+import java.awt.geom.Line2D.Double;
 
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
-
-import controller.Controller;
 import model.DynamicObject;
-import model.fixed.Platform;
-import view.View;
+import model.Platform;
+
+/**
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
 
 public class Player extends DynamicObject {
 
 	// *************************************************
 	// Fields
 
-	// the state of the player
+	// The state of the player
 	private String state = "Cat";
 
-	// assuming only player can jump and fall
-	private int maxYVelocity = 15;
-	private int minYVelocity = -15;
+	// Assuming only player can jump and fall
+	private int maxDy = 15;
+	private int minDy = -15;
 
-	private int maxJumpHeight;
+	private int maxJumpingHeight;
 	// use prevY later to compare with maxJumpingHeight
 	private double prevY;
 	private int gravity;
@@ -38,22 +32,21 @@ public class Player extends DynamicObject {
 	private boolean falling = true;
 	private boolean jumping = false;
 
-	// use for changing player's character
 	private int changeCharacterCount = 0;
 	private int numOfCharacter = 2;
 
 	// *************************************************
 	// Constructor
 
-	public Player(int xCoord, int yCoord, int width, int height, int gravity) {
+	public Player(int x, int y, int width, int height, int gravity) {
 		// setLocation in Rectangle class used to set x and y coordinate
-		super.setLocation(xCoord, yCoord);
+		super.setLocation(x, y);
 
 		// set player size
 		super.setSize(width, height);
 
 		// set max jumping height
-		maxJumpHeight = height;
+		maxJumpingHeight = height;
 
 		// set gravity location
 		this.gravity = gravity;
@@ -62,147 +55,39 @@ public class Player extends DynamicObject {
 		super.setDirection(1);
 
 		// initialize player's dx and dy to 0
-		super.setXVelocity(0);
-		super.setYVelocity(0);
+		super.setDx(0);
+		super.setDy(0);
 	}
 
-	// *************************************************
+	// *******************************************
 	// Methods
 
-	// determines if touching the ground with appropriate actions for jumping and
-	// falling
-	public boolean gravityEffect(Rectangle ground) {
-		Rectangle rect = new Rectangle((int) ground.getX(), (int) ground.getY(), (int) (ground.getWidth() * .75),
-				(int) ground.getHeight());
-
-		// determine if the player is falling
-		falling = !(super.y <= ground.getY());
-
-		// if player is not touching the ground and is not jumping then the player is
-		// falling
-		if (falling && !jumping) {
-			playerFalling();
-			return true;
-
-		} else if (falling && jumping) {
-			// if player is not touching the ground but is jumping then allow player to jump
-			if ((prevY - super.y) < maxJumpHeight) {
-				// has the player reached max jumping height yet
-				System.out.println("Start First Stage Gravity Effect");
-				playerJumping();
-			} else {
-				System.out.println("Finish First Stage Gravity Effect");
-				// if max height reached then player stops jumping/ascending
-				jumping = false;
-			}
-			return true;
-
-		} else if (!falling && jumping) {
-			// if player is touching the ground but is not jumping then allow player to jump
-			if ((prevY - super.y) < maxJumpHeight) {
-				System.out.println("Start Second Stage Gravity Effect");
-				playerJumping();
-			} else {
-				System.out.println("Finish Second Stage Gravity Effect");
-				jumping = false;
-			}
-			return false;
-
-		} else {
-			// if player is on a surface then set dy to 0
-			super.setYVelocity(0);
-			return false;
-		}
-	}
-
-	// make the player fall
-	public void playerFalling() {
-		System.out.println("In playerFalling");
-		if (super.getYVelocity() <= maxYVelocity) {
-			int newYVeloc = super.getYVelocity() + gravity;
-			super.setYVelocity(newYVeloc);
-		}
-		System.out.println("Finish playerFalling");
-	}
-
-	// make the player jump
-	public void playerJumping() {
-		System.out.println("In playerJumping");
-		if (super.getYVelocity() >= minYVelocity) {
-			int newYVeloc = super.getYVelocity() - gravity;
-			super.setYVelocity(newYVeloc);
-		}
-		System.out.println("Finish playerJumping");
-	}
-
-	public void playerPlaformCollision(Platform plat) {
-		if (this.intersects(plat.getLeft()) && this.getDirection() == 1) {
-			this.setXVelocity(0);
-		} else if (this.intersects(plat.getRight()) && this.getDirection() == 0) {
-			this.setXVelocity(0);
-		}
-		
-		/*Area areaPlayer = new Area(this.getBounds());
-		Rectangle2D areaPlat = plat.getBounds2D();
-		
-		if (areaPlayer.intersects(areaPlat) && this.getDirection() == 1) {
-			this.turnDeltaXOff();
-		} else if (areaPlayer.intersects(areaPlat) && this.getDirection() == 0) {
-			this.turnDeltaXOff();
-		}*/
-	}
-
-	// *************************************************
-	// Getters
-
 	// getter for jumping
-	public boolean isJumping() {
+	public boolean getJumping() {
 		return jumping;
 	}
 
 	// getter for falling
-	public boolean isFalling() {
+	public boolean getFalling() {
 		return falling;
 	}
-
-	public String getPlayerCharacter() {
-		if (changeCharacterCount % numOfCharacter == 0) {
-			return "cat";
-		} else {
-			return "dog";
-		}
-	}
-
-	public int getXCoord() {
-		return (int) super.getX();
-	}
-
-	public int getYCoord() {
-		return (int) super.getY();
-	}
-	
-	public int getMaxJumpHeight() {
-		return maxJumpHeight;
-	}
-	// *************************************************
-	// Setters
 
 	// setter for the player's dimensions
 	public void setDimensions(int width, int height) {
 		super.setSize(width, height);
 	}
 
-	// setter for turning the dx to left, right, or 0
+	// setter for turning the dx between left, right, and 0
 	public void moveLeft() {
-		super.setXVelocity(-20);
+		super.setDx(-20);
 	}
 
 	public void moveRight() {
-		super.setXVelocity(20);
+		super.setDx(20);
 	}
 
-	public void turnDeltaXOff() {
-		super.setXVelocity(0);
+	public void setDxOff() {
+		super.setDx(0);
 	}
 
 	// setter for jumping
@@ -212,8 +97,98 @@ public class Player extends DynamicObject {
 	}
 
 	// setter for maxJumpingHeight
-	public void setMaxJumpingHeight(int num) {
-		maxJumpHeight = num;
+	public void setMaxJumpingHeight(int j) {
+		maxJumpingHeight = j;
 	}
 
+	public int getMaxJumpingHeight() {
+		return maxJumpingHeight;
+	}
+
+	// determines if touching the ground with appropriate actions for jumping and
+	// falling
+	public boolean gravityEffect(Rectangle ground) {
+		Rectangle r = new Rectangle((int) ground.getX(), (int) ground.getY(), (int) (ground.getWidth() * .75),
+				(int) ground.getHeight());
+		// determine if the player is falling
+		falling = !(this.intersects(r));
+
+		// if player is not touching the ground and is not jumping then the player is
+		// falling
+		if (falling && !jumping) {
+			playerFalling();
+			return true;
+		}
+		// if player is not touching the ground but is jumping then allow player to jump
+		else if (falling && jumping) {
+			// has the player reached max jumping height yet
+			if ((prevY - y) < maxJumpingHeight) {
+				System.out.println("in first case gravity effect");
+				playerJumping();
+			} else {
+				System.out.println("finish first case gravity effect");
+				// if max height reached then player stops jumping/ascending
+				jumping = false;
+			}
+			return true;
+		}
+		// if player is touching the ground but is not jumping then allow player to jump
+		else if (!falling && jumping) {
+			if ((prevY - y) < maxJumpingHeight) {
+				System.out.println("in second case gravity effect");
+				playerJumping();
+			} else {
+				System.out.println("finish second case gravity effect");
+				jumping = false;
+			}
+			return false;
+		}
+		// if player is on a surface then set dy to 0
+		else {
+			super.setDy(0);
+			return false;
+		}
+	}
+
+	// make the player fall
+	public void playerFalling() {
+		if (super.getDy() <= maxDy) {
+			int newDy = super.getDy() + gravity;
+			super.setDy(newDy);
+		}
+	}
+
+	// make the player jump
+	public void playerJumping() {
+
+		System.out.println("in playerJumping");
+		if (super.getDy() >= minDy) {
+			int newDy = super.getDy() - gravity;
+			super.setDy(newDy);
+		}
+
+		System.out.println("finish playerJumping");
+	}
+
+	public void playerPlatCollision(Platform plat) {
+		if (this.intersects(plat.getLeft()) && this.getDirection() == 1) {
+			this.setDx(0);
+		} else if (this.intersects(plat.getRight()) && this.getDirection() == 0) {
+			this.setDx(0);
+		}
+		/*
+		 * else if(!this.intersects(plat.getLeft()) && this.getDirection() == 1) {
+		 * this.setDx(20); } else if (!this.intersects(plat.getRight()) &&
+		 * this.getDirection() == 0) { this.setDx(-20); }
+		 */
+	}
+
+	public String getPlayerCharacter(int changeCharacterCount) {
+		// TODO Auto-generated method stub
+		if (changeCharacterCount % numOfCharacter == 0) {
+			return "cat";
+		} else {
+			return "dog";
+		}
+	}
 }
