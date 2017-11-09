@@ -1,7 +1,7 @@
 package view.fixed;
 
-import view.Background;
+import view.View;
 
-public class Chest extends Background{
+public class Chest extends View {
 
 }

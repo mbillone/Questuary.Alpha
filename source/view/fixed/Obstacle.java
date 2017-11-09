@@ -1,7 +1,7 @@
 package view.fixed;
 
-import view.Background;
+import view.View;
 
-public class Obstacle extends Background{
+public class Obstacle extends View {
 
 }

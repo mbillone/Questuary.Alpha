@@ -1,22 +1,26 @@
 package model.sprites.dynamic;
 
-import model.Sprites;
+import model.DynamicObject;
 
-public abstract class Enemy extends Sprites{
+/**
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
 
-	boolean killable; 
+public abstract class Enemy extends DynamicObject {
+
+	// *************************************************
+	// Fields
+
+	boolean killable;
 	int health;
-	
+
+	// *************************************************
+	// Methods
+
 	void damage(Player p) {
-		
 	}
-	
+
 	void changeHealth(boolean killable, int health) {
-		
 	}
-	
-	void move() {
-		
-	}	
-	
+
 }

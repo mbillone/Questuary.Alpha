@@ -2,9 +2,16 @@ package model.sprites.fixed;
 
 import java.awt.Rectangle;
 
-public class Ground extends Rectangle{
-	
-	public Ground(int x, int y, int width, int height){
+/**
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
+
+public class Ground extends Rectangle {
+
+	// *************************************************
+	// Constructor
+
+	public Ground(int x, int y, int width, int height) {
 		super.setBounds(x, y, width, height);
 	}
 }

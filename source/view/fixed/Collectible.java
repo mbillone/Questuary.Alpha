@@ -1,7 +1,7 @@
 package view.fixed;
 
-import view.Background;
+import view.View;
 
-public class Collectible extends Background{
+public class Collectible extends View{
 
 }
