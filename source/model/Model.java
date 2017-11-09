@@ -66,7 +66,23 @@ public class Model {
 	// *************************************************
 	// Methods
 
-	// setter for player's dx
+	/**
+	 * Moves player x and y coordinates w/ respective velocities
+	 *
+	 * @see player.move()
+	 */
+	public void movePlayer() {
+		player.move();
+	}
+
+	/**
+	 * Moves the player left
+	 *
+	 * @see player.setDirection()
+	 * @see player.getX()
+	 * @see player.moveLeft()
+	 * @see player.setDxOff()
+	 */
 	public void playerMoveLeft() {
 		player.setDirection(0);
 		// check if player is going out of x bound
@@ -83,6 +99,14 @@ public class Model {
 		}
 	}
 
+	/**
+	 * Moves the player left
+	 *
+	 * @see player.setDirection()
+	 * @see player.getX()
+	 * @see player.moveRight()
+	 * @see player.setDxOff()
+	 */
 	public void playerMoveRight() {
 		player.setDirection(1);
 		// check if player is going out of x bound
@@ -97,7 +121,11 @@ public class Model {
 		}
 	}
 
-	// checks if it is colliding
+	/**
+	 * Checks if the player is colliding
+	 *
+	 * @see player.gravityEffect()
+	 */
 	public void gravity() {
 		boolean stillFalling;
 		stillFalling = player.gravityEffect(ground);
@@ -107,47 +135,41 @@ public class Model {
 
 	}
 
+	/**
+	 * Creates new platform once player leaves the room
+	 *
+	 * @see player.getX()
+	 * @see player.setLocation()
+	 */
+	public void changeRoom() {
+		if (player.getX() > xBoundary || player.getY() > yBoundary) {
+			player.setLocation(startingX, startingY);
+			createNewPlatform();
+		}
+	}
+
+	/**
+	 * Checks player's collision with platform1
+	 *
+	 * @see player.playerPlatCollision()
+	 */
 	public void checkCollision() {
 		player.playerPlatCollision(platform1);
 	}
 
+	/**
+	 * Randomly generate a platform
+	 *
+	 */
 	public void createNewPlatform() {
 		platform1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 1000),
 				(int) ThreadLocalRandom.current().nextInt(765, 900), 350, 50);
 	}
 
-	public void changeRoom() {
-		if (player.getX() > xBoundary || player.getY() > yBoundary) {
-			player.setLocation(startingX, startingY);
-
-			createNewPlatform();
-		}
-	}
-	
 	/**
-	 * Moves player x and y coordinates w/ respective velocities
+	 * Model's main function for demonstrating game functionality
 	 *
 	 */
-	public void movePlayer() {
-		player.move();
-	}
-
-	/**
-	 * Increments the changeCharacter count which is responsible for showing you
-	 * what character you are
-	 */
-	public void incrementChangeCharacterCount() {
-		changeCharacterCount++;
-	}
-
-	/**
-	 * Decrements the changeCharacter count, will result in whatever character is
-	 * associated with that number
-	 */
-	public void decrementChangeCharacterCount() {
-		changeCharacterCount--;
-	} 
-
 	public static void main(String[] args) {
 		System.out.println("Hello World");
 		Model model = new Model();
@@ -188,90 +210,85 @@ public class Model {
 	// Getters
 
 	/**
-	 * Returns an int value of the screen X-Boundary
+	 * Returns the screen X-Boundary
 	 *
-	 * @return X - Boundary specific to your screen size
-	 * @see int
+	 * @return int - xBoundary specific to your screen size
 	 */
 	public int getXBoundary() {
 		return xBoundary;
 	}
 
 	/**
-	 * Returns an int value of the screen Y-Boundary
+	 * Returns the screen Y-Boundary
 	 *
-	 * @return Y - Boundary specific to your screen size
-	 * @see int
+	 * @return int - yBoundary specific to your screen size
 	 */
 	public int getYBoundary() {
 		return yBoundary;
 	}
 
 	/**
-	 * Returns an double value of the player image width
+	 * Returns the value of the player image width
 	 *
-	 * @return width - Width of the player image
-	 * @see double
+	 * @return double - Width of the player image
+	 * @see player.getWidth()
 	 */
 	public double getPlayerWidth() {
 		return player.getWidth();
 	}
 
 	/**
-	 * Returns an double value of the player image height
+	 * Returns the value of the player image height
 	 *
-	 * @return height - Height of the player image
-	 * @see double
+	 * @return double - Height of the player image
+	 * @see player.getHeight()
 	 */
 	public double getPlayerHeight() {
 		return player.getHeight();
 	}
 
 	/**
-	 * Returns an int value of the player X-Location
+	 * Returns the value of the player X-Location
 	 *
-	 * @return x - Player's x coordinate
-	 * @see int
+	 * @return int - Player's x coordinate
+	 * @see player.getX()
 	 */
 	public int getPlayerX() {
 		return (int) player.getX();
 	}
 
 	/**
-	 * Returns an int value of the player Y-Location
+	 * Returns the value of the player Y-Location
 	 *
-	 * @return y - Player's y coordinate
-	 * @see int
+	 * @return int - Player's y coordinate
+	 * @see player.getY()
 	 */
 	public int getPlayerY() {
 		return (int) player.getY();
 	}
 
 	/**
-	 * Returns a rectangle object that is supposed to be ground for the game
+	 * Returns a rectangle object that is the ground for the game
 	 *
-	 * @return ground - Ground's Rectangle object
-	 * @see Rectangle
+	 * @return Rectangle - Ground's Rectangle object
 	 */
 	public Rectangle getGround() {
 		return ground;
 	}
 
 	/**
-	 * Returns a rectangle object that is supposed to be platform for the game
+	 * Returns a platform's rectangle object for the game
 	 *
-	 * @return platform1 - Platform1's rectangle object
-	 * @see Rectangle
+	 * @return Rectangle - Platform1's rectangle object
 	 */
 	public Rectangle getPlatform() {
 		return platform1;
 	}
 
 	/**
-	 * Returns a rectangle object that is supposed to be platform for the game
+	 * Returns a platform's platform object for the game
 	 *
-	 * @return platform1 - Platform1's platform object
-	 * @see Rectangle
+	 * @return Platform - Platform1's platform object
 	 */
 	public Platform getPlat() {
 		return platform1;
@@ -280,9 +297,7 @@ public class Model {
 	/**
 	 * Getter for current character mode
 	 * 
-	 * @return changeCharacterMode - value of the changeCharacterMode variable which
-	 *         tells whether you are changing character or not
-	 * @see boolean
+	 * @return boolean - tells whether you are changing character or not
 	 */
 	public boolean getChangeCharacterMode() {
 		return changeCharacterMode;
@@ -291,9 +306,7 @@ public class Model {
 	/**
 	 * Getter for the number character that you are on
 	 * 
-	 * @return changeCharacterCount - Number for which character is currently
-	 *         selected
-	 * @see int
+	 * @return int - Number for which character is currently selected
 	 */
 	public int getChangeCharacterCount() {
 		return changeCharacterCount;
@@ -302,28 +315,51 @@ public class Model {
 	/**
 	 * Getter for the string character that you are on
 	 * 
-	 * @return playerCharacter - String for which character is currently selected
-	 * @see String
+	 * @return String - Which character is currently selected
 	 */
 	public String getPlayerCharacter() {
 		return player.getPlayerCharacter(changeCharacterCount);
 
 	}
 
-	// getter for player's direction
+	/**
+	 * Getter for the player's numerical direction
+	 * 
+	 * @return int - The int value for the player's direction
+	 * @see player.getDirection()
+	 */
 	public int getPlayerDirection() {
 		return player.getDirection();
 	}
 
+	/**
+	 * Getter for the player's String direction
+	 * 
+	 * @return int - The String value for the player's direction
+	 * @see player.getDirectionString()
+	 */
 	public String getPlayerDirectionString() {
 		return player.getDirectionString();
 	}
 
-	// getters for player falling and jumping
+	/**
+	 * Getter for the player's jumping state
+	 * 
+	 * @return boolean - The value for whether or not the player is currently
+	 *         jumping
+	 * @see player.getJumping()
+	 */
 	public boolean isPlayerJumping() {
 		return player.getJumping();
 	}
 
+	/**
+	 * Getter for the player's falling state
+	 * 
+	 * @return boolean - The value for whether or not the player is currently
+	 *         falling
+	 * @see player.getFalling()
+	 */
 	public boolean isPlayerFalling() {
 		return player.getFalling();
 	}
@@ -339,13 +375,38 @@ public class Model {
 		changeCharacterMode = !changeCharacterMode;
 	}
 
+	/**
+	 * Turns the player's Dx variable to 0
+	 * 
+	 * @see player.setDxOff()
+	 */
 	public void setPlayerDxOff() {
 		player.setDxOff();
 	}
 
-	// set the player to jumping mode
+	/**
+	 * Sets the player's jumping mode
+	 * 
+	 * @see player.setJumping()
+	 */
 	public void makePlayerJump() {
 		player.setJumping();
+	}
+
+	/**
+	 * Increments the changeCharacter count which is responsible for showing you
+	 * what character you are
+	 */
+	public void incrementChangeCharacterCount() {
+		changeCharacterCount++;
+	}
+
+	/**
+	 * Decrements the changeCharacter count, will result in whatever character is
+	 * associated with that number
+	 */
+	public void decrementChangeCharacterCount() {
+		changeCharacterCount--;
 	}
 
 }

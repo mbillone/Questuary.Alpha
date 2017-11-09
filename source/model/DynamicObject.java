@@ -34,9 +34,8 @@ public abstract class DynamicObject extends Rectangle {
 	/**
 	 * Gets the x velocity of a dynamic object
 	 * 
-	 * @return the x velocity
+	 * @return int - object's x velocity
 	 * 
-	 * @see int
 	 */
 	public int getDx() {
 		return xVelocity;
@@ -45,9 +44,8 @@ public abstract class DynamicObject extends Rectangle {
 	/**
 	 * Gets the y velocity of a dynamic object
 	 * 
-	 * @return the y velocity
+	 * @return int - object's y velocity
 	 * 
-	 * @see int
 	 */
 	public int getDy() {
 		return yVelocity;
@@ -56,9 +54,8 @@ public abstract class DynamicObject extends Rectangle {
 	/**
 	 * Gets the int version of direction
 	 * 
-	 * @return the direction of player (-1 or 1)
+	 * @return int - object's direction (-1 or 1)
 	 * 
-	 * @see int
 	 */
 	public int getDirection() {
 		return direction;
@@ -67,9 +64,8 @@ public abstract class DynamicObject extends Rectangle {
 	/**
 	 * Gets the string version of direction
 	 * 
-	 * @return the direction of player (left or right)
+	 * @return String - direction of player (left or right)
 	 * 
-	 * @see String
 	 */
 	public String getDirectionString() {
 		if (direction == 0) {
