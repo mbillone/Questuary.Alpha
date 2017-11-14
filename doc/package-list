@@ -1,1 +1,6 @@
+controller
 model
+model.dynamic
+model.fixed
+view
+view.dynamic

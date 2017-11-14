@@ -2,8 +2,11 @@ package model;
 
 import java.awt.Rectangle;
 import java.util.concurrent.ThreadLocalRandom;
+
+import model.dynamic.Player;
+
 import java.awt.Toolkit;
-import model.sprites.dynamic.Player;
+
 
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
@@ -69,7 +72,7 @@ public class Model {
 	/**
 	 * Moves player x and y coordinates w/ respective velocities
 	 *
-	 * @see player.move()
+	 * @see	Player#move()
 	 */
 	public void movePlayer() {
 		player.move();
@@ -78,10 +81,10 @@ public class Model {
 	/**
 	 * Moves the player left
 	 *
-	 * @see player.setDirection()
-	 * @see player.getX()
-	 * @see player.moveLeft()
-	 * @see player.setDxOff()
+	 * @see Player#setDirection(int)
+	 * @see Player#getX()
+	 * @see Player#moveLeft()
+	 * @see Player#setDxOff()
 	 */
 	public void playerMoveLeft() {
 		player.setDirection(0);
@@ -102,10 +105,10 @@ public class Model {
 	/**
 	 * Moves the player left
 	 *
-	 * @see player.setDirection()
-	 * @see player.getX()
-	 * @see player.moveRight()
-	 * @see player.setDxOff()
+	 * @see Player#setDirection(int)
+	 * @see Player#getX()
+	 * @see Player#moveRight()
+	 * @see Player#setDxOff()
 	 */
 	public void playerMoveRight() {
 		player.setDirection(1);
@@ -124,7 +127,7 @@ public class Model {
 	/**
 	 * Checks if the player is colliding
 	 *
-	 * @see player.gravityEffect()
+	 * @see Player#gravityEffect(Rectangle)
 	 */
 	public void gravity() {
 		boolean stillFalling;
@@ -138,8 +141,8 @@ public class Model {
 	/**
 	 * Creates new platform once player leaves the room
 	 *
-	 * @see player.getX()
-	 * @see player.setLocation()
+	 * @see Player#getX()
+	 * @see Player#setLocation(int, int)
 	 */
 	public void changeRoom() {
 		if (player.getX() > xBoundary || player.getY() > yBoundary) {
@@ -151,7 +154,7 @@ public class Model {
 	/**
 	 * Checks player's collision with platform1
 	 *
-	 * @see player.playerPlatCollision()
+	 * @see Player#playerPlatCollision(Platform)
 	 */
 	public void checkCollision() {
 		player.playerPlatCollision(platform1);
@@ -169,6 +172,7 @@ public class Model {
 	/**
 	 * Model's main function for demonstrating game functionality
 	 *
+	 *@param args - standard String array for a main function
 	 */
 	public static void main(String[] args) {
 		System.out.println("Hello World");
@@ -231,7 +235,7 @@ public class Model {
 	 * Returns the value of the player image width
 	 *
 	 * @return double - Width of the player image
-	 * @see player.getWidth()
+	 * @see Player#getWidth()
 	 */
 	public double getPlayerWidth() {
 		return player.getWidth();
@@ -241,7 +245,7 @@ public class Model {
 	 * Returns the value of the player image height
 	 *
 	 * @return double - Height of the player image
-	 * @see player.getHeight()
+	 * @see Player#getHeight()
 	 */
 	public double getPlayerHeight() {
 		return player.getHeight();
@@ -251,7 +255,7 @@ public class Model {
 	 * Returns the value of the player X-Location
 	 *
 	 * @return int - Player's x coordinate
-	 * @see player.getX()
+	 * @see Player#getX()
 	 */
 	public int getPlayerX() {
 		return (int) player.getX();
@@ -261,7 +265,7 @@ public class Model {
 	 * Returns the value of the player Y-Location
 	 *
 	 * @return int - Player's y coordinate
-	 * @see player.getY()
+	 * @see Player#getY()
 	 */
 	public int getPlayerY() {
 		return (int) player.getY();
@@ -326,7 +330,7 @@ public class Model {
 	 * Getter for the player's numerical direction
 	 * 
 	 * @return int - The int value for the player's direction
-	 * @see player.getDirection()
+	 * @see Player#getDirection()
 	 */
 	public int getPlayerDirection() {
 		return player.getDirection();
@@ -336,7 +340,7 @@ public class Model {
 	 * Getter for the player's String direction
 	 * 
 	 * @return int - The String value for the player's direction
-	 * @see player.getDirectionString()
+	 * @see Player#getDirectionString()
 	 */
 	public String getPlayerDirectionString() {
 		return player.getDirectionString();
@@ -347,7 +351,7 @@ public class Model {
 	 * 
 	 * @return boolean - The value for whether or not the player is currently
 	 *         jumping
-	 * @see player.getJumping()
+	 * @see Player#getJumping()
 	 */
 	public boolean isPlayerJumping() {
 		return player.getJumping();
@@ -358,7 +362,7 @@ public class Model {
 	 * 
 	 * @return boolean - The value for whether or not the player is currently
 	 *         falling
-	 * @see player.getFalling()
+	 * @see Player#getFalling()
 	 */
 	public boolean isPlayerFalling() {
 		return player.getFalling();
@@ -378,7 +382,7 @@ public class Model {
 	/**
 	 * Turns the player's Dx variable to 0
 	 * 
-	 * @see player.setDxOff()
+	 * @see Player#setDxOff()
 	 */
 	public void setPlayerDxOff() {
 		player.setDxOff();
@@ -387,7 +391,7 @@ public class Model {
 	/**
 	 * Sets the player's jumping mode
 	 * 
-	 * @see player.setJumping()
+	 * @see Player#setJumping()
 	 */
 	public void makePlayerJump() {
 		player.setJumping();

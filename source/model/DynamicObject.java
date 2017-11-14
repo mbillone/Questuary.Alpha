@@ -21,7 +21,7 @@ public abstract class DynamicObject extends Rectangle {
 	// Methods
 
 	/**
-	 * Increments both x & y positions by the respective velocities
+	 * Increments both x and y positions by the respective velocities
 	 */
 	public void move() {
 		x += xVelocity;
@@ -91,7 +91,7 @@ public abstract class DynamicObject extends Rectangle {
 	/**
 	 * This sets the y velocity of a dynamic object
 	 * 
-	 * @param dx
+	 * @param dy
 	 *            - The velocity of that will be set by the function
 	 */
 	public void setDy(int dy) {
@@ -101,7 +101,7 @@ public abstract class DynamicObject extends Rectangle {
 	/**
 	 * This sets the direction that the dynamic object is facing
 	 * 
-	 * @param dx
+	 * @param d
 	 *            - The velocity of that will be set by the function
 	 */
 	public void setDirection(int d) {
