@@ -59,7 +59,7 @@ public class View extends JPanel {
 	String playerCharacter = "cat";
 
 	// *************************************************
-	// Constructors
+	// Constructor
 
 	/**
 	 * Constructor used to create a view object
@@ -81,82 +81,8 @@ public class View extends JPanel {
 		frame.setVisible(true);
 	}
 
-	/**
-	 * Getter for the frame of the View
-	 * 
-	 * @return the frame in the view
-	 * @see JFrame
-	 */
-	public JFrame getFrame() {
-		return frame;
-	}
-
-	/**
-	 * Getter for the player image's width
-	 * 
-	 * @return the image's width
-	 * @see int
-	 */
-	public int getImgWidth() {
-		return imgWidth;
-	}
-
-	/**
-	 * Getter for the player image's height
-	 * 
-	 * @return the image's height
-	 * @see int
-	 */
-	public int getImgHeight() {
-		return imgHeight;
-	}
-
-	/**
-	 * Sets the View.ground to the ground passed in, to be drawn in another method
-	 * 
-	 * @param ground
-	 *            - The ground the player will be standing on
-	 */
-	public void setGroundImage(Rectangle ground) {
-		this.ground = ground;
-	}
-
-	/**
-	 * Sets the View.platform1 to the playerform1 passed in, to be drawn by another
-	 * method
-	 * 
-	 * @param platform1
-	 *            - The platform the player will be interacting with
-	 */
-	public void setPlatformImage(Rectangle platform1) {
-		this.platform1 = platform1;
-	}
-
-	/**
-	 * After seeing if the character is a dog or cat, it will increment the cat or
-	 * dog image. It will only increment if animate is true
-	 */
-	// setter for picNum
-	public void setPicNum() {
-		if (playerCharacter == "cat") {
-			catImage.nextImage(animate);
-		} else if (playerCharacter == "dog") {
-			dogImage.nextImage(animate);
-		}
-
-	}
-
-	/**
-	 * Determines if the player should be animated or not. If animate is false then
-	 * there would be not animation.
-	 * 
-	 * @param b
-	 *            - Sets the animate value to boolean b
-	 */
-	// setter for animation
-	public void setAnimation(boolean b) {
-		animate = b;
-	}
+	// *************************************************
+	// Methods
 
 	/**
 	 * Draws the characters, ground, and platform on the screen
@@ -199,6 +125,85 @@ public class View extends JPanel {
 		this.direct = direct;
 		this.playerCharacter = playerCharacter;
 		frame.repaint();
+	}
+
+	// *************************************************
+	// Getters
+
+	/**
+	 * Getter for the frame of the View
+	 * 
+	 * @return Jframe - the frame in the view
+	 */
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	/**
+	 * Getter for the player image's width
+	 * 
+	 * @return int - the image's width
+	 */
+	public int getImgWidth() {
+		return imgWidth;
+	}
+
+	/**
+	 * Getter for the player image's height
+	 * 
+	 * @return int - the image's height
+	 */
+	public int getImgHeight() {
+		return imgHeight;
+	}
+
+	// *************************************************
+	// Setters
+
+	/**
+	 * Sets the View.ground to the ground passed in, to be drawn in another method
+	 * 
+	 * @param ground
+	 *            - The ground the player will be standing on
+	 */
+	public void setGroundImage(Rectangle ground) {
+		this.ground = ground;
+	}
+
+	/**
+	 * Sets the View.platform1 to the playerform1 passed in, to be drawn by another
+	 * method
+	 * 
+	 * @param platform1
+	 *            - The platform the player will be interacting with
+	 */
+	public void setPlatformImage(Rectangle platform1) {
+		this.platform1 = platform1;
+	}
+
+	/**
+	 * After seeing if the character is a dog or cat, it will increment the cat or
+	 * dog image. It will only increment if animate is true
+	 */
+	public void setPicNum() {
+		if (playerCharacter == "cat") {
+			catImage.nextImage(animate);
+		} else if (playerCharacter == "dog") {
+			dogImage.nextImage(animate);
+		}
+
+	}
+
+	/**
+	 * Determines if the player should be animated or not. If animate is false then
+	 * there would be not animation.
+	 * 
+	 * @param b
+	 *            - Sets the animate value to boolean b
+	 */
+	// setter for animation
+	public void setAnimation(boolean b) {
+		animate = b;
 	}
 
 }
