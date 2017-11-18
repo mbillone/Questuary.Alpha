@@ -186,9 +186,11 @@ public class Player extends DynamicObject {
 	public String getPlayerCharacter(int changeCharacterCount) {
 		// TODO Auto-generated method stub
 		if (changeCharacterCount % numOfCharacter == 0) {
+			state = "cat";
 			return "cat";
 		} else {
-			return "dog";
+			state = "bird";
+			return "bird";
 		}
 	}
 }

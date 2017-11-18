@@ -9,7 +9,7 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import view.dynamic.CatImage;
-import view.dynamic.DogImage;
+import view.dynamic.BirdImage;
 import view.dynamic.ImageObject;
 
 /**
@@ -17,14 +17,14 @@ import view.dynamic.ImageObject;
  * <p>
  * The View class extends the JPanel that is later added to JFrame. This class
  * holds JFrame frame for the JFrame object. The HashMap characterImages holds
- * all ImageObject objects. CatImage holds an image of the cat. DogImage holds
- * an image of the dog. It has a boolean animate variable used to increment the
+ * all ImageObject objects. CatImage holds an image of the cat. BirdImage holds
+ * an image of the bird. It has a boolean animate variable used to increment the
  * images. imgWidth and imgHeight determines the image dimensions. PlayerX and
  * PlayerY contains the player's coordinates, with direct determining which way
  * the player is facing. The Rectangle ground and platform help draw the ground
  * and platform.
  * 
- * @author David Chan, Akash Sharma
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
  *
  */
 public class View extends JPanel {
@@ -37,8 +37,8 @@ public class View extends JPanel {
 	HashMap<String, ImageObject> characterImages = new HashMap<String, ImageObject>();
 	// Cat image object that will be responsible in returning the cat image
 	CatImage catImage = new CatImage();
-	// Dog image object responsible for dog image
-	DogImage dogImage = new DogImage();
+	// Bird image object responsible for bird image
+	BirdImage birdImage = new BirdImage();
 	// boolean determines player should animate
 	boolean animate = false;
 	// screen's dimensions
@@ -64,13 +64,13 @@ public class View extends JPanel {
 	/**
 	 * Constructor used to create a view object
 	 * <p>
-	 * This constructor puts cat image and dog image into the characterImage
+	 * This constructor puts cat image and bird image into the characterImage
 	 * hashmap. Creates a JFrame object and sets the title, dimensions, visibility
 	 * of the JFrame.
 	 */
 	public View() {
 		characterImages.put("cat", catImage);
-		characterImages.put("dog", dogImage);
+		characterImages.put("bird", birdImage);
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Questary Alpha");
@@ -79,6 +79,7 @@ public class View extends JPanel {
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().add(this);
 		frame.setVisible(true);
+		
 	}
 
 	// *************************************************
@@ -96,14 +97,25 @@ public class View extends JPanel {
 		g.fillRect(playerX, playerY, imgWidth, imgHeight);
 		if (playerCharacter == "cat") {
 			g.drawImage(catImage.show(direct), playerX, playerY, catImage.getWidth(), catImage.getHeight(), this);
-		} else if (playerCharacter == "dog") {
-			g.drawImage(dogImage.show(direct), playerX, playerY, dogImage.getWidth(), dogImage.getHeight(), this);
+		} else if (playerCharacter == "bird") {
+			g.drawImage(birdImage.show(direct), playerX, playerY, birdImage.getWidth(), birdImage.getHeight(), this);
 		}
 
 		g.setColor(Color.gray);
 		g.fillRect((int) ground.getX(), (int) ground.getY(), (int) ground.getWidth(), (int) ground.getHeight());
 		g.fillRect((int) platform1.getX(), (int) platform1.getY(), (int) platform1.getWidth(),
 				(int) platform1.getHeight());
+	}
+	
+	public void paint2(Graphics g) {
+		g.setColor(Color.blue);
+		
+		if (playerCharacter == "cat") {
+			g.drawImage(catImage.show(direct), playerX, playerY, catImage.getWidth(), catImage.getHeight(), this);
+		} else if (playerCharacter == "bird") {
+			g.drawImage(birdImage.show(direct), playerX, playerY, birdImage.getWidth(), birdImage.getHeight(), this);
+		}
+
 	}
 
 	/**
@@ -117,15 +129,18 @@ public class View extends JPanel {
 	 * @param direct
 	 *            - Player's direction
 	 * @param playerCharacter
-	 *            - Player's state (cat/dog)
+	 *            - Player's state (cat/bird)
 	 */
 	public void updateView(int playerX, int playerY, int direct, String playerCharacter) {
 		this.playerX = playerX;
 		this.playerY = playerY;
 		this.direct = direct;
 		this.playerCharacter = playerCharacter;
+		
 		frame.repaint();
 	}
+	
+	
 
 	// *************************************************
 	// Getters
@@ -182,14 +197,14 @@ public class View extends JPanel {
 	}
 
 	/**
-	 * After seeing if the character is a dog or cat, it will increment the cat or
-	 * dog image. It will only increment if animate is true
+	 * After seeing if the character is a bird or cat, it will increment the cat or
+	 * bird image. It will only increment if animate is true
 	 */
 	public void setPicNum() {
 		if (playerCharacter == "cat") {
 			catImage.nextImage(animate);
-		} else if (playerCharacter == "dog") {
-			dogImage.nextImage(animate);
+		} else if (playerCharacter == "bird") {
+			birdImage.nextImage(animate);
 		}
 
 	}

@@ -169,6 +169,11 @@ public class Controller {
 						view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
 								model.getPlayerCharacter());
 						break;
+					case (KeyEvent.VK_ESCAPE):
+					case (KeyEvent.VK_Q):
+						// if q is press then quit
+						System.exit(0);
+						break;
 					}
 				}
 

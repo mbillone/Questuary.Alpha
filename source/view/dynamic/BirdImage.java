@@ -13,7 +13,9 @@ import view.dynamic.ImageObject;
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
  */
 
-public class DogImage extends ImageObject {
+//Bird Image from -- "https://opengameart.org/content/free-game-asset-grumpy-flappy-bird-sprite-sheets"
+
+public class BirdImage extends ImageObject {
 
 	// *************************************************
 	// Fields
@@ -27,17 +29,17 @@ public class DogImage extends ImageObject {
 	private int imgWidth = (int) (screenWidth * 0.1);
 	private int imgHeight = (int) (imgWidth * ratio);
 
-	private int frameCount = 10;
+	private int frameCount = 4;
 	private int picNum = 0;
 	private BufferedImage[][] pics = new BufferedImage[2][frameCount];
 
 	// *************************************************
 	// Constructor
 
-	public DogImage() {
+	public BirdImage() {
 		// load in the images
 		for (int i = 0; i < frameCount; i++) {
-			BufferedImage image = createImage("images/dog/Walk (" + (i + 1) + ")" + ".png");
+			BufferedImage image = createImage("images/bird/Fly (" + (i + 1) + ")" + ".png");
 			pics[1][i] = image;
 		}
 
