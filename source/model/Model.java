@@ -21,7 +21,7 @@ public class Model {
 	// get the screen's dimensions
 	final private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	final private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	private double screenRatio = screenHeight / screenWidth;
+	final private double screenRatio = screenWidth/screenHeight;
 	// boundaries
 	private int xBoundary;
 	private int yBoundary;
@@ -46,9 +46,7 @@ public class Model {
 	 * Constructor for Model
 	 */
 	public Model() {
-
-		// get the screen's ratio
-		screenRatio = screenWidth / screenHeight;
+		
 		int playerWidth = (int) (screenWidth * 0.1);
 		int playerHeight = (int) (playerWidth * screenRatio);
 

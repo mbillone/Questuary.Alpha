@@ -5,8 +5,15 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import view.dynamic.CatImage;
 import view.dynamic.BirdImage;
@@ -32,7 +39,7 @@ public class View extends JPanel {
 	// *************************************************
 	// Fields
 
-	private JFrame frame;
+	private JFrame frame = new JFrame();
 	// HashMap used for character change
 	HashMap<String, ImageObject> characterImages = new HashMap<String, ImageObject>();
 	// Cat image object that will be responsible in returning the cat image
@@ -41,10 +48,10 @@ public class View extends JPanel {
 	BirdImage birdImage = new BirdImage();
 	// boolean determines player should animate
 	boolean animate = false;
-	// screen's dimensions
-	private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	private double screenRatio = screenWidth / screenHeight;
+	// get the screen's dimensions
+	final private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	final private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	final private double screenRatio = screenWidth / screenHeight;
 	// image dimensions
 	private int imgWidth;
 	private int imgHeight;
@@ -71,15 +78,29 @@ public class View extends JPanel {
 	public View() {
 		characterImages.put("cat", catImage);
 		characterImages.put("bird", birdImage);
-		frame = new JFrame();
+
+		// set up background and add view object to the frame
+		try {
+			File file = new File("images/estuary/Background.jpg");
+			BufferedImage img = ImageIO.read(file);
+			BackgroundPanel background = new BackgroundPanel(img, BackgroundPanel.SCALED, 0.50f, 0.5f);
+			frame.setContentPane(background);
+			background.add(this);
+		} catch (IOException except) {
+			System.out.println("Cannot Read Image File: " + except);
+			except.printStackTrace();
+		}
+
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Questary Alpha");
-		frame.setSize(new Dimension((int) screenWidth, (int) screenHeight));
+		// scale frame to screen's dimensions, and set location
 		setSize(new Dimension((int) screenWidth, (int) screenHeight));
+		frame.setSize(new Dimension((int) screenWidth, (int) screenHeight));
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setLocationRelativeTo(null);
-		frame.getContentPane().add(this);
+		// make frame visible
 		frame.setVisible(true);
-		
+
 	}
 
 	// *************************************************
@@ -93,7 +114,6 @@ public class View extends JPanel {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		g.setColor(Color.blue);
 		g.fillRect(playerX, playerY, imgWidth, imgHeight);
 		if (playerCharacter == "cat") {
 			g.drawImage(catImage.show(direct), playerX, playerY, catImage.getWidth(), catImage.getHeight(), this);
@@ -106,10 +126,10 @@ public class View extends JPanel {
 		g.fillRect((int) platform1.getX(), (int) platform1.getY(), (int) platform1.getWidth(),
 				(int) platform1.getHeight());
 	}
-	
+
 	public void paint2(Graphics g) {
 		g.setColor(Color.blue);
-		
+
 		if (playerCharacter == "cat") {
 			g.drawImage(catImage.show(direct), playerX, playerY, catImage.getWidth(), catImage.getHeight(), this);
 		} else if (playerCharacter == "bird") {
@@ -136,11 +156,9 @@ public class View extends JPanel {
 		this.playerY = playerY;
 		this.direct = direct;
 		this.playerCharacter = playerCharacter;
-		
+
 		frame.repaint();
 	}
-	
-	
 
 	// *************************************************
 	// Getters

@@ -46,7 +46,7 @@ public class Player extends DynamicObject {
 		super.setSize(width, height);
 
 		// set max jumping height
-		maxJumpingHeight = height;
+		maxJumpingHeight = height/2;
 
 		// set gravity location
 		this.gravity = gravity;
@@ -121,12 +121,12 @@ public class Player extends DynamicObject {
 		}
 		// if player is not touching the ground but is jumping then allow player to jump
 		else if (falling && jumping) {
+			System.out.println("Executed: First Stage gravityEffect()");
 			// has the player reached max jumping height yet
 			if ((prevY - y) < maxJumpingHeight) {
-				System.out.println("in first case gravity effect");
+
 				playerJumping();
 			} else {
-				System.out.println("finish first case gravity effect");
 				// if max height reached then player stops jumping/ascending
 				jumping = false;
 			}
@@ -134,11 +134,10 @@ public class Player extends DynamicObject {
 		}
 		// if player is touching the ground but is not jumping then allow player to jump
 		else if (!falling && jumping) {
+			System.out.println("Executed: Second Stage gravityEffect()");
 			if ((prevY - y) < maxJumpingHeight) {
-				System.out.println("in second case gravity effect");
 				playerJumping();
 			} else {
-				System.out.println("finish second case gravity effect");
 				jumping = false;
 			}
 			return false;
@@ -161,13 +160,11 @@ public class Player extends DynamicObject {
 	// make the player jump
 	public void playerJumping() {
 
-		System.out.println("in playerJumping");
+		System.out.println("Executed: playerJumping()");
 		if (super.getDy() >= minDy) {
 			int newDy = super.getDy() - gravity;
 			super.setDy(newDy);
 		}
-
-		System.out.println("finish playerJumping");
 	}
 
 	public void playerPlatCollision(Platform plat) {
@@ -186,9 +183,11 @@ public class Player extends DynamicObject {
 	public String getPlayerCharacter(int changeCharacterCount) {
 		// TODO Auto-generated method stub
 		if (changeCharacterCount % numOfCharacter == 0) {
+			maxJumpingHeight = height/2;
 			state = "cat";
 			return "cat";
 		} else {
+			maxJumpingHeight = height;
 			state = "bird";
 			return "bird";
 		}
