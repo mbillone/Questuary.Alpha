@@ -4,6 +4,8 @@ import java.awt.Rectangle;
 import java.util.concurrent.ThreadLocalRandom;
 
 import model.dynamic.Player;
+import model.fixed.Collectible;
+import model.fixed.Platform;
 
 import java.awt.Toolkit;
 
@@ -163,8 +165,11 @@ public class Model {
 	 *
 	 */
 	public void createNewPlatform() {
-		platform1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 1000),
-				(int) ThreadLocalRandom.current().nextInt(765, 900), 350, 50);
+		int xLoc = (int) ThreadLocalRandom.current().nextInt((int) screenWidth/8, (int) screenWidth - 200);
+		int yLoc = (int) ThreadLocalRandom.current().nextInt((int) screenHeight/10, (int) screenHeight - 400);
+		platform1 = new Platform(xLoc, yLoc, 350, 50);
+		
+		Collectible collectible1 = new Collectible((int) ((platform1.getWidth()/2)) , yLoc + 50, 36 , 40, "Foobar");
 	}
 
 	/**

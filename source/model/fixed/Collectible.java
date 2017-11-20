@@ -16,16 +16,14 @@ public class Collectible extends StaticObject {
 	// *************************************************
 	// Constructor
 	
-	public Collectible(String fact) {
+	public Collectible(int x, int y, int width, int height, String fact) {
 		this.fact = fact;
+		super.setBounds(x, y, width, height);
 	}
 
 	// *************************************************
 	// Methods
 
-	void IncrementScore() {
-
-	}
 
 	// *************************************************
 	// Getters

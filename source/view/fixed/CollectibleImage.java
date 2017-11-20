@@ -1,4 +1,4 @@
-package view.dynamic;
+package view.fixed;
 
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
@@ -11,38 +11,29 @@ import view.ImageObject;
 
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
- *         Bird Image from --
- *         "https://opengameart.org/content/free-game-asset-grumpy-flappy-bird-sprite-sheets"
+ *         Collectible Image from -- "https://opengameart.org/content/spincoin"
  */
-
-public class BirdImage extends ImageObject {
+public class CollectibleImage extends ImageObject {
 
 	// *************************************************
 	// Fields
 
-	// get screen's dimensions
-	private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	private double screenRatio = screenWidth / screenHeight;
-
 	// set the image's dimensions
-	private int imgWidth = (int) (screenWidth * 0.1);
-	private int imgHeight = (int) (imgWidth * screenRatio);
-	private int frameCount = 4;
+	private int imgWidth = 36;
+	private int imgHeight = 40;
+	
+	private int frameCount = 6;
 	private int picNum = 0;
 
-	private BufferedImage[][] pics = new BufferedImage[2][frameCount];
+	private BufferedImage[] pics = new BufferedImage[frameCount];
 
-	public BirdImage() {
+	public CollectibleImage() {
 		// load in the images
 		for (int i = 0; i < frameCount; i++) {
 			BufferedImage image = createImage("images/bird/Fly (" + (i + 1) + ")" + ".png");
-			pics[1][i] = image;
+			pics[i] = image;
 		}
-
-		for (int i = 0; i < frameCount; i++) {
-			pics[0][i] = flip(pics[1][i]);
-		}
+		
 	}
 
 	// *************************************************
@@ -61,21 +52,6 @@ public class BirdImage extends ImageObject {
 		return null;
 	}
 
-	// method used to flip the image
-	private BufferedImage flip(BufferedImage image) {
-		int width = image.getWidth();
-		int height = image.getHeight();
-
-		BufferedImage mimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		for (int y = 0; y < height; y++) {
-			for (int lx = 0, rx = width - 1; lx < width; lx++, rx--) {
-				int p = image.getRGB(lx, y);
-				mimg.setRGB(rx, y, p);
-			}
-		}
-		return mimg;
-	}
-
 	// increment through the CatImage
 	public void nextImage(boolean canAnimate) {
 		if (canAnimate) {
@@ -85,7 +61,7 @@ public class BirdImage extends ImageObject {
 
 	// return the image in the array
 	public BufferedImage show(int direct) {
-		return pics[direct][picNum];
+		return pics[picNum];
 	}
 
 	// *************************************************

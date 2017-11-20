@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import view.dynamic.CatImage;
 import view.dynamic.BirdImage;
-import view.dynamic.ImageObject;
 
 /**
  * Class in charge of drawing the images

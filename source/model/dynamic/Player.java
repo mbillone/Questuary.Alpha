@@ -5,7 +5,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Line2D.Double;
 
 import model.DynamicObject;
-import model.Platform;
+import model.fixed.Platform;
 
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
@@ -34,6 +34,8 @@ public class Player extends DynamicObject {
 
 	private int changeCharacterCount = 0;
 	private int numOfCharacter = 2;
+	
+	private int score = 0;
 
 	// *************************************************
 	// Constructor
@@ -46,7 +48,7 @@ public class Player extends DynamicObject {
 		super.setSize(width, height);
 
 		// set max jumping height
-		maxJumpingHeight = height/2;
+		maxJumpingHeight = height / 2;
 
 		// set gravity location
 		this.gravity = gravity;
@@ -59,51 +61,8 @@ public class Player extends DynamicObject {
 		super.setDy(0);
 	}
 
-	// *******************************************
+	// *************************************************
 	// Methods
-
-	// getter for jumping
-	public boolean getJumping() {
-		return jumping;
-	}
-
-	// getter for falling
-	public boolean getFalling() {
-		return falling;
-	}
-
-	// setter for the player's dimensions
-	public void setDimensions(int width, int height) {
-		super.setSize(width, height);
-	}
-
-	// setter for turning the dx between left, right, and 0
-	public void moveLeft() {
-		super.setDx(-20);
-	}
-
-	public void moveRight() {
-		super.setDx(20);
-	}
-
-	public void setDxOff() {
-		super.setDx(0);
-	}
-
-	// setter for jumping
-	public void setJumping() {
-		jumping = true;
-		prevY = super.getY();
-	}
-
-	// setter for maxJumpingHeight
-	public void setMaxJumpingHeight(int j) {
-		maxJumpingHeight = j;
-	}
-
-	public int getMaxJumpingHeight() {
-		return maxJumpingHeight;
-	}
 
 	// determines if touching the ground with appropriate actions for jumping and
 	// falling
@@ -167,6 +126,7 @@ public class Player extends DynamicObject {
 		}
 	}
 
+	// collision between player and platforms
 	public void playerPlatCollision(Platform plat) {
 		if (this.intersects(plat.getLeft()) && this.getDirection() == 1) {
 			this.setDx(0);
@@ -179,11 +139,32 @@ public class Player extends DynamicObject {
 		 * this.getDirection() == 0) { this.setDx(-20); }
 		 */
 	}
+	
+	public void incrementScore() {
+		score += score;
+	}
+
+	// *************************************************
+	// Getters
+
+	// getter for jumping
+	public boolean getJumping() {
+		return jumping;
+	}
+
+	// getter for falling
+	public boolean getFalling() {
+		return falling;
+	}
+
+	public int getMaxJumpingHeight() {
+		return maxJumpingHeight;
+	}
 
 	public String getPlayerCharacter(int changeCharacterCount) {
 		// TODO Auto-generated method stub
 		if (changeCharacterCount % numOfCharacter == 0) {
-			maxJumpingHeight = height/2;
+			maxJumpingHeight = height / 2;
 			state = "cat";
 			return "cat";
 		} else {
@@ -192,4 +173,37 @@ public class Player extends DynamicObject {
 			return "bird";
 		}
 	}
+
+	// *************************************************
+	// Setters
+
+	// setter for the player's dimensions
+	public void setDimensions(int width, int height) {
+		super.setSize(width, height);
+	}
+
+	// setter for turning the dx between left, right, and 0
+	public void moveLeft() {
+		super.setDx(-20);
+	}
+
+	public void moveRight() {
+		super.setDx(20);
+	}
+
+	public void setDxOff() {
+		super.setDx(0);
+	}
+
+	// setter for jumping
+	public void setJumping() {
+		jumping = true;
+		prevY = super.getY();
+	}
+
+	// setter for maxJumpingHeight
+	public void setMaxJumpingHeight(int j) {
+		maxJumpingHeight = j;
+	}
+
 }

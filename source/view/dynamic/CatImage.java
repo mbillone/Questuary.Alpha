@@ -1,10 +1,12 @@
 package view.dynamic;
 
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import view.dynamic.ImageObject;
+
+import view.ImageObject;
 
 /**
  * This class is in charge of the cat image.
@@ -22,28 +24,27 @@ public class CatImage extends ImageObject {
 	// *************************************************
 	// Fields
 
-	// 2D array for the images
-	private BufferedImage[][] pics = new BufferedImage[2][10];
+	// get screen's dimensions
+	private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	private double screenRatio = screenWidth / screenHeight;
 
-	// *************************************************
-	// Constructor
+	// set the image's dimensions
+	private int imgWidth = (int) (screenWidth * 0.1);
+	private int imgHeight = (int) (imgWidth * screenRatio);
+	private int frameCount = 4;
+	private int picNum = 0;
+
+	private BufferedImage[][] pics = new BufferedImage[2][frameCount];
+
 	public CatImage() {
-
-		super.setWidth((int) (getScreenWidth() * 0.1));
-		super.setHeight((int) (getWidth() * getRatio()));
-		super.setFrameCount(10);
-
-		// create the 2D array
-		super.setPicsArray(2);
-
 		// load in the images
-		for (int i = 0; i < super.getFrameCount(); i++) {
+		for (int i = 0; i < frameCount; i++) {
 			BufferedImage image = createImage("images/cat/Walk (" + (i + 1) + ")" + ".png");
-			super.setImage(1, i, image);
 			pics[1][i] = image;
 		}
 
-		for (int i = 0; i < super.getFrameCount(); i++) {
+		for (int i = 0; i < frameCount; i++) {
 			pics[0][i] = flip(pics[1][i]);
 		}
 	}
@@ -82,15 +83,25 @@ public class CatImage extends ImageObject {
 	// increment through the CatImage
 	public void nextImage(boolean canAnimate) {
 		if (canAnimate) {
-			int num = super.getPicNum();
-			num = (num + 1) % super.getFrameCount();
-			super.setPicNum(num);
+			picNum = (picNum + 1) % frameCount;
 		}
 	}
 
 	// return the image in the array
 	public BufferedImage show(int direct) {
-		return pics[direct][super.getPicNum()];
+		return pics[direct][picNum];
+	}
+
+	// *************************************************
+	// Getters
+
+	// getter for the image dimensions
+	public int getWidth() {
+		return imgWidth;
+	}
+
+	public int getHeight() {
+		return imgHeight;
 	}
 
 }
