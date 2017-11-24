@@ -51,6 +51,8 @@ public class Model {
 	private int gravity = 10;
 	// fields for changing the character
 	private boolean changeCharacterMode = false;
+	private boolean isGamePaused = false;
+	private boolean isGameOver = false;
 	private int changeCharacterCount = 0;
 	// starting positions
 	private int startingY;
@@ -133,20 +135,25 @@ public class Model {
 	 * @see	Player#move()
 	 */
 	public void movePlayer() {
-		player.move();
+		if(!getIsGamePaused() && !getIsGameOver()) {
+			player.move();
+		}
 	}
 	
 	public void moveEnemies() {
-		Iterator<Enemy> enemyIter = enemies.iterator();
-		while(enemyIter.hasNext())
-		{
-			Enemy enemy = enemyIter.next();
-			enemy.move();
-			if(enemy.isDead() && (enemy.getY() > screenHeight))
+		if(!getIsGamePaused()) {
+			Iterator<Enemy> enemyIter = enemies.iterator();
+			while(enemyIter.hasNext())
 			{
-				enemyIter.remove();
+				Enemy enemy = enemyIter.next();
+				enemy.move();
+				if(enemy.isDead() && (enemy.getY() > screenHeight))
+				{
+					enemyIter.remove();
+				}
 			}
 		}
+		
 	}
 
 	/**
@@ -522,6 +529,25 @@ public class Model {
 	public boolean getChangeCharacterMode() {
 		return changeCharacterMode;
 	}
+	
+	/**
+	 * Getter for game paused state
+	 * 
+	 * @return boolean - tells whether game is over or not
+	 */
+	public boolean getIsGamePaused() {
+		return isGamePaused;
+	}
+	
+	/**
+	 * Getter for game over state
+	 * 
+	 * @return boolean - tells whether game is paused or not
+	 */
+	public boolean getIsGameOver() {
+		return isGameOver;
+		
+	}
 
 	/**
 	 * Getter for the number character that you are on
@@ -603,6 +629,31 @@ public class Model {
 	 */
 	public void setChangePlayerMode() {
 		changeCharacterMode = !changeCharacterMode;
+		setIsGamePaused();
+	}
+	
+	/**
+	 * Sets the isGamePaused variable
+	 * 
+	 */
+	public void setIsGamePaused() {
+		if(getChangeCharacterMode()) {
+			isGamePaused = true;
+		}else {
+			isGamePaused = false;
+		}
+	}
+	
+	/**
+	 * Sets the isGameOver variable
+	 * 
+	 */
+	public void setIsGameOver() {
+		if(player.getHealth() == 0) {
+			isGameOver = true;
+		}else {
+			isGameOver = false;
+		}
 	}
 
 	/**
