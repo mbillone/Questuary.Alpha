@@ -36,6 +36,11 @@ public class Model {
 	// needed fields
 	private Platform ground;
 	private Platform platform1;
+	private Platform p1;
+	private Platform p2;
+	private Platform p3;
+	private Platform p4;
+	private Platform p5;
 	
 	//arraylist containing the platform objects
 	private ArrayList<Platform> platforms = new ArrayList<Platform>();
@@ -80,9 +85,31 @@ public class Model {
 		//make 5 platforms
 		for(int i = 0; i < 5; i++)
 		{
-			Platform platform = new Platform((int) ThreadLocalRandom.current().nextInt(300, 1000),
-					(int) ThreadLocalRandom.current().nextInt(765, 900), 350, 50);
-			platforms.add(platform);
+			if (i == 0) {
+				p1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 400),
+						(int) ThreadLocalRandom.current().nextInt(765, 900), 350, 50);
+				platforms.add(p1);
+			}
+			else if (i == 1) {
+				p2 = new Platform((int)(p1.getX() + ThreadLocalRandom.current().nextInt(350, 500)),
+						(int)(p1.getY() + ThreadLocalRandom.current().nextInt(0, 300) - ThreadLocalRandom.current().nextInt(0, 300)), 350, 50);
+				platforms.add(p2);
+			}
+			else if (i == 2) {
+				p3 = new Platform((int)(p2.getX() + ThreadLocalRandom.current().nextInt(350, 500)),
+						(int)(p2.getY() + ThreadLocalRandom.current().nextInt(0, 300) - ThreadLocalRandom.current().nextInt(0, 300)), 350, 50);
+				platforms.add(p3);
+			}
+			else if (i == 3) {
+				p4 = new Platform((int)(p3.getX() + ThreadLocalRandom.current().nextInt(350, 500)),
+						(int)(p3.getY() + ThreadLocalRandom.current().nextInt(0, 300) - ThreadLocalRandom.current().nextInt(0, 300)), 350, 50);
+				platforms.add(p4);
+			}
+			else if (i == 4) {
+				p5 = new Platform((int)(p4.getX() + ThreadLocalRandom.current().nextInt(350, 500)),
+						(int)(p4.getCenterY() + ThreadLocalRandom.current().nextInt(0, 300) - ThreadLocalRandom.current().nextInt(0, 300)), 350, 50);
+				platforms.add(p5);
+			}
 		}
 		//make enemy crabs on the platforms
 		//random for crabs
@@ -296,10 +323,37 @@ public class Model {
 		platforms.clear();
 		for(int i = 0; i < 5; i++)
 		{
-			int xLoc = (int) ThreadLocalRandom.current().nextInt((int) screenWidth/8, (int) screenWidth - 200);
+			if (i == 0) {
+				p1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 400),
+						(int) ThreadLocalRandom.current().nextInt(765, 900), 350, 50);
+				platforms.add(p1);
+			}
+			else if (i == 1) {
+				p2 = new Platform((int)(p1.getX() + ThreadLocalRandom.current().nextInt(350, 500)),
+						(int)(p1.getY() + ThreadLocalRandom.current().nextInt(0, 300) - ThreadLocalRandom.current().nextInt(0, 300)), 350, 50);
+				platforms.add(p2);
+			}
+			else if (i == 2) {
+				p3 = new Platform((int)(p2.getX() + ThreadLocalRandom.current().nextInt(350, 500)),
+						(int)(p2.getY() + ThreadLocalRandom.current().nextInt(0, 300) - ThreadLocalRandom.current().nextInt(0, 300)), 350, 50);
+				platforms.add(p3);
+			}
+			else if (i == 3) {
+				p4 = new Platform((int)(p3.getX() + ThreadLocalRandom.current().nextInt(350, 500)),
+						(int)(p3.getY() + ThreadLocalRandom.current().nextInt(0, 300) - ThreadLocalRandom.current().nextInt(0, 300)), 350, 50);
+				platforms.add(p4);
+			}
+			else if (i == 4) {
+				p5 = new Platform((int)(p4.getX() + ThreadLocalRandom.current().nextInt(350, 500)),
+						(int)(p4.getCenterY() + ThreadLocalRandom.current().nextInt(0, 300) - ThreadLocalRandom.current().nextInt(0, 300)), 350, 50);
+				platforms.add(p5);
+			}
+			
+			/*int xLoc = (int) ThreadLocalRandom.current().nextInt((int) screenWidth/8, (int) screenWidth - 200);
 			int yLoc = (int) ThreadLocalRandom.current().nextInt((int) screenHeight/10, (int) screenHeight - 400);
 			platform1 = new Platform(xLoc, yLoc, 350, 50);
 			platforms.add(platform1);
+			*/
 		}
 			
 		enemies.clear();
