@@ -76,6 +76,7 @@ public class View extends JPanel {
 	ArrayList<Heart> hearts = new ArrayList<Heart>(3);
 	int numHearts = 3;
 	boolean changeCharacterMode = false;
+	boolean gameOverMode = false;
 	Image ChangeCharacterResearcher;
 	Image ChangeCharacterBird;
 	final private int ChangeCharacterMenuHeight = 500;
@@ -138,7 +139,7 @@ public class View extends JPanel {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		if(!changeCharacterMode) {
+		if(!changeCharacterMode && !gameOverMode) {
 			if (playerCharacter == "researcher") {
 				g.drawImage(researcherImage.show(direct), playerX, playerY, researcherImage.getWidth(), researcherImage.getHeight(), this);
 			} else if (playerCharacter == "bird") {
@@ -170,7 +171,7 @@ public class View extends JPanel {
 				g.setColor(Color.red);
 				g.fillOval(h.getX(), h.getY(), h.getImgWeight(), h.getImgHeight());
 			}
-		}else {
+		}else if(changeCharacterMode && !gameOverMode) {
 			try {                
 		          ChangeCharacterResearcher = ImageIO.read(new File("images/Change Character Menu/Change_Researcher.png"));
 		          ChangeCharacterBird = ImageIO.read(new File("images/Change Character Menu/Change_Bird.png"));
@@ -184,6 +185,9 @@ public class View extends JPanel {
 			}else {
 				g.drawImage(ChangeCharacterBird, (int)screenWidth/2 - ChangeCharacterMenuWidth/2, (int)screenHeight/2 -ChangeCharacterMenuHeight/2, ChangeCharacterMenuWidth, ChangeCharacterMenuHeight, this);
 			}
+		}else if(gameOverMode) {
+			//g.drawImage(researcherImage.show(direct), 500, 500, 700, 700, this);
+			g.drawString("Game Over", 500, 500);
 		}
 
 		/*for(int i = 0; i < numHearts; i++)
@@ -243,6 +247,14 @@ public class View extends JPanel {
 	 */
 	public void changeCharacterMode() {
 		changeCharacterMode = !changeCharacterMode;
+	}
+	
+	/**
+	 * This method puts game view into game over mode
+	 * 
+	 */
+	public void gameOverMode() {
+		gameOverMode = true;
 	}
 	
 	
