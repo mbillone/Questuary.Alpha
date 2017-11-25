@@ -31,7 +31,7 @@ public class CrabImage extends ImageObject {
 		
 		//load in the image
 		for (int i = 0; i < frameCount; i++) {
-			BufferedImage image = createImage("images/greenCrab/crabwalk(" + i + ")" + ".png");
+			BufferedImage image = createImage("images/greenCrab/Crabwalk(" + i + ")" + ".png");
 			pics[i] = image;
 		}
 		

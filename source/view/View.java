@@ -19,11 +19,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import view.dynamic.ResearcherImage;
+import view.fixed.ChestImage;
 import view.fixed.CollectibleImage;
 import view.dynamic.BirdImage;
 import view.dynamic.*;
 
 import model.dynamic.*;
+import model.fixed.Chest;
 import model.fixed.Collectible;
 import model.fixed.Platform;
 
@@ -80,8 +82,12 @@ public class View extends JPanel {
 	// list of hearts
 	ArrayList<HeartImage> hearts = new ArrayList<HeartImage>(3);
 	int numHearts = 3;
-	// list of collectibles
+	// list of collectibles & chests
 	ArrayList<Collectible> collectibles;
+	ArrayList<Collectible> collected;
+	ArrayList<Chest> chests;
+	// chest open/closed
+	boolean chestStatus;
 	// game modes
 	boolean changeCharacterMode = false;
 	boolean gameOverMode = false;
@@ -108,6 +114,7 @@ public class View extends JPanel {
 		characterImages.put("greenCrab", new CrabImage());
 		characterImages.put("osprey", new OspreyImage());
 		characterImages.put("collectible", new CollectibleImage());
+		characterImages.put("chest", new ChestImage());
 
 		// set up background and add view object to the frame
 		try {
@@ -134,7 +141,7 @@ public class View extends JPanel {
 
 		// make three hearts
 		for (int i = 0; i < 3; i++) {
-			hearts.add(new HeartImage(i * 50, 0));
+			hearts.add(new HeartImage((int) (screenWidth - ((i+1) * 50)), 0));
 		}
 
 	}
@@ -185,16 +192,38 @@ public class View extends JPanel {
 				g.setColor(Color.red);
 				g.fillOval(h.getX(), h.getY(), h.getImgWeight(), h.getImgHeight());
 			}
-			
+
 			// paint collectibles
 			for (Collectible collectible : collectibles) {
 				g.setColor(Color.BLUE);
-				g.fillRect((int) collectible.getX(), (int) collectible.getY(), (int) collectible.getWidth(), (int) collectible.getHeight());
+				g.fillRect((int) collectible.getX(), (int) collectible.getY(), (int) collectible.getWidth(),
+						(int) collectible.getHeight());
 				ImageObject image = characterImages.get(collectible.getName());
-				g.drawImage(image.show(0), (int) collectible.getX(), (int) collectible.getY(),(int) collectible.getWidth(),
-						(int) collectible.getHeight(), this);
+				g.drawImage(image.show(0), (int) collectible.getX(), (int) collectible.getY(),
+						(int) collectible.getWidth(), (int) collectible.getHeight(), this);
+			
 			}
 			
+			//paint collected
+			for (Collectible collectible : collected) {
+				g.setColor(Color.BLUE);
+				g.fillRect((int) collectible.getX(), (int) collectible.getY(), (int) collectible.getWidth(),
+						(int) collectible.getHeight());
+				ImageObject image = characterImages.get(collectible.getName());
+				g.drawImage(image.show(0), (int) collectible.getX(), (int) collectible.getY(),
+						(int) collectible.getWidth(), (int) collectible.getHeight(), this);
+			}
+
+			// paint chests
+			for (Chest chest : chests) {
+				g.setColor(Color.GREEN);
+				g.fillRect((int) chest.getX(), (int) chest.getY(), (int) chest.getWidth(),
+						(int) chest.getHeight());
+				ImageObject image = characterImages.get(chest.getName());
+				g.drawImage(image.show(0), (int) chest.getX(), (int) chest.getY(),
+						(int) chest.getWidth(), (int) chest.getHeight(), this);
+				chestStatus = chest.getIsOpen();
+			}
 
 			// if game is in change character mode
 		} else if (changeCharacterMode && !gameOverMode) {
@@ -211,23 +240,22 @@ public class View extends JPanel {
 				g.drawImage(ChangeCharacterResearcher, (int) screenWidth / 2 - ChangeCharacterMenuWidth / 2,
 						(int) screenHeight / 2 - ChangeCharacterMenuHeight / 2, ChangeCharacterMenuWidth,
 						ChangeCharacterMenuHeight, this);
-			// if bird is selected
+				// if bird is selected
 			} else {
 				g.drawImage(ChangeCharacterBird, (int) screenWidth / 2 - ChangeCharacterMenuWidth / 2,
 						(int) screenHeight / 2 - ChangeCharacterMenuHeight / 2, ChangeCharacterMenuWidth,
 						ChangeCharacterMenuHeight, this);
 			}
-		// if game is done
+			// if game is done
 		} else if (gameOverMode) {
 			// g.drawImage(researcherImage.show(direct), 500, 500, 700, 700, this);
 			g.drawString("Game Over", 500, 500);
 		}
 
-		
-		/*// old paint hearts function
-		 * for(int i = 0; i < numHearts; i++) { Heart h = hearts.get(i);
-		 * g.setColor(Color.red); g.fillOval(h.getX(), h.getY(), h.getImgWeight(),
-		 * h.getImgHeight());
+		/*
+		 * // old paint hearts function for(int i = 0; i < numHearts; i++) { Heart h =
+		 * hearts.get(i); g.setColor(Color.red); g.fillOval(h.getX(), h.getY(),
+		 * h.getImgWeight(), h.getImgHeight());
 		 * 
 		 * }
 		 */
@@ -275,6 +303,8 @@ public class View extends JPanel {
 		ospreyImage.nextImage(true);
 		ImageObject collectibleImage = characterImages.get("collectible");
 		collectibleImage.nextImage(true);
+		ImageObject chestImage = characterImages.get("chest");
+		chestImage.nextImage(chestStatus);
 		frame.repaint();
 	}
 
@@ -380,8 +410,16 @@ public class View extends JPanel {
 	public void setEnemies(ArrayList<Enemy> e) {
 		enemies = e;
 	}
-	
+
 	public void setCollectibles(ArrayList<Collectible> collect) {
 		collectibles = collect;
+	}
+	
+	public void setCollected(ArrayList<Collectible> collect) {
+		collected = collect;
+	}
+	
+	public void setChests(ArrayList<Chest> chest) {
+		chests = chest;
 	}
 }

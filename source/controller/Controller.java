@@ -53,7 +53,13 @@ public class Controller {
 
 		// give view list of collectibles
 		view.setCollectibles(model.getCollectibles());
+		
+		// give view list of collected
+		view.setCollected(model.getCollected());
 
+		// give view list of chests
+		view.setChests(model.getChests());
+		
 		// set the frame to add on key event listeners
 		frame = view.getFrame();
 

@@ -10,6 +10,7 @@ import model.dynamic.Player;
 import model.dynamic.Enemy;
 import model.dynamic.EnemyCrab;
 import model.dynamic.EnemyOsprey;
+import model.fixed.Chest;
 import model.fixed.Collectible;
 import model.fixed.Platform;
 
@@ -59,7 +60,10 @@ public class Model {
 
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>(3);
+	private ArrayList<Collectible> collected = new ArrayList<Collectible>();
+	private ArrayList<Chest> chests = new ArrayList<Chest>(1);
 	private int numCollected = 0;
+	private boolean chestCreated = false;
 
 	// *************************************************
 	// Constructor
@@ -117,8 +121,9 @@ public class Model {
 
 		// generate a collectible
 		Random random = new Random(System.currentTimeMillis());
-		int randomPlat = random.nextInt(5);
+		int randomPlat = random.nextInt(3);
 		collectibles.add(new Collectible(platforms.get(randomPlat)));
+		//chests.add(new Chest(platforms.get(randomPlat)));
 		System.out.println("First Collectible Created");
 		
 	}
@@ -211,6 +216,7 @@ public class Model {
 		checkCollisionPlatform();
 		checkCollisionEnemy();
 		checkCollisionCollectible();
+		checkCollisionChest();
 	}
 
 	public void checkCollisionPlatform() {
@@ -285,14 +291,29 @@ public class Model {
 	}
 
 	private void checkCollisionCollectible() {
-		for (Iterator<Collectible> collectIter = collectibles.iterator(); collectIter.hasNext();) {
+		for (Iterator<Collectible> collectIter = collectibles.iterator(); collectIter.hasNext(); ) {
 			Collectible c = collectIter.next();
 			if (player.intersects(c)) {
-				numCollected += numCollected;
-				player.incrementScore();
-				System.out.println("Score: " + player.getScore());
-				// TODO: display collectible fact
+				numCollected++;
+				collected.add(new Collectible(numCollected));
+				player.incrementScore(5);
+				System.out.println("Score: " + player.getScore()); 
+				// TODO: display collectible fact	
 				collectIter.remove();
+			}
+		}
+	}
+	
+	private void checkCollisionChest() {
+		for (Iterator<Chest> chestIter = chests.iterator(); chestIter.hasNext(); ) {
+			Chest c = chestIter.next();
+			if (player.intersects(c)) {
+				for(int i = 0; i < 5; i++) {
+					player.incrementScore(10);
+				}
+				c.setIsOpen(true);
+				System.out.println("Score: " + player.getScore());
+				// TODO: pause and display question/power-ups
 			}
 		}
 	}
@@ -316,6 +337,9 @@ public class Model {
 	 */
 	public void createNewPlatform() {
 		platforms.clear();
+		enemies.clear();
+		collectibles.clear();
+		chests.clear();
 		
 		for (int i = 0; i < 5; i++) {
 			if (i == 0) {
@@ -344,34 +368,33 @@ public class Model {
 						350, 50);
 				platforms.add(p5);
 			}
-
-			/*
-			 * int xLoc = (int) ThreadLocalRandom.current().nextInt((int) screenWidth/8,
-			 * (int) screenWidth - 200); int yLoc = (int)
-			 * ThreadLocalRandom.current().nextInt((int) screenHeight/10, (int) screenHeight
-			 * - 400); platform1 = new Platform(xLoc, yLoc, 350, 50);
-			 * platforms.add(platform1);
-			 */
+			
 		}
 
 		// random crab & collectible generators
 		Random random = new Random(System.currentTimeMillis());
+		if ((numCollected % 3 == 0) && (numCollected > 0)) {
+			int randomPlat = random.nextInt(4);
+			chests.add(new Chest(platforms.get(randomPlat)));
+			//chests.add(new Chest(platforms.get(randomPlat)));
+			System.out.println("New Chest Created");
+			chestCreated = true;
+		
+		}
+		
 		for (Platform platform : platforms) {
 			int randomNum = random.nextInt(4);
 			if (randomNum == 0) {
 				enemies.add(new EnemyCrab(platform));
-			} 
-			
-			if (randomNum == 1) {
-				if (numCollected < 3) {
-					collectibles.add(new Collectible(platform));
-					System.out.println("New Collectible Created");
-				} else {
-					numCollected = 0;
-					// TODO: call generate chest function
-				}
+			} else if (randomNum == 1) {
+				collectibles.add(new Collectible(platform));
+				System.out.println("New Collectible Created");
+			} else if (chestCreated) {
+				collectibles.add(new Collectible(platform));
+				chestCreated = false;
 			}
 		}
+		
 		enemies.add(new EnemyOsprey((int) screenWidth, (int) screenHeight));
 	}
 
@@ -621,6 +644,14 @@ public class Model {
 	public ArrayList<Collectible> getCollectibles() {
 		return collectibles;
 	}
+	
+	public ArrayList<Collectible> getCollected() {
+		return collected;
+	}
+	
+	public ArrayList<Chest> getChests() {
+		return chests;
+	}
 
 	// *************************************************
 	// Setters
@@ -678,7 +709,7 @@ public class Model {
 	 * And sets isGameOver accordingly
 	 */
 	public void checkIsGameOver() {
-		if (player.getHealth() == 0) {
+		if (player.getHealth() <= 0) {
 			setIsGameOver(true);
 		} else {
 			setIsGameOver(false);
