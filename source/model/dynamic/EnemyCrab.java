@@ -45,7 +45,7 @@ public class EnemyCrab extends Enemy {
 	//Methods
 	@Override
 	public void move() {
-		System.out.println("Crab move called");
+		System.out.println("Executed: Crab move()");
 		System.out.println("Boundary: " + bound1 + "-" + bound2);
 		System.out.println("Crab Coordinate: (" + super.getX() + "," + super.getY() + ")");
 		//increment or decrement depending on the facing direction and boundaries

@@ -24,7 +24,7 @@ public class EnemyOsprey extends Enemy {
 	
 	@Override
 	public void move() {
-		System.out.println("Osprey move called");
+		System.out.println("Executed: Osprey move()");
 		System.out.println("Boundary: " + bound1 + "-" + bound2);
 		System.out.println("Osprey Coordinate: (" + super.getX() + "," + super.getY() + ")");
 		if((super.getX() + super.getDx()) > getBound1())
