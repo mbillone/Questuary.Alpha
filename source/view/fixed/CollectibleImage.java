@@ -40,7 +40,7 @@ public class CollectibleImage extends ImageObject {
 		super.setName("collectible");
 
 		// load in the image
-		BufferedImage image = createImage("images/estuary/coin.png");
+		BufferedImage image = createImage("images/estuary/Coin.png");
 		for (int i = 0; i < frameCount; i++) {			
 			pics[i] = image.getSubimage(xLoc, yLoc, width, height);
 			xLoc = xLoc + 36;
