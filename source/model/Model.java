@@ -672,8 +672,8 @@ public class Model {
 	
 	/**
 	 * Checks the player's health 
+	 * 
 	 * And sets isGameOver accordingly
-	 * @see Player#setJumping()
 	 */
 	public void checkIsGameOver() {
 		if(player.getHealth() == 0) {
