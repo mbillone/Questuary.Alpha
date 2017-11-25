@@ -45,12 +45,15 @@ public class Controller {
 
 		view.setPlatformImage(model.getPlatforms());
 		// update the view of the player's location
-		view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
-				model.getPlayerCharacter(), model.getPlayerHealth());
+		view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(), model.getPlayerCharacter(),
+				model.getPlayerHealth());
 
-		//give view list of enemies
+		// give view list of enemies
 		view.setEnemies(model.getEnemies());
-		
+
+		// give view list of collectibles
+		view.setCollectibles(model.getCollectibles());
+
 		// set the frame to add on key event listeners
 		frame = view.getFrame();
 
@@ -93,19 +96,17 @@ public class Controller {
 			model.gravity();
 			// increment the player's x and y
 			model.movePlayer();
-			//move the enemies
+			// move the enemies
 			model.moveEnemies();
 			model.checkIsGameOver();
 			view.setPicNum();
 			// update the view and draw the image
 			view.setPlatformImage(model.getPlatforms());
 			view.setEnemies(model.getEnemies());
-			if(model.getPlayerDy() != 0)
-			{
+			view.setCollectibles(model.getCollectibles());
+			if (model.getPlayerDy() != 0) {
 				view.setAnimation(true);
-			}
-			else
-			{
+			} else {
 				view.setAnimation(false);
 			}
 			view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
@@ -133,11 +134,11 @@ public class Controller {
 			if (!keys.contains(e.getKeyCode())) {
 				keys.add(e.getKeyCode());
 			}
-			if(model.getIsGameOver()) {
+			if (model.getIsGameOver()) {
 				// controls for game over state
 				view.gameOverMode();
 			}
-			
+
 			// if only 1 key is pressed
 			if (keys.size() == 1) {
 				// checks if game is not in Change player mode
@@ -175,20 +176,20 @@ public class Controller {
 						System.exit(0);
 						break;
 					}
-				} else if(model.getChangeCharacterMode() && !model.getIsGameOver()) {
+				} else if (model.getChangeCharacterMode() && !model.getIsGameOver()) {
 					// game is in change player mode
 					switch (keys.get(0)) {
 					case (KeyEvent.VK_RIGHT):
 						// increment the player selector loop
 						model.incrementChangeCharacterCount();
-					view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
-							model.getPlayerCharacter(), model.getPlayerHealth());
+						view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
+								model.getPlayerCharacter(), model.getPlayerHealth());
 						break;
 					case (KeyEvent.VK_LEFT):
 						// increment the player selector loop
 						model.decrementChangeCharacterCount();
-					view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
-							model.getPlayerCharacter(), model.getPlayerHealth());
+						view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
+								model.getPlayerCharacter(), model.getPlayerHealth());
 						break;
 					case (KeyEvent.VK_ESCAPE):
 					case (KeyEvent.VK_Q):
@@ -196,8 +197,8 @@ public class Controller {
 						System.exit(0);
 						break;
 					}
-				
-				}else if(model.getIsGameOver()) {
+
+				} else if (model.getIsGameOver()) {
 					// controls for game over state
 					view.gameOverMode();
 				}
@@ -224,10 +225,10 @@ public class Controller {
 					System.out.println("Executed: makePlayerJump()");
 				}
 
-			}else if(model.getIsGameOver()) {
+			} else if (model.getIsGameOver()) {
 				view.gameOverMode();
 				if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
-					//something is selected from game over screen
+					// something is selected from game over screen
 				}
 			}
 

@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 
 import view.ImageObject;
 
-public class CrabImage extends ImageObject{
+public class CrabImage extends ImageObject {
 
 	// get screen's dimensions
 	private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();

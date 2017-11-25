@@ -3,8 +3,10 @@ package model.dynamic;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.awt.geom.Line2D.Double;
+import java.util.ArrayList;
 
 import model.DynamicObject;
+import model.fixed.Collectible;
 import model.fixed.Platform;
 
 /**
@@ -16,7 +18,7 @@ public class Player extends DynamicObject {
 	// *************************************************
 	// Fields
 
-	//health of the player
+	// health of the player
 	private int health = 3;
 	// The state of the player
 	private String state = "researcher";
@@ -35,14 +37,15 @@ public class Player extends DynamicObject {
 	private Rectangle rightSide;
 	private Rectangle topSide;
 	private Rectangle bottomSide;
-	
+
 	// set player to default falling and cannot jump
 	private boolean falling = true;
 	private boolean jumping = false;
 
 	private int changeCharacterCount = 0;
 	private int numOfCharacter = 2;
-	
+
+	// fields for score
 	private int score = 0;
 
 	// *************************************************
@@ -67,12 +70,13 @@ public class Player extends DynamicObject {
 		// initialize player's dx and dy to 0
 		super.setDx(0);
 		super.setDy(0);
-		
-		//set the sides
+
+		// set the sides
 		leftSide = new Rectangle(x, y, widthOfBumpers, height);
 		rightSide = new Rectangle((x + (width - widthOfBumpers)), y, widthOfBumpers, height);
-		topSide = new Rectangle((x + widthOfBumpers), y, (width - 2*widthOfBumpers), widthOfBumpers);
-		bottomSide = new Rectangle((x + widthOfBumpers), (y + (height - widthOfBumpers)), (width - 2*widthOfBumpers), widthOfBumpers);
+		topSide = new Rectangle((x + widthOfBumpers), y, (width - 2 * widthOfBumpers), widthOfBumpers);
+		bottomSide = new Rectangle((x + widthOfBumpers), (y + (height - widthOfBumpers)), (width - 2 * widthOfBumpers),
+				widthOfBumpers);
 	}
 
 	// *************************************************
@@ -84,7 +88,7 @@ public class Player extends DynamicObject {
 
 		if (falling && !jumping) {
 			playerFalling();
-			
+
 		}
 		// if player is not touching the ground but is jumping then allow player to jump
 		else if (falling && jumping) {
@@ -97,7 +101,7 @@ public class Player extends DynamicObject {
 				// if max height reached then player stops jumping/ascending
 				jumping = false;
 			}
-			
+
 		}
 		// if player is touching the ground but is not jumping then allow player to jump
 		else if (!falling && jumping) {
@@ -107,12 +111,12 @@ public class Player extends DynamicObject {
 			} else {
 				jumping = false;
 			}
-			
+
 		}
 		// if player is on a surface then set dy to 0
 		else {
 			super.setDy(0);
-			
+
 		}
 	}
 
@@ -136,12 +140,10 @@ public class Player extends DynamicObject {
 
 	// collision between player and platforms
 	public void playerPlatCollision(Platform plat) {
-		
-		
+
 		if (this.intersects(plat.getLeft()) && this.getDirection() == 1) {
 			this.setDx(0);
-		} 
-		else if (this.intersects(plat.getRight()) && this.getDirection() == 0) {
+		} else if (this.intersects(plat.getRight()) && this.getDirection() == 0) {
 			this.setDx(0);
 		}
 		/*
@@ -150,20 +152,20 @@ public class Player extends DynamicObject {
 		 * this.getDirection() == 0) { this.setDx(-20); }
 		 */
 	}
-	
+
 	public void move() {
-		int x = (int)super.getX() + super.getDx();
-		int y = (int)super.getY() + super.getDy();
+		int x = (int) super.getX() + super.getDx();
+		int y = (int) super.getY() + super.getDy();
 		super.setLocation(x, y);
-		
+
 		leftSide.setLocation(x, y);
 		rightSide.setLocation((x + (width - widthOfBumpers)), y);
 		topSide.setLocation((x + widthOfBumpers), y);
 		bottomSide.setLocation((x + widthOfBumpers), (y + (height - widthOfBumpers)));
 	}
-	
+
 	public void incrementScore() {
-		score += score;
+		score++;
 	}
 
 	// *************************************************
@@ -186,30 +188,37 @@ public class Player extends DynamicObject {
 	public String getPlayerCharacter(int changeCharacterCount) {
 		// TODO Auto-generated method stub
 		if (changeCharacterCount % numOfCharacter == 0) {
-			maxJumpingHeight = height/2;
+			maxJumpingHeight = height / 2;
 			state = "researcher";
 			return "researcher";
 		} else {
-			maxJumpingHeight = height*2;
+			maxJumpingHeight = height * 2;
 			state = "bird";
 			return "bird";
 		}
 	}
-	
-	//getter for health
+
+	// getter for health
 	public int getHealth() {
 		return health;
 	}
-	
+
+	public int getScore() {
+		return score;
+	}
+
 	public Rectangle getLeftSide() {
 		return leftSide;
 	}
+
 	public Rectangle getRightSide() {
 		return rightSide;
 	}
+
 	public Rectangle getTopSide() {
 		return topSide;
 	}
+
 	public Rectangle getBottomSide() {
 		return bottomSide;
 	}
@@ -217,6 +226,7 @@ public class Player extends DynamicObject {
 	public boolean isAbleToAttack() {
 		return (falling && !jumping);
 	}
+
 	// *************************************************
 	// Setters
 
@@ -243,6 +253,7 @@ public class Player extends DynamicObject {
 		jumping = b;
 		prevY = super.getY();
 	}
+
 	// setter for falling
 	public void setFalling(boolean b) {
 		falling = b;
@@ -253,8 +264,9 @@ public class Player extends DynamicObject {
 		maxJumpingHeight = j;
 	}
 
-	//setter for health
+	// setter for health
 	public void setHealth(int i) {
 		health = i;
 	}
+
 }
