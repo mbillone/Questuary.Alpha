@@ -648,12 +648,8 @@ public class Model {
 	 * Sets the isGameOver variable
 	 * 
 	 */
-	public void setIsGameOver() {
-		if(player.getHealth() == 0) {
-			isGameOver = true;
-		}else {
-			isGameOver = false;
-		}
+	public void setIsGameOver(boolean value) {
+		isGameOver = value;
 	}
 
 	/**
@@ -672,6 +668,19 @@ public class Model {
 	 */
 	public void makePlayerJump() {
 		player.setJumping(true);
+	}
+	
+	/**
+	 * Checks the player's health 
+	 * And sets isGameOver accordingly
+	 * @see Player#setJumping()
+	 */
+	public void checkIsGameOver() {
+		if(player.getHealth() == 0) {
+			setIsGameOver(true);
+		}else {
+			setIsGameOver(false);
+		}
 	}
 
 	/**
