@@ -95,6 +95,7 @@ public class Controller {
 			model.movePlayer();
 			//move the enemies
 			model.moveEnemies();
+			model.checkIsGameOver();
 			view.setPicNum();
 			// update the view and draw the image
 			view.setPlatformImage(model.getPlatforms());
