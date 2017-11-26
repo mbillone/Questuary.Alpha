@@ -15,6 +15,16 @@ import model.fixed.Collectible;
 import model.fixed.Platform;
 
 import java.awt.Toolkit;
+<<<<<<< HEAD
+=======
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+>>>>>>> 1690632bb2622d8be770d0cde039b46d5fa12052
 
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
@@ -64,6 +74,8 @@ public class Model {
 	private ArrayList<Chest> chests = new ArrayList<Chest>(1);
 	private int numCollected = 0;
 	private boolean chestCreated = false;
+	private String highScore = "";
+	private String name = "";
 
 	// *************************************************
 	// Constructor
@@ -143,7 +155,7 @@ public class Model {
 	}
 
 	public void moveEnemies() {
-		if (!getIsGamePaused()) {
+		if (!getIsGamePaused() && !getIsGameOver()) {
 			Iterator<Enemy> enemyIter = enemies.iterator();
 			while (enemyIter.hasNext()) {
 				Enemy enemy = enemyIter.next();
@@ -368,7 +380,14 @@ public class Model {
 						350, 50);
 				platforms.add(p5);
 			}
-			
+
+			/*
+			 * int xLoc = (int) ThreadLocalRandom.current().nextInt((int) screenWidth/8,
+			 * (int) screenWidth - 200); int yLoc = (int)
+			 * ThreadLocalRandom.current().nextInt((int) screenHeight/10, (int) screenHeight
+			 * - 400); platform1 = new Platform(xLoc, yLoc, 350, 50);
+			 * platforms.add(platform1);
+			 */
 		}
 
 		// random crab & collectible generators
@@ -376,10 +395,8 @@ public class Model {
 		if ((numCollected % 3 == 0) && (numCollected > 0)) {
 			int randomPlat = random.nextInt(4);
 			chests.add(new Chest(platforms.get(randomPlat)));
-			//chests.add(new Chest(platforms.get(randomPlat)));
 			System.out.println("New Chest Created");
 			chestCreated = true;
-		
 		}
 		
 		for (Platform platform : platforms) {
@@ -397,6 +414,7 @@ public class Model {
 		
 		enemies.add(new EnemyOsprey((int) screenWidth, (int) screenHeight));
 	}
+	
 
 	/**
 	 * Model's main function for demonstrating game functionality
@@ -651,6 +669,40 @@ public class Model {
 	
 	public ArrayList<Chest> getChests() {
 		return chests;
+	
+	/**
+	 * Getter for the High Score
+	 * 
+	 * @return boolean - The value for whether or not the player is currently
+	 *         falling
+	 * @see Player#getFalling()
+	 */
+	public String getHighScore() {
+	
+		FileReader readFile = null;
+		BufferedReader reader = null;
+		
+		try {
+			readFile = new FileReader("highscore.dat");
+			reader = new BufferedReader(readFile);
+			//return reader.readLine();
+			return reader.readLine();
+			
+		} catch (FileNotFoundException e) {
+			return "Nobody: 0";
+			//e.printStackTrace();
+		} catch (IOException e) {
+			return "Nobody: 0";
+		}
+		finally {
+			try {
+				if(reader != null) {
+					reader.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	// *************************************************
@@ -683,6 +735,12 @@ public class Model {
 	 */
 	public void setIsGameOver(boolean value) {
 		isGameOver = value;
+		if (isGameOver) {
+			//getHighScore();
+			if(highScore == "") {
+				highScore = this.getHighScore();
+			}
+		}
 	}
 
 	/**
@@ -730,6 +788,14 @@ public class Model {
 	 */
 	public void decrementChangeCharacterCount() {
 		changeCharacterCount--;
+	}
+
+	/**
+	 * Sets the name of the user
+	 */
+	public void setName(String name) {
+		this.name = name;
+		
 	}
 
 }

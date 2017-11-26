@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -17,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import view.dynamic.ResearcherImage;
 import view.fixed.ChestImage;
@@ -224,7 +226,6 @@ public class View extends JPanel {
 						(int) chest.getWidth(), (int) chest.getHeight(), this);
 				chestStatus = chest.getIsOpen();
 			}
-
 			// if game is in change character mode
 		} else if (changeCharacterMode && !gameOverMode) {
 			try {
@@ -240,22 +241,23 @@ public class View extends JPanel {
 				g.drawImage(ChangeCharacterResearcher, (int) screenWidth / 2 - ChangeCharacterMenuWidth / 2,
 						(int) screenHeight / 2 - ChangeCharacterMenuHeight / 2, ChangeCharacterMenuWidth,
 						ChangeCharacterMenuHeight, this);
-				// if bird is selected
+			// if bird is selected
 			} else {
 				g.drawImage(ChangeCharacterBird, (int) screenWidth / 2 - ChangeCharacterMenuWidth / 2,
 						(int) screenHeight / 2 - ChangeCharacterMenuHeight / 2, ChangeCharacterMenuWidth,
 						ChangeCharacterMenuHeight, this);
 			}
-			// if game is done
+		// if game is done
 		} else if (gameOverMode) {
 			// g.drawImage(researcherImage.show(direct), 500, 500, 700, 700, this);
+			g.setFont(new Font("TimesRoman", Font.PLAIN,100));
 			g.drawString("Game Over", 500, 500);
 		}
-
-		/*
-		 * // old paint hearts function for(int i = 0; i < numHearts; i++) { Heart h =
-		 * hearts.get(i); g.setColor(Color.red); g.fillOval(h.getX(), h.getY(),
-		 * h.getImgWeight(), h.getImgHeight());
+		
+		/*// old paint hearts function
+		 * for(int i = 0; i < numHearts; i++) { Heart h = hearts.get(i);
+		 * g.setColor(Color.red); g.fillOval(h.getX(), h.getY(), h.getImgWeight(),
+		 * h.getImgHeight());
 		 * 
 		 * }
 		 */
@@ -334,6 +336,14 @@ public class View extends JPanel {
 	 */
 	public JFrame getFrame() {
 		return frame;
+	}
+	/**
+	 * Getter for the users name
+	 * 
+	 * @return String - name of the user
+	 */
+	public String  getName() {
+		return JOptionPane.showInputDialog("You set a new highscore. What is your name?");
 	}
 
 	/**

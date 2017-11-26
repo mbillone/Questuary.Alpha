@@ -60,6 +60,7 @@ public class Controller {
 		// give view list of chests
 		view.setChests(model.getChests());
 		
+
 		// set the frame to add on key event listeners
 		frame = view.getFrame();
 
@@ -117,6 +118,16 @@ public class Controller {
 			}
 			view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
 					model.getPlayerCharacter(), model.getPlayerHealth());
+			if (model.getIsGameOver()) {
+				// controls for game over state
+				if(model.isNewHighScore()) {
+					String name = view.getName();
+					model.setName(name);
+					model.updateHighScore();
+				}
+				
+				view.gameOverMode();
+			}
 		}
 
 	}
@@ -207,6 +218,7 @@ public class Controller {
 				} else if (model.getIsGameOver()) {
 					// controls for game over state
 					view.gameOverMode();
+					
 				}
 
 			} // if more then 1 key is pressed
@@ -233,6 +245,8 @@ public class Controller {
 
 			} else if (model.getIsGameOver()) {
 				view.gameOverMode();
+				
+				//view.gameOverMode();
 				if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
 					// something is selected from game over screen
 				}
