@@ -111,7 +111,7 @@ public class Controller {
 			view.setPlatformImage(model.getPlatforms());
 			view.setEnemies(model.getEnemies());
 			view.setCollectibles(model.getCollectibles());
-			if (model.getPlayerDy() != 0) {
+			if (model.getPlayerDx() != 0 || model.getPlayerDy() != 0) {
 				view.setAnimation(true);
 			} else {
 				view.setAnimation(false);
@@ -125,7 +125,6 @@ public class Controller {
 					model.setName(name);
 					model.updateHighScore();
 				}
-				
 				view.gameOverMode();
 			}
 		}

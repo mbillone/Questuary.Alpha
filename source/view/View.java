@@ -226,7 +226,8 @@ public class View extends JPanel {
 						(int) chest.getWidth(), (int) chest.getHeight(), this);
 				chestStatus = chest.getIsOpen();
 			}
-			// if game is in change character mode
+			
+		// if game is in change character mode
 		} else if (changeCharacterMode && !gameOverMode) {
 			try {
 				ChangeCharacterResearcher = ImageIO
@@ -247,6 +248,7 @@ public class View extends JPanel {
 						(int) screenHeight / 2 - ChangeCharacterMenuHeight / 2, ChangeCharacterMenuWidth,
 						ChangeCharacterMenuHeight, this);
 			}
+			
 		// if game is done
 		} else if (gameOverMode) {
 			// g.drawImage(researcherImage.show(direct), 500, 500, 700, 700, this);
@@ -262,23 +264,6 @@ public class View extends JPanel {
 		 * }
 		 */
 	}
-
-	// I don't think this is needed
-	/*
-	 * public void paint2(Graphics g) {
-	 * 
-	 * g.setColor(Color.blue);
-	 * 
-	 * if (playerCharacter == "researcher") {
-	 * g.drawImage(researcherImage.show(direct), playerX, playerY,
-	 * researcherImage.getWidth(), researcherImage.getHeight(), this); } else if
-	 * (playerCharacter == "bird") { g.drawImage(birdImage.show(direct), playerX,
-	 * playerY, birdImage.getWidth(), birdImage.getHeight(), this); }
-	 * 
-	 * 
-	 * 
-	 * }
-	 */
 
 	/**
 	 * This method updates the View's player's coordinates, direction, and player's
