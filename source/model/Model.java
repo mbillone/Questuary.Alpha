@@ -15,8 +15,6 @@ import model.fixed.Collectible;
 import model.fixed.Platform;
 
 import java.awt.Toolkit;
-<<<<<<< HEAD
-=======
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -24,7 +22,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
->>>>>>> 1690632bb2622d8be770d0cde039b46d5fa12052
 
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
@@ -72,7 +69,7 @@ public class Model {
 	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>(3);
 	private ArrayList<Collectible> collected = new ArrayList<Collectible>();
 	private ArrayList<Chest> chests = new ArrayList<Chest>(1);
-	private int numCollected = 0;
+	private int numCollected = -1;
 	private boolean chestCreated = false;
 	private String highScore = "";
 	private String name = "";
@@ -135,9 +132,9 @@ public class Model {
 		Random random = new Random(System.currentTimeMillis());
 		int randomPlat = random.nextInt(3);
 		collectibles.add(new Collectible(platforms.get(randomPlat)));
-		//chests.add(new Chest(platforms.get(randomPlat)));
+		// chests.add(new Chest(platforms.get(randomPlat)));
 		System.out.println("First Collectible Created");
-		
+
 	}
 
 	// *************************************************
@@ -303,24 +300,24 @@ public class Model {
 	}
 
 	private void checkCollisionCollectible() {
-		for (Iterator<Collectible> collectIter = collectibles.iterator(); collectIter.hasNext(); ) {
+		for (Iterator<Collectible> collectIter = collectibles.iterator(); collectIter.hasNext();) {
 			Collectible c = collectIter.next();
 			if (player.intersects(c)) {
 				numCollected++;
 				collected.add(new Collectible(numCollected));
 				player.incrementScore(5);
-				System.out.println("Score: " + player.getScore()); 
-				// TODO: display collectible fact	
+				System.out.println("Score: " + player.getScore());
+				// TODO: display collectible fact
 				collectIter.remove();
 			}
 		}
 	}
-	
+
 	private void checkCollisionChest() {
-		for (Iterator<Chest> chestIter = chests.iterator(); chestIter.hasNext(); ) {
+		for (Iterator<Chest> chestIter = chests.iterator(); chestIter.hasNext();) {
 			Chest c = chestIter.next();
 			if (player.intersects(c)) {
-				for(int i = 0; i < 5; i++) {
+				for (int i = 0; i < 5; i++) {
 					player.incrementScore(10);
 				}
 				c.setIsOpen(true);
@@ -352,7 +349,7 @@ public class Model {
 		enemies.clear();
 		collectibles.clear();
 		chests.clear();
-		
+
 		for (int i = 0; i < 5; i++) {
 			if (i == 0) {
 				p1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 400),
@@ -398,7 +395,7 @@ public class Model {
 			System.out.println("New Chest Created");
 			chestCreated = true;
 		}
-		
+
 		for (Platform platform : platforms) {
 			int randomNum = random.nextInt(4);
 			if (randomNum == 0) {
@@ -411,10 +408,57 @@ public class Model {
 				chestCreated = false;
 			}
 		}
-		
+
 		enemies.add(new EnemyOsprey((int) screenWidth, (int) screenHeight));
 	}
-	
+
+	/**
+	 * Checks if current score is a new highscore
+	 * 
+	 * @return boolean - returns if there is a new highScore or not
+	 * 
+	 */
+
+	public boolean isNewHighScore() {
+		if (player.getScore() > Integer.parseInt(highScore.split(": ")[1])) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/*
+	 * Updates the highScore if the current score is a new highScore
+	 * 
+	 */
+	public void updateHighScore() {
+		highScore = name + ": " + player.getScore();
+		File scoreFile = new File("highscore.dat");
+		if (!scoreFile.exists()) {
+			try {
+				scoreFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		FileWriter writeFile = null;
+		BufferedWriter writer = null;
+		try {
+			writeFile = new FileWriter(scoreFile);
+			writer = new BufferedWriter(writeFile);
+			writer.write(this.highScore);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (writer != null) {
+					writer.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	/**
 	 * Model's main function for demonstrating game functionality
@@ -662,14 +706,15 @@ public class Model {
 	public ArrayList<Collectible> getCollectibles() {
 		return collectibles;
 	}
-	
+
 	public ArrayList<Collectible> getCollected() {
 		return collected;
 	}
-	
+
 	public ArrayList<Chest> getChests() {
 		return chests;
-	
+	}
+
 	/**
 	 * Getter for the High Score
 	 * 
@@ -678,25 +723,24 @@ public class Model {
 	 * @see Player#getFalling()
 	 */
 	public String getHighScore() {
-	
+
 		FileReader readFile = null;
 		BufferedReader reader = null;
-		
+
 		try {
 			readFile = new FileReader("highscore.dat");
 			reader = new BufferedReader(readFile);
-			//return reader.readLine();
+			// return reader.readLine();
 			return reader.readLine();
-			
+
 		} catch (FileNotFoundException e) {
 			return "Nobody: 0";
-			//e.printStackTrace();
+			// e.printStackTrace();
 		} catch (IOException e) {
 			return "Nobody: 0";
-		}
-		finally {
+		} finally {
 			try {
-				if(reader != null) {
+				if (reader != null) {
 					reader.close();
 				}
 			} catch (IOException e) {
@@ -736,8 +780,8 @@ public class Model {
 	public void setIsGameOver(boolean value) {
 		isGameOver = value;
 		if (isGameOver) {
-			//getHighScore();
-			if(highScore == "") {
+			// getHighScore();
+			if (highScore == "") {
 				highScore = this.getHighScore();
 			}
 		}
@@ -795,7 +839,7 @@ public class Model {
 	 */
 	public void setName(String name) {
 		this.name = name;
-		
+
 	}
 
 }

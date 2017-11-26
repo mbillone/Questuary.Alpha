@@ -42,15 +42,15 @@ public class Collectible extends StaticObject {
 		super.setSize((int) width, (int) height);
 		
 		// x and y coordinates for the collected
-		if (numCollected < 4) {
-			xLoc = (int) (-width + (width * numCollected));;
+		if (numCollected < 3) {
+			xLoc = (int) (width * numCollected);
 			yLoc = 0;		
-		} else if (numCollected % 4 == 0) {
+		} else if (numCollected % 3 == 0) {
 			heightIter++;
 			xLoc = 0;
 			yLoc = (int) (height * heightIter); 
 		} else {
-			xLoc = (int) (width * (numCollected%4));
+			xLoc = (int) (width * (numCollected % 3));
 			yLoc = (int) (height * heightIter); 
 		}
 		super.setLocation(xLoc, yLoc);
