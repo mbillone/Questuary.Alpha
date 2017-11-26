@@ -163,8 +163,8 @@ public class Player extends DynamicObject {
 		topSide.setLocation((x + widthOfBumpers), y);
 		bottomSide.setLocation((x + widthOfBumpers), (y + (height - widthOfBumpers)));
 	}
-
-	public void incrementScore(int i) {
+	
+	public void incrementScoreBy(int i) {
 		score += i;
 	}
 

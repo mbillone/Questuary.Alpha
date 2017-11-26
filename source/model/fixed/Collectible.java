@@ -13,7 +13,7 @@ public class Collectible extends StaticObject {
 
 	String fact;
 	// values for the collected collectibles display location
-	private static int heightIter = 0;
+	private static int heightIter;
 	private static int xLoc;
 	private static int yLoc;
 
@@ -40,18 +40,18 @@ public class Collectible extends StaticObject {
 		double width = 0.05 * super.getScreenWidth();
 		double height = width * super.getScreenRatio();
 		super.setSize((int) width, (int) height);
-		
+
 		// x and y coordinates for the collected
 		if (numCollected < 3) {
 			xLoc = (int) (width * numCollected);
-			yLoc = 0;		
+			yLoc = 0;
 		} else if (numCollected % 3 == 0) {
 			heightIter++;
 			xLoc = 0;
-			yLoc = (int) (height * heightIter); 
+			yLoc = (int) (height * heightIter);
 		} else {
 			xLoc = (int) (width * (numCollected % 3));
-			yLoc = (int) (height * heightIter); 
+			yLoc = (int) (height * heightIter);
 		}
 		super.setLocation(xLoc, yLoc);
 
@@ -67,6 +67,13 @@ public class Collectible extends StaticObject {
 
 	String getFact() {
 		return fact;
+	}
+
+	// *************************************************
+	// Setters
+
+	public static void setHeightIter(int i) {
+		heightIter = i;
 	}
 
 }

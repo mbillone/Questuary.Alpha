@@ -155,16 +155,10 @@ public class Controller {
 				keys.add(e.getKeyCode());
 			}
 			if (model.getIsGameOver()) {
-				// controls for game over state
-				//view.setHighScore(model.getHighScore());
-				//view.setScore(model.getScore());
-				//view.gameOverMode();
 				if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
 					// something is selected from game over screen
-					//System.e
 					frame.dispose();
-					String args[] = {};
-					main(args);
+					Controller newGame = new Controller();
 				}
 			}
 
@@ -232,14 +226,11 @@ public class Controller {
 					}
 
 				} else if (model.getIsGameOver()) {
-					// controls for game over state
-					//view.gameOverMode();
-					
+					// controls for game over state					
 				}
 
 			} // if more then 1 key is pressed
 			else if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
-				// System.exit(0);
 				// changes game mode to switching player
 				view.changeCharacterMode();
 				model.setChangePlayerMode();

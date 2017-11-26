@@ -69,8 +69,9 @@ public class Model {
 	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>(3);
 	private ArrayList<Collectible> collected = new ArrayList<Collectible>();
 	private ArrayList<Chest> chests = new ArrayList<Chest>(1);
-	private int numCollected = -1;
+	private int numCollected = 0;
 	private boolean chestCreated = false;
+	// for high score functionality
 	private String highScore = "";
 	private String name = "";
 
@@ -128,11 +129,13 @@ public class Model {
 			}
 		}
 
-		// generate a collectible
+		// generate first collectible
 		Random random = new Random(System.currentTimeMillis());
 		int randomPlat = random.nextInt(3);
-		collectibles.add(new Collectible(platforms.get(randomPlat)));
-		// chests.add(new Chest(platforms.get(randomPlat)));
+
+		Collectible firstCollectible = new Collectible(platforms.get(randomPlat));
+		Collectible.setHeightIter(0);
+		collectibles.add(firstCollectible);
 		System.out.println("First Collectible Created");
 
 	}
@@ -303,11 +306,15 @@ public class Model {
 		for (Iterator<Collectible> collectIter = collectibles.iterator(); collectIter.hasNext();) {
 			Collectible c = collectIter.next();
 			if (player.intersects(c)) {
-				numCollected++;
-				collected.add(new Collectible(numCollected));
-				player.incrementScore(5);
-				System.out.println("Score: " + player.getScore());
 				// TODO: display collectible fact
+				// add collectible to collected
+				collected.add(new Collectible(numCollected));
+				// increment number collected and score
+				numCollected++;
+				player.incrementScoreBy(5);
+				// print score
+				System.out.println("Score: " + player.getScore());
+				// remove collectible from screen
 				collectIter.remove();
 			}
 		}
@@ -318,7 +325,7 @@ public class Model {
 			Chest c = chestIter.next();
 			if (player.intersects(c)) {
 				for (int i = 0; i < 5; i++) {
-					player.incrementScore(10);
+					player.incrementScoreBy(10);
 				}
 				c.setIsOpen(true);
 				System.out.println("Score: " + player.getScore());
@@ -378,13 +385,6 @@ public class Model {
 				platforms.add(p5);
 			}
 
-			/*
-			 * int xLoc = (int) ThreadLocalRandom.current().nextInt((int) screenWidth/8,
-			 * (int) screenWidth - 200); int yLoc = (int)
-			 * ThreadLocalRandom.current().nextInt((int) screenHeight/10, (int) screenHeight
-			 * - 400); platform1 = new Platform(xLoc, yLoc, 350, 50);
-			 * platforms.add(platform1);
-			 */
 		}
 
 		// random crab & collectible generators
@@ -400,16 +400,22 @@ public class Model {
 			int randomNum = random.nextInt(4);
 			if (randomNum == 0) {
 				enemies.add(new EnemyCrab(platform));
+				System.out.println("New Enemy Crab Created");
 			} else if (randomNum == 1) {
-				collectibles.add(new Collectible(platform));
+				Collectible newCollectible = new Collectible(platform);
+
+				collectibles.add(newCollectible);
 				System.out.println("New Collectible Created");
 			} else if (chestCreated) {
+				// force new collectible creation so that chests don't keep getting created
 				collectibles.add(new Collectible(platform));
+				System.out.println("New Collectible Created");
 				chestCreated = false;
 			}
 		}
 
 		enemies.add(new EnemyOsprey((int) screenWidth, (int) screenHeight));
+		System.out.println("New Enemy Osprey Created");
 	}
 
 	/**
@@ -718,8 +724,7 @@ public class Model {
 	/**
 	 * Getter for the High Score
 	 * 
-	 * @return String - high score data 
-	 * 	from highscore file
+	 * @return String - high score data from highscore file
 	 */
 	public String getHighScore() {
 
@@ -747,12 +752,11 @@ public class Model {
 			}
 		}
 	}
-	
+
 	/**
 	 * Getter for the High Score
 	 * 
-	 * @return String - Current player 
-	 * 	score converted to a string 
+	 * @return String - Current player score converted to a string
 	 */
 	public String getScore() {
 
@@ -849,7 +853,6 @@ public class Model {
 	 */
 	public void setName(String name) {
 		this.name = name;
-
 	}
 
 }

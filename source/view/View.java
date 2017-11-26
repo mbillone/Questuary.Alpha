@@ -238,8 +238,8 @@ public class View extends JPanel {
 		} else if (changeCharacterMode && !gameOverMode) {
 			try {
 				ChangeCharacterResearcher = ImageIO
-						.read(new File("images/Change Character Menu/Change_Researcher.png"));
-				ChangeCharacterBird = ImageIO.read(new File("images/Change Character Menu/Change_Bird.png"));
+						.read(new File("images/changeCharacter/Change_Researcher.png"));
+				ChangeCharacterBird = ImageIO.read(new File("images/changeCharacter/Change_Bird.png"));
 			} catch (IOException e) {
 				System.out.println("Error with file upload");
 				e.printStackTrace();
@@ -263,7 +263,7 @@ public class View extends JPanel {
 			//g.drawString("Game Over", 500, 500);
 			try {
 				GameOverScreen = ImageIO
-						.read(new File("images/Game Over/GameOver.png"));
+						.read(new File("images/gameOver/Game_Over.png"));
 			} catch (IOException e) {
 				System.out.println("Error with file upload");
 				e.printStackTrace();
