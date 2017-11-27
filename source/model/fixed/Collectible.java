@@ -20,6 +20,7 @@ public class Collectible extends StaticObject {
 	// *************************************************
 	// Constructor
 
+	// for regular display
 	public Collectible(Platform platform) {
 
 		super.setName("collectible");
@@ -33,6 +34,7 @@ public class Collectible extends StaticObject {
 				(int) (platform.getY() - this.getHeight()));
 	}
 
+	// for collected display
 	public Collectible(int numCollected) {
 		super.setName("collectible");
 

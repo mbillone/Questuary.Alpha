@@ -42,7 +42,6 @@ public class Player extends DynamicObject {
 	private boolean falling = true;
 	private boolean jumping = false;
 
-	private int changeCharacterCount = 0;
 	private int numOfCharacter = 2;
 
 	// fields for score
@@ -146,11 +145,6 @@ public class Player extends DynamicObject {
 		} else if (this.intersects(plat.getRight()) && this.getDirection() == 0) {
 			this.setDx(0);
 		}
-		/*
-		 * else if(!this.intersects(plat.getLeft()) && this.getDirection() == 1) {
-		 * this.setDx(20); } else if (!this.intersects(plat.getRight()) &&
-		 * this.getDirection() == 0) { this.setDx(-20); }
-		 */
 	}
 
 	public void move() {
@@ -186,7 +180,6 @@ public class Player extends DynamicObject {
 	}
 
 	public String getPlayerCharacter(int changeCharacterCount) {
-		// TODO Auto-generated method stub
 		if (changeCharacterCount % numOfCharacter == 0) {
 			maxJumpingHeight = height / 2;
 			state = "researcher";

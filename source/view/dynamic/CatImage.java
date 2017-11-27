@@ -37,6 +37,9 @@ public class CatImage extends ImageObject {
 
 	private BufferedImage[][] pics = new BufferedImage[2][frameCount];
 
+	// *************************************************
+	// Constructor
+	
 	public CatImage() {
 		super.setName("cat");
 		// load in the images

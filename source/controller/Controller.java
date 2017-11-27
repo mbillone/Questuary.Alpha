@@ -43,10 +43,9 @@ public class Controller {
 		// get the ground from model
 		view.setGroundImage(model.getGround());
 
-		view.setPlatformImage(model.getPlatforms());
+		view.setPlatforms(model.getPlatforms());
 		// update the view of the player's location
-		view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(), model.getPlayerCharacter(),
-				model.getPlayerHealth());
+		view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(), model.getPlayerCharacter(), model.getPlayerHealth());
 
 		// give view list of enemies
 		view.setEnemies(model.getEnemies());
@@ -59,7 +58,6 @@ public class Controller {
 
 		// give view list of chests
 		view.setChests(model.getChests());
-		
 
 		// set the frame to add on key event listeners
 		frame = view.getFrame();
@@ -108,7 +106,7 @@ public class Controller {
 			model.checkIsGameOver();
 			view.setPicNum();
 			// update the view and draw the image
-			view.setPlatformImage(model.getPlatforms());
+			view.setPlatforms(model.getPlatforms());
 			view.setEnemies(model.getEnemies());
 			view.setCollectibles(model.getCollectibles());
 			if (model.getPlayerDx() != 0 || model.getPlayerDy() != 0) {

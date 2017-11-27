@@ -12,6 +12,7 @@ import model.dynamic.EnemyCrab;
 import model.dynamic.EnemyOsprey;
 import model.fixed.Chest;
 import model.fixed.Collectible;
+import model.fixed.Ground;
 import model.fixed.Platform;
 
 import java.awt.Toolkit;
@@ -32,6 +33,9 @@ public class Model {
 	// *************************************************
 	// Fields
 
+	// player objects
+	private Player player;
+
 	final private int startingXOffSet = 192;
 	// get the screen's dimensions
 	final private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -40,23 +44,28 @@ public class Model {
 	// boundaries
 	private int xBoundary;
 	private int yBoundary;
-	// needed fields
-	private Platform ground;
+	// platform fields
+	private Ground ground;
 	private Platform platform1;
 	private Platform p1;
 	private Platform p2;
 	private Platform p3;
 	private Platform p4;
 	private Platform p5;
-
-	// arraylist containing the platform objects
-	private ArrayList<Platform> platforms = new ArrayList<Platform>();
-
+	// offset for ground
 	int groundOffSet = 100;
-	private Player player;
+	// array list containing the platform objects
+	private ArrayList<Platform> platforms = new ArrayList<Platform>();
+	// fields for all other world objects
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>(3);
+	private ArrayList<Collectible> collected = new ArrayList<Collectible>();
+	private ArrayList<Chest> chests = new ArrayList<Chest>(1);
+	private int numCollected = 0;
+	private boolean chestCreated = false;
 	// fixed gravity constant
 	private int gravity = 10;
-	// fields for changing the character
+	// fields for game modes
 	private boolean changeCharacterMode = false;
 	private boolean isGamePaused = false;
 	private boolean isGameOver = false;
@@ -64,13 +73,6 @@ public class Model {
 	// starting positions
 	private int startingY;
 	private int startingX;
-
-	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>(3);
-	private ArrayList<Collectible> collected = new ArrayList<Collectible>();
-	private ArrayList<Chest> chests = new ArrayList<Chest>(1);
-	private int numCollected = 0;
-	private boolean chestCreated = false;
 	// for high score functionality
 	private String highScore = "";
 	private String name = "";
@@ -95,7 +97,8 @@ public class Model {
 		// create Player object
 		player = new Player(startingX, startingY, ((int) (playerWidth * .75)), playerHeight, gravity);
 		// create Ground object
-		ground = new Platform(-500, (int) (screenHeight - groundOffSet), (int) (screenWidth * 2), groundOffSet);
+		ground = new Ground(-500, (int) (screenHeight - groundOffSet), (int) (screenWidth * 2), groundOffSet);
+		// create first platform object
 		platform1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 1000),
 				(int) ThreadLocalRandom.current().nextInt(765, 900), 350, 50);
 
@@ -231,9 +234,8 @@ public class Model {
 		checkCollisionChest();
 	}
 
-	public void checkCollisionPlatform() {
+	private void checkCollisionPlatform() {
 		boolean isBottomCollide = false;
-		platforms.add(ground);
 		for (Platform platform : platforms) {
 			if ((player.getBottomSide()).intersects(platform)) {
 				player.setFalling(false);
@@ -246,15 +248,20 @@ public class Model {
 				player.setDx(0);
 			}
 		}
+		
+		if ((player.getBottomSide()).intersects(ground)) {
+			player.setFalling(false);
+			isBottomCollide = true;
+		}
 
 		if (!isBottomCollide) {
 			player.setFalling(true);
 		}
-		platforms.remove(ground);
+		
 	}
 
 	// if player collided with the enemy
-	public void checkCollisionEnemy() {
+	private void checkCollisionEnemy() {
 		for (Enemy enemy : enemies) {
 			if (enemy.isKillable()) {
 				if ((player.getBottomSide()).intersects(enemy) && player.isAbleToAttack()) {
@@ -348,10 +355,10 @@ public class Model {
 	}
 
 	/**
-	 * Randomly generate a platform
+	 * Randomly generate new room
 	 *
 	 */
-	public void createNewPlatform() {
+	private void createNewPlatform() {
 		platforms.clear();
 		enemies.clear();
 		collectibles.clear();
@@ -583,7 +590,7 @@ public class Model {
 		return player.getDy();
 	}
 
-	public Rectangle getGround() {
+	public Ground getGround() {
 		return ground;
 	}
 
@@ -596,11 +603,6 @@ public class Model {
 		return platform1;
 	}
 
-	// return the list of platforms
-	public ArrayList<Platform> getPlatforms() {
-		return platforms;
-	}
-
 	/**
 	 * Returns a platform's platform object for the game
 	 *
@@ -608,6 +610,11 @@ public class Model {
 	 */
 	public Platform getPlat() {
 		return platform1;
+	}
+
+	// return the list of platforms
+	public ArrayList<Platform> getPlatforms() {
+		return platforms;
 	}
 
 	/**
@@ -759,7 +766,6 @@ public class Model {
 	 * @return String - Current player score converted to a string
 	 */
 	public String getScore() {
-
 		return Integer.toString(player.getScore());
 	}
 
@@ -794,7 +800,6 @@ public class Model {
 	public void setIsGameOver(boolean value) {
 		isGameOver = value;
 		if (isGameOver) {
-			// getHighScore();
 			if (highScore == "") {
 				highScore = this.getHighScore();
 			}

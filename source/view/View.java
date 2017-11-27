@@ -15,20 +15,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import view.dynamic.ResearcherImage;
 import view.fixed.ChestImage;
 import view.fixed.CollectibleImage;
+import view.fixed.GroundImage;
+import view.fixed.HeartImage;
+import view.fixed.PlatformImage;
 import view.dynamic.BirdImage;
 import view.dynamic.*;
-
 import model.dynamic.*;
 import model.fixed.Chest;
 import model.fixed.Collectible;
+import model.fixed.Ground;
 import model.fixed.Platform;
 
 /**
@@ -75,15 +76,15 @@ public class View extends JPanel {
 	int direct = 1;
 	String playerCharacter = "researcher";
 	// ground
-	Rectangle ground;
+	Ground ground;
 	Rectangle platform1;
+	// for hearts display
+	int health;
+	ArrayList<HeartImage> hearts = new ArrayList<HeartImage>(3);
 	// list of platforms
 	ArrayList<Platform> platforms = new ArrayList<Platform>();
 	// list of enemies
 	ArrayList<Enemy> enemies;
-	// list of hearts
-	ArrayList<HeartImage> hearts = new ArrayList<HeartImage>(3);
-	int numHearts = 3;
 	// list of collectibles & chests
 	ArrayList<Collectible> collectibles;
 	ArrayList<Collectible> collected;
@@ -99,8 +100,8 @@ public class View extends JPanel {
 	Image GameOverScreen;
 	final private int ChangeCharacterMenuHeight = 500;
 	final private int ChangeCharacterMenuWidth = 700;
-	final private int GameOverScreenHeight = (int)screenHeight - 100;
-	final private int GameOverScreenWidth = (int) screenWidth- 100;
+	final private int GameOverScreenHeight = (int) screenHeight - 100;
+	final private int GameOverScreenWidth = (int) screenWidth - 100;
 	final private int GameOverScreenXPos = 50;
 	final private int GameOverScreenYPos = 25;
 	public String highScore = "";
@@ -118,6 +119,8 @@ public class View extends JPanel {
 	 */
 	public View() {
 		// grab all images
+		characterImages.put("platform", new PlatformImage());
+		characterImages.put("ground", new GroundImage());
 		characterImages.put("researcher", researcherImage);
 		characterImages.put("bird", birdImage);
 		characterImages.put("greenCrab", new CrabImage());
@@ -127,7 +130,7 @@ public class View extends JPanel {
 
 		// set up background and add view object to the frame
 		try {
-			File file = new File("images/estuary/Background.jpg");
+			File file = new File("images/world/Background.jpg");
 			BufferedImage img = ImageIO.read(file);
 			BackgroundPanel background = new BackgroundPanel(img, BackgroundPanel.SCALED, 0.50f, 0.5f);
 			frame.setContentPane(background);
@@ -147,12 +150,7 @@ public class View extends JPanel {
 		frame.setLocationRelativeTo(null);
 		// make frame visible
 		frame.setVisible(true);
-
-		// make three hearts
-		for (int i = 0; i < 3; i++) {
-			hearts.add(new HeartImage((int) (screenWidth - ((i+1) * 50)), 0));
-		}
-
+		
 	}
 
 	// *************************************************
@@ -166,6 +164,7 @@ public class View extends JPanel {
 	 */
 	@Override
 	public void paint(Graphics g) {
+		
 		// paint character image
 		if (!changeCharacterMode && !gameOverMode) {
 			if (playerCharacter == "researcher") {
@@ -178,28 +177,43 @@ public class View extends JPanel {
 			// paint ground
 			g.setColor(Color.gray);
 			g.fillRect((int) ground.getX(), (int) ground.getY(), (int) ground.getWidth(), (int) ground.getHeight());
+			ImageObject groundImg = characterImages.get(ground.getName());
+			g.drawImage(groundImg.show(0), (int) ground.getX(), (int) ground.getY(), (int) ground.getWidth(),
+					(int) ground.getHeight(), this);
 
 			// paint platform images
 			for (Platform platform : platforms) {
 				g.fillRect((int) platform.getX(), (int) platform.getY(), (int) platform.getWidth(),
 						(int) platform.getHeight());
+				ImageObject platformImg = characterImages.get(platform.getName());
+				g.drawImage(platformImg.show(0), (int) platform.getX(), (int) platform.getY(),
+						(int) platform.getWidth(), (int) platform.getHeight(), this);
+
 			}
 
 			// paint enemies
 			for (Enemy enemy : enemies) {
-				g.setColor(Color.red);
+				g.setColor(Color.RED);
 				g.fillRect((int) enemy.getX(), (int) enemy.getY(), (int) enemy.getWidth(), (int) enemy.getHeight());
-				ImageObject image = characterImages.get(enemy.getName());
+				ImageObject enemyImg = characterImages.get(enemy.getName());
 				int direct = enemy.getDirection();
-				g.drawImage(image.show(direct), (int) enemy.getX(), (int) enemy.getY(), (int) enemy.getWidth(),
+				g.drawImage(enemyImg.show(direct), (int) enemy.getX(), (int) enemy.getY(), (int) enemy.getWidth(),
 						(int) enemy.getHeight(), this);
 			}
-
+			
+			// generate hearts location
+			hearts.clear();
+			for (int i = 0; i < health; i++) {
+				hearts.add(new HeartImage((int) (screenWidth - ((i+1) * 50)), 0));
+			}
+			
 			// paint hearts
-			for (int i = 0; i < numHearts; i++) {
-				HeartImage h = hearts.get(i);
-				g.setColor(Color.red);
-				g.fillOval(h.getX(), h.getY(), h.getImgWeight(), h.getImgHeight());
+			for (HeartImage heart : hearts) {
+				g.setColor(Color.CYAN);
+				g.fillOval((int) heart.getX(),(int) heart.getY(),(int) heart.getWidth(),(int) heart.getHeight());
+				ImageObject heartImg = new HeartImage(heart.getX(), heart.getY());
+				g.drawImage(heartImg.show(0),(int) heart.getX(), (int) heart.getY(), (int) heart.getWidth(),
+						(int) heart.getHeight(), this);
 			}
 
 			// paint collectibles
@@ -207,38 +221,36 @@ public class View extends JPanel {
 				g.setColor(Color.BLUE);
 				g.fillRect((int) collectible.getX(), (int) collectible.getY(), (int) collectible.getWidth(),
 						(int) collectible.getHeight());
-				ImageObject image = characterImages.get(collectible.getName());
-				g.drawImage(image.show(0), (int) collectible.getX(), (int) collectible.getY(),
+				ImageObject collectibleImg = characterImages.get(collectible.getName());
+				g.drawImage(collectibleImg.show(0), (int) collectible.getX(), (int) collectible.getY(),
 						(int) collectible.getWidth(), (int) collectible.getHeight(), this);
-			
+
 			}
-			
-			//paint collected
+
+			// paint collected
 			for (Collectible collectible : collected) {
 				g.setColor(Color.BLUE);
 				g.fillRect((int) collectible.getX(), (int) collectible.getY(), (int) collectible.getWidth(),
 						(int) collectible.getHeight());
-				ImageObject image = characterImages.get(collectible.getName());
-				g.drawImage(image.show(0), (int) collectible.getX(), (int) collectible.getY(),
+				ImageObject collectedImg = characterImages.get(collectible.getName());
+				g.drawImage(collectedImg.show(0), (int) collectible.getX(), (int) collectible.getY(),
 						(int) collectible.getWidth(), (int) collectible.getHeight(), this);
 			}
 
 			// paint chests
 			for (Chest chest : chests) {
 				g.setColor(Color.GREEN);
-				g.fillRect((int) chest.getX(), (int) chest.getY(), (int) chest.getWidth(),
-						(int) chest.getHeight());
-				ImageObject image = characterImages.get(chest.getName());
-				g.drawImage(image.show(0), (int) chest.getX(), (int) chest.getY(),
-						(int) chest.getWidth(), (int) chest.getHeight(), this);
+				g.fillRect((int) chest.getX(), (int) chest.getY(), (int) chest.getWidth(), (int) chest.getHeight());
+				ImageObject chestImg = characterImages.get(chest.getName());
+				g.drawImage(chestImg.show(0), (int) chest.getX(), (int) chest.getY(), (int) chest.getWidth(),
+						(int) chest.getHeight(), this);
 				chestStatus = chest.getIsOpen();
 			}
-			
-		// if game is in change character mode
+
+			// if game is in change character mode
 		} else if (changeCharacterMode && !gameOverMode) {
 			try {
-				ChangeCharacterResearcher = ImageIO
-						.read(new File("images/changeCharacter/Change_Researcher.png"));
+				ChangeCharacterResearcher = ImageIO.read(new File("images/changeCharacter/Change_Researcher.png"));
 				ChangeCharacterBird = ImageIO.read(new File("images/changeCharacter/Change_Bird.png"));
 			} catch (IOException e) {
 				System.out.println("Error with file upload");
@@ -249,41 +261,31 @@ public class View extends JPanel {
 				g.drawImage(ChangeCharacterResearcher, (int) screenWidth / 2 - ChangeCharacterMenuWidth / 2,
 						(int) screenHeight / 2 - ChangeCharacterMenuHeight / 2, ChangeCharacterMenuWidth,
 						ChangeCharacterMenuHeight, this);
-			// if bird is selected
+				// if bird is selected
 			} else {
 				g.drawImage(ChangeCharacterBird, (int) screenWidth / 2 - ChangeCharacterMenuWidth / 2,
 						(int) screenHeight / 2 - ChangeCharacterMenuHeight / 2, ChangeCharacterMenuWidth,
 						ChangeCharacterMenuHeight, this);
 			}
-			
-		// if game is done
+
+			// if game is done
 		} else if (gameOverMode) {
-			// g.drawImage(researcherImage.show(direct), 500, 500, 700, 700, this);
-			//g.setFont(new Font("TimesRoman", Font.PLAIN,100));
-			//g.drawString("Game Over", 500, 500);
 			try {
-				GameOverScreen = ImageIO
-						.read(new File("images/gameOver/Game_Over.png"));
+				GameOverScreen = ImageIO.read(new File("images/gameOver/Game_Over.png"));
 			} catch (IOException e) {
 				System.out.println("Error with file upload");
 				e.printStackTrace();
 			}
-			
-			g.drawImage(GameOverScreen, GameOverScreenXPos,GameOverScreenYPos, GameOverScreenWidth,GameOverScreenHeight, this);
-			
-			g.setFont(new Font("Comic Sans MS", Font.PLAIN,85));
+
+			g.drawImage(GameOverScreen, GameOverScreenXPos, GameOverScreenYPos, GameOverScreenWidth,
+					GameOverScreenHeight, this);
+
+			g.setFont(new Font("Comic Sans MS", Font.PLAIN, 85));
 			g.drawString(highScore, 625, 440);
 			g.drawString(score, 625, 310);
-			
+
 		}
-		
-		/*// old paint hearts function
-		 * for(int i = 0; i < numHearts; i++) { Heart h = hearts.get(i);
-		 * g.setColor(Color.red); g.fillOval(h.getX(), h.getY(), h.getImgWeight(),
-		 * h.getImgHeight());
-		 * 
-		 * }
-		 */
+
 	}
 
 	/**
@@ -304,7 +306,11 @@ public class View extends JPanel {
 		this.playerY = playerY;
 		this.direct = direct;
 		this.playerCharacter = playerCharacter;
-		numHearts = healthLeft;
+		health = healthLeft;
+		ImageObject platformImage = characterImages.get("platform");
+		platformImage.nextImage(true);
+		ImageObject groundImage = characterImages.get("ground");
+		groundImage.nextImage(true);
 		ImageObject greenCrabImage = characterImages.get("greenCrab");
 		greenCrabImage.nextImage(true);
 		ImageObject ospreyImage = characterImages.get("osprey");
@@ -343,12 +349,13 @@ public class View extends JPanel {
 	public JFrame getFrame() {
 		return frame;
 	}
+
 	/**
 	 * Getter for the users name
 	 * 
 	 * @return String - name of the user
 	 */
-	public String  getName() {
+	public String getName() {
 		return JOptionPane.showInputDialog("You set a new highscore. What is your name?");
 	}
 
@@ -372,7 +379,7 @@ public class View extends JPanel {
 
 	// *************************************************
 	// Setters
-	
+
 	/**
 	 * Sets the game High Score
 	 * 
@@ -382,7 +389,7 @@ public class View extends JPanel {
 	public void setHighScore(String highScore) {
 		this.highScore = highScore;
 	}
-	
+
 	/**
 	 * Sets the players current Score
 	 * 
@@ -391,31 +398,6 @@ public class View extends JPanel {
 	 */
 	public void setScore(String score) {
 		this.score = score;
-	}
-
-	/**
-	 * Sets the View.ground to the ground passed in, to be drawn in another method
-	 * 
-	 * @param ground
-	 *            - The ground the player will be standing on
-	 */
-	public void setGroundImage(Rectangle ground) {
-		this.ground = ground;
-	}
-
-	/**
-	 * Sets the View.platform1 to the playerform1 passed in, to be drawn by another
-	 * method
-	 * 
-	 * @param platform1
-	 *            - The platform the player will be interacting with
-	 */
-	/*
-	 * public void setPlatformImage(Rectangle platform1) { this.platform1 =
-	 * platform1; }
-	 */
-	public void setPlatformImage(ArrayList<Platform> platformList) {
-		this.platforms = platformList;
 	}
 
 	/**
@@ -443,6 +425,28 @@ public class View extends JPanel {
 		animate = b;
 	}
 
+	
+	/**
+	 * Sets the View.platform1 to the playerform1 passed in, to be drawn by another
+	 * method
+	 * 
+	 * @param platform1
+	 *            - The platform the player will be interacting with
+	 */
+	public void setPlatforms(ArrayList<Platform> platformList) {
+		platforms = platformList;
+	}
+
+	/**
+	 * Sets the View.ground to the ground passed in, to be drawn in another method
+	 * 
+	 * @param ground
+	 *            - The ground the player will be standing on
+	 */
+	public void setGroundImage(Ground ground) {
+		this.ground = ground;
+	}
+	
 	public void setEnemies(ArrayList<Enemy> e) {
 		enemies = e;
 	}
@@ -450,11 +454,11 @@ public class View extends JPanel {
 	public void setCollectibles(ArrayList<Collectible> collect) {
 		collectibles = collect;
 	}
-	
+
 	public void setCollected(ArrayList<Collectible> collect) {
 		collected = collect;
 	}
-	
+
 	public void setChests(ArrayList<Chest> chest) {
 		chests = chest;
 	}

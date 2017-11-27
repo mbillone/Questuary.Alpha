@@ -31,14 +31,12 @@ public class ChestImage extends ImageObject {
 	public ChestImage() {
 		int xLoc = 0;
 		int yLoc = 0;
-		int width = 32;
-		int height = 32;
 		super.setName("chest");
 
 		// load in the image
-		BufferedImage image = createImage("images/estuary/Chest.png");
+		BufferedImage image = createImage("images/world/Chest.png");
 		for (int i = 0; i < frameCount; i++) {
-			pics[i] = image.getSubimage(xLoc, yLoc, width, height);
+			pics[i] = image.getSubimage(xLoc, yLoc, imgWidth, imgHeight);
 			xLoc = xLoc + 32;
 		}
 

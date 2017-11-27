@@ -35,17 +35,14 @@ public class CollectibleImage extends ImageObject {
 	public CollectibleImage() {
 		int xLoc = 0;
 		int yLoc = 0;
-		int width = 36;
-		int height = 40;
 		super.setName("collectible");
 
 		// load in the image
-		BufferedImage image = createImage("images/estuary/Coin.png");
-		for (int i = 0; i < frameCount; i++) {			
-			pics[i] = image.getSubimage(xLoc, yLoc, width, height);
+		BufferedImage image = createImage("images/world/Coin.png");
+		for (int i = 0; i < frameCount; i++) {
+			pics[i] = image.getSubimage(xLoc, yLoc, imgWidth, imgHeight);
 			xLoc = xLoc + 36;
 		}
-	
 
 	}
 
@@ -80,7 +77,7 @@ public class CollectibleImage extends ImageObject {
 		}
 	}
 
-	// *************************************************
+	// ********************300*****************************
 	// Getters
 
 	// getter for the image dimensions

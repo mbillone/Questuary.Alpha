@@ -26,6 +26,8 @@ public class Platform extends StaticObject {
 	 *            - int for the height of the platform
 	 */
 	public Platform(int x, int y, int width, int height) {
+		super.setName("platform");
+		
 		super.setBounds(x, y, width, height);
 	}
 
