@@ -232,11 +232,17 @@ public class Controller {
 					}
 
 				} else if (model.getIsQuestionMode() && !model.getIsGameOver()) {
+					int counter = 0;       // counter to know which option was chosen
 					switch (keys.get(0)) {
 					case (KeyEvent.VK_DOWN):
+						counter++;
 						QuestionsFrame.down();
 					case (KeyEvent.VK_UP):
+						counter--;
 						QuestionsFrame.up();
+					case (KeyEvent.VK_RIGHT):
+						//TODO: implement answer result
+						model.getQuestion().checkAnswer(counter);
 					}
 				} else if (model.getIsGameOver()) {
 					// controls for game over state
