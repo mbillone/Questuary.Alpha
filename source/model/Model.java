@@ -83,6 +83,7 @@ public class Model {
 	// for high score functionality
 	private String highScore = "";
 	private String name = "";
+	private int gameTimeLeft;
 
 	// *************************************************
 	// Constructor
@@ -770,9 +771,27 @@ public class Model {
 			}
 		}
 	}
+	
+	/**
+	 * Getter for the Game Timer
+	 * 
+	 * @return int - Current game time left
+	 */
+	public int getGameTimeLeft() {
+		return gameTimeLeft;
+	}
 
 	// *************************************************
 	// Setters
+	
+	/**
+	 * Sets the game timer
+	 * @param currentGameTime 
+	 * 
+	 */
+	public void setGameTimeLeft(int currentGameTime) {
+		this.gameTimeLeft  = gameTimeLeft;
+	}
 
 	/**
 	 * Turns the player's Dx variable to 0
@@ -822,7 +841,7 @@ public class Model {
 	 * 
 	 */
 	public void setIsGamePaused() {
-		if (getChangeCharacterMode()) {
+		if (getChangeCharacterMode() || getIsQuestionMode()) {
 			isGamePaused = true;
 		} else {
 			isGamePaused = false;

@@ -21,8 +21,8 @@ public class Questions {
 	// Methods
 
 	public Question pickQuestion(int numCollectible) {
-		int questionIndex = numCollectible / 3;
-		return questions.get(questionIndex);
+		int questionIndex = numCollectible % 3;
+		return questions.get(0);
 	}
 
 }

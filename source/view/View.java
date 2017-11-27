@@ -107,6 +107,13 @@ public class View extends JPanel {
 	// high-score fields
 	public String highScore = "";
 	public String score = "";
+	// game time field
+	private int gameTimeLeft;
+	final private int GameTimeBarHeight = 35;
+	final private int GameTimeBarWidth = 600;
+	final private int GameTimeBarXPos = GameOverScreenWidth/2 - GameTimeBarWidth/2;
+	final private int GameTimeBarYPos = 5;
+	int dynamicTimeBar; 
 
 	// *************************************************
 	// Constructor
@@ -164,9 +171,13 @@ public class View extends JPanel {
 	 */
 	@Override
 	public void paint(Graphics g) {
-
+		dynamicTimeBar = 10*(gameTimeLeft/4);
 		// paint character image
 		if (!changeCharacterMode && !gameOverMode) {
+			g.setColor(Color.BLUE);
+			g.fillRect(GameTimeBarXPos,GameTimeBarYPos, GameTimeBarWidth, GameTimeBarHeight);
+			g.setColor(Color.RED);
+			g.fillRect(GameTimeBarXPos,GameTimeBarYPos, dynamicTimeBar, GameTimeBarHeight);
 			if (playerCharacter == "researcher") {
 				g.drawImage(researcherImage.show(direct), playerX, playerY, researcherImage.getWidth(),
 						researcherImage.getHeight(), this);
@@ -237,6 +248,7 @@ public class View extends JPanel {
 						(int) chest.getHeight(), this);
 				chestStatus = chest.getIsOpen();
 			}
+			
 
 			// if game is in change character mode
 		} else if (changeCharacterMode && !gameOverMode) {
@@ -368,6 +380,16 @@ public class View extends JPanel {
 	 */
 	public void setScore(String score) {
 		this.score = score;
+	}
+	
+	/**
+	 * Sets the current GameTime
+	 * 
+	 * @param score
+	 *            - Sets the score to String score
+	 */
+	public void setGameTime(int gameTimeLeft) {
+		this.gameTimeLeft = gameTimeLeft;
 	}
 
 	/**
