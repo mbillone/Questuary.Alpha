@@ -14,6 +14,8 @@ import model.fixed.Chest;
 import model.fixed.Collectible;
 import model.fixed.Ground;
 import model.fixed.Platform;
+import model.fixed.Question;
+import model.fixed.Questions;
 
 import java.awt.Toolkit;
 import java.io.BufferedReader;
@@ -69,6 +71,11 @@ public class Model {
 	private boolean changeCharacterMode = false;
 	private boolean isGamePaused = false;
 	private boolean isGameOver = false;
+	//question objects
+	private boolean isQuestionMode = false;
+	private Questions questions = new Questions();
+	private Question question;
+	
 	private int changeCharacterCount = 0;
 	// starting positions
 	private int startingY;
@@ -337,6 +344,9 @@ public class Model {
 				c.setIsOpen(true);
 				System.out.println("Score: " + player.getScore());
 				// TODO: pause and display question/power-ups
+				setIsQuestionMode(true);
+				// picks question based on number of collected collectibles(facts)
+				question = questions.pickQuestion(numCollected);   
 			}
 		}
 	}
@@ -642,9 +652,26 @@ public class Model {
 	 */
 	public boolean getIsGameOver() {
 		return isGameOver;
-
 	}
 
+	/**
+	 * Getter for question mode state
+	 * 
+	 * @return boolean - tells if game is in questionMode
+	 */
+	public boolean getIsQuestionMode() {
+		return isQuestionMode;
+	}
+	
+	/**
+	 * Getter for question that is chosen to be asked
+	 * 
+	 * @return Question- returns the question object
+	 */
+	public Question getQuestion() {
+		return question;
+	}
+	
 	/**
 	 * Getter for the number character that you are on
 	 * 
@@ -791,6 +818,14 @@ public class Model {
 		} else {
 			isGamePaused = false;
 		}
+	}
+	
+	/**
+	 * Sets the isGamePaused variable
+	 * 
+	 */
+	public void setIsQuestionMode(boolean value) {
+		isQuestionMode = value;
 	}
 
 	/**
