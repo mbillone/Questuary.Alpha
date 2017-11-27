@@ -86,6 +86,11 @@ public class Player extends DynamicObject {
 		if (falling && !jumping) {
 			playerFalling();
 		}
+		
+		else if(y<0) {
+			falling = true;
+			jumping = false;
+		}
 
 		// if player is not touching the ground but is jumping then allow player to jump
 		else if (falling && jumping) {
@@ -176,7 +181,7 @@ public class Player extends DynamicObject {
 			state = "researcher";
 			return "researcher";
 		} else {
-			maxJumpingHeight = height * 2;
+			maxJumpingHeight = (int)(height * 1.5);
 			state = "bird";
 			return "bird";
 		}
@@ -222,11 +227,21 @@ public class Player extends DynamicObject {
 
 	// setter for turning the dx between left, right, and 0
 	public void moveLeft() {
+		if(state.equalsIgnoreCase("bird")) {
+			super.setDx(-5);
+		}
+		else {
 		super.setDx(-20);
+		}
 	}
 
 	public void moveRight() {
+		if(state.equalsIgnoreCase("bird")) {
+			super.setDx(5);
+		}
+		else {
 		super.setDx(20);
+		}
 	}
 
 	public void setDxOff() {

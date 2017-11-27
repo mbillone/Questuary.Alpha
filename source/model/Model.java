@@ -107,34 +107,35 @@ public class Model {
 		// create Ground object
 		ground = new Ground(-500, (int) (screenHeight - groundOffSet), (int) (screenWidth * 2), groundOffSet);
 		// create first platform object
-		platform1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 1000),
+		/*platform1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 1000),
 				(int) ThreadLocalRandom.current().nextInt(765, 900), 350, 50);
+		*/
 
 		// make 5 platforms
 		for (int i = 0; i < 5; i++) {
 			if (i == 0) {
-				p1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 400),
-						(int) ThreadLocalRandom.current().nextInt(765, 900), 350, 50);
+				p1 = new Platform((int) ThreadLocalRandom.current().nextInt((int)(screenWidth/4), (int)(screenWidth/3)),
+						(int) ThreadLocalRandom.current().nextInt((int) (screenHeight/2), (int)(screenHeight/1.5)), 350, 50);
 				platforms.add(p1);
 			} else if (i == 1) {
-				p2 = new Platform((int) (p1.getX() + ThreadLocalRandom.current().nextInt(350, 500)), (int) (p1.getY()
-						+ ThreadLocalRandom.current().nextInt(0, 300) - ThreadLocalRandom.current().nextInt(0, 300)),
+				p2 = new Platform((int) (p1.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth/4))), (int) (p1.getY()
+						+ ThreadLocalRandom.current().nextInt(0,(int)(screenHeight/5)) - ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))),
 						350, 50);
 				platforms.add(p2);
 			} else if (i == 2) {
-				p3 = new Platform((int) (p2.getX() + ThreadLocalRandom.current().nextInt(350, 500)), (int) (p2.getY()
-						+ ThreadLocalRandom.current().nextInt(0, 300) - ThreadLocalRandom.current().nextInt(0, 300)),
+				p3 = new Platform((int) (p2.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth/4))), (int) (p2.getY()
+						+ ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5)) - ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))),
 						350, 50);
 				platforms.add(p3);
 			} else if (i == 3) {
-				p4 = new Platform((int) (p3.getX() + ThreadLocalRandom.current().nextInt(350, 500)), (int) (p3.getY()
-						+ ThreadLocalRandom.current().nextInt(0, 300) - ThreadLocalRandom.current().nextInt(0, 300)),
+				p4 = new Platform((int) (p3.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth/4))), (int) (p3.getY()
+						+ ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5)) - ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))),
 						350, 50);
 				platforms.add(p4);
 			} else if (i == 4) {
-				p5 = new Platform((int) (p4.getX() + ThreadLocalRandom.current().nextInt(350, 500)),
-						(int) (p4.getCenterY() + ThreadLocalRandom.current().nextInt(0, 300)
-								- ThreadLocalRandom.current().nextInt(0, 300)),
+				p5 = new Platform((int) (p4.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth/4))),
+						(int) (p4.getCenterY() + ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))
+								- ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))),
 						350, 50);
 				platforms.add(p5);
 			}

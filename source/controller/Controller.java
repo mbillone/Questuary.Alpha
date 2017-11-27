@@ -32,6 +32,9 @@ public class Controller {
 	ArrayList<Integer> keys = new ArrayList<Integer>();
 	//private Long startGameTime;
 	int gameTimeLeft = 240; // 5 minutes in milli seconds 
+	
+	//question state
+	private boolean questionModeFlag = true;
 
 	// *************************************************
 	// Constructor
@@ -139,7 +142,8 @@ public class Controller {
 			view.setEnemies(model.getEnemies());
 			view.setCollectibles(model.getCollectibles());
 
-			if (model.getIsQuestionMode() && !model.getIsGameOver()) {
+			if (questionModeFlag && model.getIsQuestionMode() && !model.getIsGameOver()) {
+				questionModeFlag = false;
 				new QuestionsFrame(model.getQuestion());
 			}
 
