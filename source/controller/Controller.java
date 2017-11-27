@@ -28,7 +28,10 @@ public class Controller {
 	View view;
 	JFrame frame;
 	Timer timer;
+	Timer gameTimer;
 	ArrayList<Integer> keys = new ArrayList<Integer>();
+	//private Long startGameTime;
+	int gameTimeLeft = 240; // 5 minutes in milli seconds 
 
 	// *************************************************
 	// Constructor
@@ -69,8 +72,24 @@ public class Controller {
 
 		timer = new Timer(45, new UpdateView());
 		timer.start();
+		gameTimer = new Timer(1000, new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				gameTimeLeft--;
+				if (gameTimeLeft == 0) {
+					gameTimer.stop();
+				}
+			}
+		});
+		gameTimer.start();
+		
+		
+		//gameTimer 
+		
+		//gameTimer = new Timer(1000, view.gameOverMode(););
+		//gameTimer.start();
 
 	}
+	
 
 	// *************************************************
 	// Methods
@@ -98,6 +117,13 @@ public class Controller {
 		 */
 		public void actionPerformed(ActionEvent arg0) {
 			// test the player on falling and jumping
+			if(model.getIsGamePaused()) {
+				gameTimer.stop();
+			}else {
+				gameTimer.start();
+			}
+			view.setGameTime(gameTimeLeft);
+			model.setGameTimeLeft(gameTimeLeft);
 			model.changeRoom();
 			model.checkCollision();
 			model.gravity();
@@ -124,7 +150,10 @@ public class Controller {
 			}
 			view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
 					model.getPlayerCharacter(), model.getPlayerHealth());
-			if (model.getIsGameOver()) {
+			if (model.getIsGameOver() || gameTimeLeft == 0) {
+				if(!model.getIsGameOver()) {
+					model.setIsGameOver(true);
+				}
 				// controls for game over state
 				if (model.isNewHighScore()) {
 					String name = view.getName();
@@ -135,8 +164,9 @@ public class Controller {
 				view.setHighScore(model.getHighScore());
 				view.setScore(model.getScore());
 				view.gameOverMode();
-
+				//System.
 			}
+			
 		}
 
 	}
