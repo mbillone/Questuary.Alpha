@@ -29,7 +29,7 @@ public class GroundImage extends ImageObject {
 	private BufferedImage[] pics = new BufferedImage[frameCount];
 
 	public GroundImage() {
-		super.setName("platform");
+		super.setName("ground");
 
 		// load in the image
 		for (int i = 0; i < frameCount; i++) {
