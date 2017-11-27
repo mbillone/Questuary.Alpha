@@ -14,11 +14,6 @@ public class ChestImage extends ImageObject {
 	// *************************************************
 	// Fields
 
-	// get screen's dimensions
-	private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	private double screenRatio = screenWidth / screenHeight;
-
 	// set the image's dimensions
 	private int imgWidth = 32;
 	private int imgHeight = 32;
@@ -29,9 +24,10 @@ public class ChestImage extends ImageObject {
 	private BufferedImage[] pics = new BufferedImage[frameCount];
 
 	public ChestImage() {
+		super.setName("chest");
+		
 		int xLoc = 0;
 		int yLoc = 0;
-		super.setName("chest");
 
 		// load in the image
 		BufferedImage image = createImage("images/world/Chest.png");
@@ -39,7 +35,6 @@ public class ChestImage extends ImageObject {
 			pics[i] = image.getSubimage(xLoc, yLoc, imgWidth, imgHeight);
 			xLoc = xLoc + 32;
 		}
-
 	}
 
 	// *************************************************
@@ -63,7 +58,6 @@ public class ChestImage extends ImageObject {
 		return pics[picNum];
 	}
 
-	// setter
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists
 		if (canAnimate) {
@@ -76,11 +70,12 @@ public class ChestImage extends ImageObject {
 	// *************************************************
 	// Getters
 
-	// getter for the image dimensions
+	// getter for the image width
 	public int getWidth() {
 		return imgWidth;
 	}
 
+	// getter for the image height
 	public int getHeight() {
 		return imgHeight;
 	}

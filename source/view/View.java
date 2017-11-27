@@ -33,19 +33,21 @@ import model.fixed.Ground;
 import model.fixed.Platform;
 
 /**
- * Class in charge of drawing the images
- * <p>
- * The View class extends the JPanel that is later added to JFrame. This class
- * holds JFrame frame for the JFrame object. The HashMap characterImages holds
- * all ImageObject objects. researcherImage holds an image of the researcher.
- * BirdImage holds an image of the bird. It has a boolean animate variable used
- * to increment the images. imgWidth and imgHeight determines the image
- * dimensions. PlayerX and PlayerY contains the player's coordinates, with
- * direct determining which way the player is facing. The Rectangle ground and
- * platform help draw the ground and platform.
  * 
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
  *
+ *         Class in charge of drawing the images
+ *         <p>
+ *         The View class extends the JPanel that is later added to JFrame. This
+ *         class holds JFrame frame for the JFrame object. The HashMap
+ *         characterImages holds all {@link ImageObject} objects.
+ *         researcherImage holds an image of the researcher. birdImage holds an
+ *         image of the bird. It has a boolean animate variable used to
+ *         increment the images. imgWidth and imgHeight determines the image
+ *         dimensions. PlayerX and PlayerY contains the player's coordinates,
+ *         with direct determining which way the player is facing.
+ *         </p>
+ * 
  */
 public class View extends JPanel {
 
@@ -58,7 +60,7 @@ public class View extends JPanel {
 	// researcher image object that will be responsible in returning the researcher
 	// image
 	ResearcherImage researcherImage = new ResearcherImage();
-	// Bird image object responsible for bird image
+	// bird image object responsible for bird image
 	BirdImage birdImage = new BirdImage();
 	// boolean determines player should animate
 	boolean animate = false;
@@ -66,9 +68,6 @@ public class View extends JPanel {
 	final private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	final private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	final private double screenRatio = screenWidth / screenHeight;
-	// image dimensions
-	private int imgWidth;
-	private int imgHeight;
 	// player's x and y coordinates
 	int playerX = 0;
 	int playerY = 0;
@@ -94,16 +93,18 @@ public class View extends JPanel {
 	// game modes
 	boolean changeCharacterMode = false;
 	boolean gameOverMode = false;
-	// change character menu
+	// change character screen
 	Image ChangeCharacterResearcher;
 	Image ChangeCharacterBird;
-	Image GameOverScreen;
 	final private int ChangeCharacterMenuHeight = 500;
 	final private int ChangeCharacterMenuWidth = 700;
+	// game over screen
+	Image GameOverScreen;
 	final private int GameOverScreenHeight = (int) screenHeight - 100;
 	final private int GameOverScreenWidth = (int) screenWidth - 100;
 	final private int GameOverScreenXPos = 50;
 	final private int GameOverScreenYPos = 25;
+	// high-score fields
 	public String highScore = "";
 	public String score = "";
 
@@ -116,13 +117,12 @@ public class View extends JPanel {
 	 * This constructor puts researcher image and bird image into the characterImage
 	 * hashmap. Creates a JFrame object and sets the title, dimensions, visibility
 	 * of the JFrame.
+	 * </p>
 	 */
 	public View() {
 		// grab all images
 		characterImages.put("platform", new PlatformImage());
 		characterImages.put("ground", new GroundImage());
-		characterImages.put("researcher", researcherImage);
-		characterImages.put("bird", birdImage);
 		characterImages.put("greenCrab", new CrabImage());
 		characterImages.put("osprey", new OspreyImage());
 		characterImages.put("collectible", new CollectibleImage());
@@ -150,7 +150,7 @@ public class View extends JPanel {
 		frame.setLocationRelativeTo(null);
 		// make frame visible
 		frame.setVisible(true);
-		
+
 	}
 
 	// *************************************************
@@ -164,7 +164,7 @@ public class View extends JPanel {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		
+
 		// paint character image
 		if (!changeCharacterMode && !gameOverMode) {
 			if (playerCharacter == "researcher") {
@@ -174,8 +174,17 @@ public class View extends JPanel {
 				g.drawImage(birdImage.show(direct), playerX, playerY, birdImage.getWidth(), birdImage.getHeight(),
 						this);
 			}
+
+			// paint enemies
+			for (Enemy enemy : enemies) {
+				ImageObject enemyImg = characterImages.get(enemy.getName());
+				int direct = enemy.getDirection();
+				g.drawImage(enemyImg.show(direct), (int) enemy.getX(), (int) enemy.getY(), (int) enemy.getWidth(),
+						(int) enemy.getHeight(), this);
+			}
+
 			// paint ground
-			g.setColor(Color.gray);
+			g.setColor(Color.GRAY);
 			g.fillRect((int) ground.getX(), (int) ground.getY(), (int) ground.getWidth(), (int) ground.getHeight());
 			ImageObject groundImg = characterImages.get(ground.getName());
 			g.drawImage(groundImg.show(0), (int) ground.getX(), (int) ground.getY(), (int) ground.getWidth(),
@@ -183,6 +192,7 @@ public class View extends JPanel {
 
 			// paint platform images
 			for (Platform platform : platforms) {
+				g.setColor(Color.GRAY);
 				g.fillRect((int) platform.getX(), (int) platform.getY(), (int) platform.getWidth(),
 						(int) platform.getHeight());
 				ImageObject platformImg = characterImages.get(platform.getName());
@@ -191,36 +201,22 @@ public class View extends JPanel {
 
 			}
 
-			// paint enemies
-			for (Enemy enemy : enemies) {
-				g.setColor(Color.RED);
-				g.fillRect((int) enemy.getX(), (int) enemy.getY(), (int) enemy.getWidth(), (int) enemy.getHeight());
-				ImageObject enemyImg = characterImages.get(enemy.getName());
-				int direct = enemy.getDirection();
-				g.drawImage(enemyImg.show(direct), (int) enemy.getX(), (int) enemy.getY(), (int) enemy.getWidth(),
-						(int) enemy.getHeight(), this);
-			}
-			
-			// generate hearts location
-			hearts.clear();
-			for (int i = 0; i < health; i++) {
-				hearts.add(new HeartImage((int) (screenWidth - ((i+1) * 50)), 0));
-			}
-			
-			// paint hearts
-			for (HeartImage heart : hearts) {
-				g.setColor(Color.CYAN);
-				g.fillOval((int) heart.getX(),(int) heart.getY(),(int) heart.getWidth(),(int) heart.getHeight());
-				ImageObject heartImg = new HeartImage(heart.getX(), heart.getY());
-				g.drawImage(heartImg.show(0),(int) heart.getX(), (int) heart.getY(), (int) heart.getWidth(),
-						(int) heart.getHeight(), this);
+			/*
+			 * // generate hearts location
+			 *  hearts.clear();
+			 *  for (int i = 0; i < health; i++) { 
+			 *  hearts.add(new HeartImage((int) (screenWidth - ((i+1) * 50)), 0)); }
+			 */
+
+			// paint heart images
+			for (int heart = 0; heart < health; heart++) {
+				ImageObject heartImg = new HeartImage((int) (screenWidth - ((heart + 1) * 50)), 0);
+				g.drawImage(heartImg.show(0), (int) (screenWidth - ((heart + 1) * 50)), 0, heartImg.getWidth(),
+						heartImg.getHeight(), this);
 			}
 
 			// paint collectibles
 			for (Collectible collectible : collectibles) {
-				g.setColor(Color.BLUE);
-				g.fillRect((int) collectible.getX(), (int) collectible.getY(), (int) collectible.getWidth(),
-						(int) collectible.getHeight());
 				ImageObject collectibleImg = characterImages.get(collectible.getName());
 				g.drawImage(collectibleImg.show(0), (int) collectible.getX(), (int) collectible.getY(),
 						(int) collectible.getWidth(), (int) collectible.getHeight(), this);
@@ -229,9 +225,6 @@ public class View extends JPanel {
 
 			// paint collected
 			for (Collectible collectible : collected) {
-				g.setColor(Color.BLUE);
-				g.fillRect((int) collectible.getX(), (int) collectible.getY(), (int) collectible.getWidth(),
-						(int) collectible.getHeight());
 				ImageObject collectedImg = characterImages.get(collectible.getName());
 				g.drawImage(collectedImg.show(0), (int) collectible.getX(), (int) collectible.getY(),
 						(int) collectible.getWidth(), (int) collectible.getHeight(), this);
@@ -239,8 +232,6 @@ public class View extends JPanel {
 
 			// paint chests
 			for (Chest chest : chests) {
-				g.setColor(Color.GREEN);
-				g.fillRect((int) chest.getX(), (int) chest.getY(), (int) chest.getWidth(), (int) chest.getHeight());
 				ImageObject chestImg = characterImages.get(chest.getName());
 				g.drawImage(chestImg.show(0), (int) chest.getX(), (int) chest.getY(), (int) chest.getWidth(),
 						(int) chest.getHeight(), this);
@@ -279,13 +270,10 @@ public class View extends JPanel {
 
 			g.drawImage(GameOverScreen, GameOverScreenXPos, GameOverScreenYPos, GameOverScreenWidth,
 					GameOverScreenHeight, this);
-
 			g.setFont(new Font("Comic Sans MS", Font.PLAIN, 85));
 			g.drawString(highScore, 625, 440);
 			g.drawString(score, 625, 310);
-
 		}
-
 	}
 
 	/**
@@ -308,34 +296,18 @@ public class View extends JPanel {
 		this.playerCharacter = playerCharacter;
 		health = healthLeft;
 		ImageObject platformImage = characterImages.get("platform");
-		platformImage.nextImage(true);
+		platformImage.nextImage(animate);
 		ImageObject groundImage = characterImages.get("ground");
-		groundImage.nextImage(true);
+		groundImage.nextImage(animate);
 		ImageObject greenCrabImage = characterImages.get("greenCrab");
-		greenCrabImage.nextImage(true);
+		greenCrabImage.nextImage(animate);
 		ImageObject ospreyImage = characterImages.get("osprey");
-		ospreyImage.nextImage(true);
+		ospreyImage.nextImage(animate);
 		ImageObject collectibleImage = characterImages.get("collectible");
-		collectibleImage.nextImage(true);
+		collectibleImage.nextImage(animate);
 		ImageObject chestImage = characterImages.get("chest");
 		chestImage.nextImage(chestStatus);
 		frame.repaint();
-	}
-
-	/**
-	 * This method puts game view into change character mode
-	 * 
-	 */
-	public void changeCharacterMode() {
-		changeCharacterMode = !changeCharacterMode;
-	}
-
-	/**
-	 * This method puts game view into game over mode
-	 * 
-	 */
-	public void gameOverMode() {
-		gameOverMode = true;
 	}
 
 	// *************************************************
@@ -351,7 +323,7 @@ public class View extends JPanel {
 	}
 
 	/**
-	 * Getter for the users name
+	 * Getter for the user's name
 	 * 
 	 * @return String - name of the user
 	 */
@@ -359,26 +331,24 @@ public class View extends JPanel {
 		return JOptionPane.showInputDialog("You set a new highscore. What is your name?");
 	}
 
-	/**
-	 * Getter for the player image's width
-	 * 
-	 * @return int - the image's width
-	 */
-	public int getImgWidth() {
-		return imgWidth;
-	}
-
-	/**
-	 * Getter for the player image's height
-	 * 
-	 * @return int - the image's height
-	 */
-	public int getImgHeight() {
-		return imgHeight;
-	}
-
 	// *************************************************
 	// Setters
+
+	/**
+	 * This method sets game view into change character mode
+	 * 
+	 */
+	public void changeCharacterMode() {
+		changeCharacterMode = !changeCharacterMode;
+	}
+
+	/**
+	 * This method sets game view into game over mode
+	 * 
+	 */
+	public void gameOverMode() {
+		gameOverMode = true;
+	}
 
 	/**
 	 * Sets the game High Score
@@ -402,7 +372,10 @@ public class View extends JPanel {
 
 	/**
 	 * After seeing if the character is a bird or researcher, it will increment the
-	 * researcher or bird image. It will only increment if animate is true
+	 * researcher or bird image. It will only increment if animate is true\
+	 * 
+	 * @see ResearcherImage#nextImage(boolean)
+	 * @see BirdImage#nextImage(boolean)
 	 */
 	public void setPicNum() {
 		if (playerCharacter == "researcher") {
@@ -420,12 +393,10 @@ public class View extends JPanel {
 	 * @param b
 	 *            - Sets the animate value to boolean b
 	 */
-	// setter for animation
 	public void setAnimation(boolean b) {
 		animate = b;
 	}
 
-	
 	/**
 	 * Sets the View.platform1 to the playerform1 passed in, to be drawn by another
 	 * method
@@ -446,7 +417,7 @@ public class View extends JPanel {
 	public void setGroundImage(Ground ground) {
 		this.ground = ground;
 	}
-	
+
 	public void setEnemies(ArrayList<Enemy> e) {
 		enemies = e;
 	}

@@ -18,11 +18,6 @@ public class CollectibleImage extends ImageObject {
 	// *************************************************
 	// Fields
 
-	// get screen's dimensions
-	private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	private double screenRatio = screenWidth / screenHeight;
-
 	// set the image's dimensions
 	private int imgWidth = 36;
 	private int imgHeight = 40;
@@ -67,7 +62,6 @@ public class CollectibleImage extends ImageObject {
 		return pics[picNum];
 	}
 
-	// setter
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists
 		if ((picNum + 1) < frameCount) {
@@ -77,14 +71,15 @@ public class CollectibleImage extends ImageObject {
 		}
 	}
 
-	// ********************300*****************************
+	// *************************************************
 	// Getters
 
-	// getter for the image dimensions
+	// getter for the image width
 	public int getWidth() {
 		return imgWidth;
 	}
 
+	// getter for the image height
 	public int getHeight() {
 		return imgHeight;
 	}

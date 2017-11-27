@@ -46,14 +46,15 @@ public class Controller {
 
 		view.setPlatforms(model.getPlatforms());
 		// update the view of the player's location
-		view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(), model.getPlayerCharacter(), model.getPlayerHealth());
+		view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(), model.getPlayerCharacter(),
+				model.getPlayerHealth());
 
 		// give view list of enemies
 		view.setEnemies(model.getEnemies());
 
 		// give view list of collectibles
 		view.setCollectibles(model.getCollectibles());
-		
+
 		// give view list of collected
 		view.setCollected(model.getCollected());
 
@@ -105,15 +106,17 @@ public class Controller {
 			// move the enemies
 			model.moveEnemies();
 			model.checkIsGameOver();
-			
-			if(model.getIsQuestionMode() && !model.getIsGameOver()) {
-				new QuestionsFrame(model.getQuestion());
-			}
 			view.setPicNum();
+			
 			// update the view and draw the image
 			view.setPlatforms(model.getPlatforms());
 			view.setEnemies(model.getEnemies());
 			view.setCollectibles(model.getCollectibles());
+
+			if (model.getIsQuestionMode() && !model.getIsGameOver()) {
+				new QuestionsFrame(model.getQuestion());
+			}
+
 			if (model.getPlayerDx() != 0 || model.getPlayerDy() != 0) {
 				view.setAnimation(true);
 			} else {
@@ -123,16 +126,16 @@ public class Controller {
 					model.getPlayerCharacter(), model.getPlayerHealth());
 			if (model.getIsGameOver()) {
 				// controls for game over state
-				if(model.isNewHighScore()) {
+				if (model.isNewHighScore()) {
 					String name = view.getName();
 					model.setName(name);
 					model.updateHighScore();
 				}
-				
+
 				view.setHighScore(model.getHighScore());
 				view.setScore(model.getScore());
 				view.gameOverMode();
-				
+
 			}
 		}
 
@@ -198,7 +201,7 @@ public class Controller {
 						break;
 					case (KeyEvent.VK_ESCAPE):
 					case (KeyEvent.VK_Q):
-						// if q is press then quit
+						// if q or esc pressed then quit
 						System.exit(0);
 						break;
 					case (KeyEvent.VK_C):
@@ -228,17 +231,16 @@ public class Controller {
 						break;
 					}
 
-				} else if (model.getIsGameOver()) {
-					// controls for game over state					
-				}else if (model.getIsQuestionMode() && !model.getIsGameOver()) {
+				} else if (model.getIsQuestionMode() && !model.getIsGameOver()) {
 					switch (keys.get(0)) {
 					case (KeyEvent.VK_DOWN):
 						QuestionsFrame.down();
 					case (KeyEvent.VK_UP):
 						QuestionsFrame.up();
 					}
+				} else if (model.getIsGameOver()) {
+					// controls for game over state
 				}
-				
 
 			} // if more then 1 key is pressed
 			else if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
@@ -261,7 +263,7 @@ public class Controller {
 					System.out.println("Executed: makePlayerJump()");
 				}
 
-			} 
+			}
 
 		}
 

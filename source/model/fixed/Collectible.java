@@ -22,7 +22,6 @@ public class Collectible extends StaticObject {
 
 	// for regular display
 	public Collectible(Platform platform) {
-
 		super.setName("collectible");
 
 		// set the dimensions
@@ -57,18 +56,6 @@ public class Collectible extends StaticObject {
 		}
 		super.setLocation(xLoc, yLoc);
 
-	}
-
-	// *************************************************
-	// Methods
-
-	// TODO: Make facts
-
-	// *************************************************
-	// Getters
-
-	String getFact() {
-		return fact;
 	}
 
 	// *************************************************

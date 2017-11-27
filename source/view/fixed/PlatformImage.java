@@ -15,11 +15,6 @@ public class PlatformImage extends ImageObject {
 	// *************************************************
 	// Fields
 
-	// get screen's dimensions
-	private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	private double screenRatio = screenWidth / screenHeight;
-
 	// set the image's dimensions
 	private int imgWidth = 300;
 	private int imgHeight = 50;
@@ -31,8 +26,8 @@ public class PlatformImage extends ImageObject {
 
 	public PlatformImage() {
 		super.setName("platform");
-		
-		//load in the image
+
+		// load in the image
 		for (int i = 0; i < frameCount; i++) {
 			BufferedImage image = createImage("images/platforms/Grass_300x50.png");
 			pics[i] = image;
@@ -61,7 +56,6 @@ public class PlatformImage extends ImageObject {
 		return pics[picNum];
 	}
 
-	// setter
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists
 		if ((picNum + 1) < frameCount) {
@@ -74,11 +68,12 @@ public class PlatformImage extends ImageObject {
 	// *************************************************
 	// Getters
 
-	// getter for the image dimensions
+	// getter for the image width
 	public int getWidth() {
 		return imgWidth;
 	}
 
+	// getter for the image height
 	public int getHeight() {
 		return imgHeight;
 	}

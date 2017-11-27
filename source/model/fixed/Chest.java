@@ -12,14 +12,9 @@ public class Chest extends StaticObject {
 
 	// *************************************************
 	// Fields
-	
-	private boolean isOpen = false;
-	
-	HashMap<Collectible, String> allQuestionsAndAnswers;
 
-	HashMap<Collectible, String> buildAllQAndA(HashMap<Collectible, String> allQuestionsAndAnswers) {
-		return allQuestionsAndAnswers;
-	}
+	// field for when to open the chest
+	private boolean isOpen = false;
 
 	// *************************************************
 	// Constructor
@@ -36,59 +31,19 @@ public class Chest extends StaticObject {
 		super.setLocation((int) (platform.getX() + platform.getWidth() / 2 - this.getWidth() / 2),
 				(int) (platform.getY() - this.getHeight()));
 	}
-	// *************************************************
-	// Methods
-
-	String keyGenerator(List<Collectible> c) {
-		return "bar";
-	}
-
-	void choosePowerUp() {
-
-	}
-
-	boolean checkResponse() {
-		return false;
-	}
-
-	void healthPowerUp() {
-
-	}
-
-	void speedPowerUp() {
-
-	}
-
-	void invincibilityPowerUp() {
-
-	}
 
 	// *************************************************
 	// Getters
-	
+
 	public boolean getIsOpen() {
 		return isOpen;
 	}
 
-	public String getQuestion() {
-		return "foo";
-	}
-
-	public String getAnswer() {
-		return "bar";
-	}
-
-	public String getOptions() {
-		return "option";
-	}
-	
 	// *************************************************
-		// Setters
-	
+	// Setters
+
 	public void setIsOpen(boolean b) {
 		isOpen = b;
 	}
-	
-	
 
 }

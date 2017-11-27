@@ -20,18 +20,17 @@ public class BirdImage extends ImageObject {
 	// *************************************************
 	// Fields
 
-	// get screen's dimensions
-	private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	private double screenRatio = screenWidth / screenHeight;
-
 	// set the image's dimensions
-	private int imgWidth = (int) (screenWidth * 0.1);
-	private int imgHeight = (int) (imgWidth * screenRatio);
+	private int imgWidth = (int) (super.getScreenWidth() * 0.1);
+	private int imgHeight = (int) (imgWidth * super.getScreenRatio());
+
 	private int frameCount = 4;
 	private int picNum = 0;
 
 	private BufferedImage[][] pics = new BufferedImage[2][frameCount];
+
+	// *************************************************
+	// Constructor
 
 	public BirdImage() {
 		super.setName("bird");
@@ -77,26 +76,27 @@ public class BirdImage extends ImageObject {
 		return mimg;
 	}
 
-	// increment through the CatImage
+	// return the image in the array
+	public BufferedImage show(int direct) {
+		return pics[direct][picNum];
+	}
+
+	// increment through the BirdImage
 	public void nextImage(boolean canAnimate) {
 		if (canAnimate) {
 			picNum = (picNum + 1) % frameCount;
 		}
 	}
 
-	// return the image in the array
-	public BufferedImage show(int direct) {
-		return pics[direct][picNum];
-	}
-
 	// *************************************************
 	// Getters
 
-	// getter for the image dimensions
+	// getter for the image width
 	public int getWidth() {
 		return imgWidth;
 	}
 
+	// getter for the image height
 	public int getHeight() {
 		return imgHeight;
 	}

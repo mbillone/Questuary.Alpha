@@ -14,11 +14,6 @@ public class HeartImage extends ImageObject {
 	// *************************************************
 	// Fields
 
-	// get screen's dimensions
-	private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	private double screenRatio = screenWidth / screenHeight;
-
 	// set the image's dimensions
 	private int imgWidth = 48;
 	private int imgHeight = 48;
@@ -60,6 +55,11 @@ public class HeartImage extends ImageObject {
 		return null;
 	}
 
+	// return the image
+	public BufferedImage show(int direct) {
+		return pics[picNum];
+	}
+
 	// increment through the image
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists
@@ -70,14 +70,9 @@ public class HeartImage extends ImageObject {
 		}
 	}
 
-	// return the image in the array
-	public BufferedImage show(int direct) {
-		return pics[picNum];
-	}
-
 	// *************************************************
 	// Getters
-	
+
 	public int getX() {
 		return x;
 	}
@@ -86,12 +81,12 @@ public class HeartImage extends ImageObject {
 		return y;
 	}
 
-	@Override
+	// getter for the image width
 	public int getWidth() {
 		return imgWidth;
 	}
 
-	@Override
+	// getter for the image height
 	public int getHeight() {
 		return imgHeight;
 	}

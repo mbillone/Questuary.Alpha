@@ -13,30 +13,28 @@ import view.ImageObject;
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
  */
 
-//Researcher Image from -- "https://www.gameart2d.com/temple-run---free-sprites.html"
+// Researcher Image from --
+// "https://www.gameart2d.com/temple-run---free-sprites.html"
 
 public class ResearcherImage extends ImageObject {
 
 	// *************************************************
 	// Fields
 
-	/// get screen's dimensions
-	private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	private double ratio = screenWidth / screenHeight;
-
 	// set the image's dimensions
-	private int imgWidth = (int) (screenWidth * 0.1);
-	private int imgHeight = (int) (imgWidth * ratio);
+	private int imgWidth = (int) (super.getScreenWidth() * 0.1);
+	private int imgHeight = (int) (imgWidth * super.getScreenRatio());
 
 	private int frameCount = 10;
 	private int picNum = 0;
+
 	private BufferedImage[][] pics = new BufferedImage[2][frameCount];
 
 	// *************************************************
 	// Constructor
 
 	public ResearcherImage() {
+		super.setName("researcher");
 		// load in the images
 		for (int i = 0; i < frameCount; i++) {
 			BufferedImage image = createImage("images/researcher/Run (" + (i + 1) + ")" + ".png");
@@ -79,29 +77,28 @@ public class ResearcherImage extends ImageObject {
 		return mimg;
 	}
 
-	// increment through the CatImage
+	// return the image in the array
+	public BufferedImage show(int direct) {
+		return pics[direct][picNum];
+	}
+
+	// increment through the ResearcherImage
 	public void nextImage(boolean canAnimate) {
 		if (canAnimate) {
 			picNum = (picNum + 1) % frameCount;
 		}
 	}
 
-	// return the image in the array
-	public BufferedImage show(int direct) {
-		return pics[direct][picNum];
-	}
-
 	// *************************************************
 	// Getters
-	
-	// getter for the image dimensions
+
+	// getter for the image width
 	public int getWidth() {
 		return imgWidth;
 	}
 
+	// getter for the image height
 	public int getHeight() {
 		return imgHeight;
 	}
 }
-
-

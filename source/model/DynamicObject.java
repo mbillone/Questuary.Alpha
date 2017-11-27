@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
@@ -11,12 +12,19 @@ public abstract class DynamicObject extends Rectangle {
 
 	// *************************************************
 	// Fields
+	
+	private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	private double screenRatio = screenHeight / screenWidth;
 
+	// name of the object
+	String name;
+	// velocities
 	private int xVelocity;
 	private int yVelocity;
 	// a direction of 0 is left and 1 is right
 	private int direction;
-
+	
 	// *************************************************
 	// Methods
 
@@ -30,6 +38,10 @@ public abstract class DynamicObject extends Rectangle {
 
 	// *************************************************
 	// Getters
+
+	public String getName() {
+		return name;
+	}
 
 	/**
 	 * Gets the x velocity of a dynamic object
@@ -49,26 +61,6 @@ public abstract class DynamicObject extends Rectangle {
 	 */
 	public int getDy() {
 		return yVelocity;
-	}
-	
-	/**
-	 * Gets the x location of a dynamic object
-	 * 
-	 * @return int - object's x location
-	 * 
-	 */
-	public double getX() {
-		return x;
-	}
-
-	/**
-	 * Gets the y location of a dynamic object
-	 * 
-	 * @return int - object's y location
-	 * 
-	 */
-	public double getY() {
-		return y;
 	}
 
 	/**
@@ -95,8 +87,24 @@ public abstract class DynamicObject extends Rectangle {
 		}
 	}
 
+	protected double getScreenWidth() {
+		return screenWidth;
+	}
+
+	protected double getScreenHeight() {
+		return screenHeight;
+	}
+
+	protected double getScreenRatio() {
+		return screenRatio;
+	}
+
 	// *************************************************
 	// Setters
+
+	protected void setName(String n) {
+		name = n;
+	}
 
 	/**
 	 * This sets the x velocity of a dynamic object

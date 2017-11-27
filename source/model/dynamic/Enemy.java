@@ -12,7 +12,7 @@ public abstract class Enemy extends DynamicObject {
 
 	// *************************************************
 	// Fields
-	String name;
+
 	boolean killable = false;
 	private boolean dead = false;
 	boolean hasAttacked = false;
@@ -20,10 +20,6 @@ public abstract class Enemy extends DynamicObject {
 	int damage;
 	int bound1;
 	int bound2;
-
-	private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	private double screenRatio = screenHeight / screenWidth;
 
 	// *************************************************
 	// Methods
@@ -38,18 +34,6 @@ public abstract class Enemy extends DynamicObject {
 
 	// *************************************************
 	// Getters
-
-	protected double getScreenWidth() {
-		return screenWidth;
-	}
-
-	protected double getScreenHeight() {
-		return screenHeight;
-	}
-
-	protected double getScreenRatio() {
-		return screenRatio;
-	}
 
 	public int getBound1() {
 		return bound1;
@@ -71,12 +55,9 @@ public abstract class Enemy extends DynamicObject {
 		return dead;
 	}
 
-	public String getName() {
-		return name;
-	}
-
 	// *************************************************
 	// Setters
+
 	// set damage
 	public void setDamage(int d) {
 		damage = d;
@@ -97,10 +78,6 @@ public abstract class Enemy extends DynamicObject {
 
 	public void setIsDead() {
 		dead = true;
-	}
-
-	protected void setName(String n) {
-		name = n;
 	}
 
 }

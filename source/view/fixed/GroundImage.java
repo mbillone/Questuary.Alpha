@@ -29,15 +29,15 @@ public class GroundImage extends ImageObject {
 	private BufferedImage[] pics = new BufferedImage[frameCount];
 
 	public GroundImage() {
-			super.setName("platform");
-			
-			//load in the image
-			for (int i = 0; i < frameCount; i++) {
-				BufferedImage image = createImage("images/platforms/Beach_2000x100.png");
-				pics[i] = image;
-			}
+		super.setName("platform");
 
+		// load in the image
+		for (int i = 0; i < frameCount; i++) {
+			BufferedImage image = createImage("images/platforms/Beach_2000x100.png");
+			pics[i] = image;
 		}
+
+	}
 
 	// *************************************************
 	// Methods
@@ -60,7 +60,6 @@ public class GroundImage extends ImageObject {
 		return pics[picNum];
 	}
 
-	// setter
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists
 		if ((picNum + 1) < frameCount) {
@@ -73,11 +72,12 @@ public class GroundImage extends ImageObject {
 	// *************************************************
 	// Getters
 
-	// getter for the image dimensions
+	// getter for the image width
 	public int getWidth() {
 		return imgWidth;
 	}
 
+	// getter for the image height
 	public int getHeight() {
 		return imgHeight;
 	}

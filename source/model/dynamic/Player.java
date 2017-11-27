@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import model.DynamicObject;
 import model.fixed.Collectible;
+import model.fixed.Ground;
 import model.fixed.Platform;
 
 /**
@@ -22,28 +23,25 @@ public class Player extends DynamicObject {
 	private int health = 3;
 	// The state of the player
 	private String state = "researcher";
-
 	// Assuming only player can jump and fall
 	private int maxDy = 15;
 	private int minDy = -15;
-
+	// for jumping
 	private int maxJumpingHeight;
 	// use prevY later to compare with maxJumpingHeight
 	private double prevY;
 	private int gravity;
-
+	// player boundary fields
 	private int widthOfBumpers = 25;
 	private Rectangle leftSide;
 	private Rectangle rightSide;
 	private Rectangle topSide;
 	private Rectangle bottomSide;
-
 	// set player to default falling and cannot jump
 	private boolean falling = true;
 	private boolean jumping = false;
-
+	// number of selectable characters
 	private int numOfCharacter = 2;
-
 	// fields for score
 	private int score = 0;
 
@@ -83,18 +81,17 @@ public class Player extends DynamicObject {
 
 	// determines if touching the ground with appropriate actions for jumping and
 	// falling
-	public void gravityEffect(Rectangle ground) {
+	public void gravityEffect(Ground ground) {
 
 		if (falling && !jumping) {
 			playerFalling();
-
 		}
+
 		// if player is not touching the ground but is jumping then allow player to jump
 		else if (falling && jumping) {
 			System.out.println("Executed: First Stage gravityEffect()");
 			// has the player reached max jumping height yet
 			if ((prevY - y) < maxJumpingHeight) {
-
 				playerJumping();
 			} else {
 				// if max height reached then player stops jumping/ascending
@@ -115,12 +112,12 @@ public class Player extends DynamicObject {
 		// if player is on a surface then set dy to 0
 		else {
 			super.setDy(0);
-
 		}
 	}
 
 	// make the player fall
 	public void playerFalling() {
+		System.out.println("Executed: playerFalling()");
 		if (super.getDy() <= maxDy) {
 			int newDy = super.getDy() + gravity;
 			super.setDy(newDy);
@@ -129,7 +126,6 @@ public class Player extends DynamicObject {
 
 	// make the player jump
 	public void playerJumping() {
-
 		System.out.println("Executed: playerJumping()");
 		if (super.getDy() >= minDy) {
 			int newDy = super.getDy() - gravity;
@@ -139,7 +135,6 @@ public class Player extends DynamicObject {
 
 	// collision between player and platforms
 	public void playerPlatCollision(Platform plat) {
-
 		if (this.intersects(plat.getLeft()) && this.getDirection() == 1) {
 			this.setDx(0);
 		} else if (this.intersects(plat.getRight()) && this.getDirection() == 0) {
@@ -156,10 +151,6 @@ public class Player extends DynamicObject {
 		rightSide.setLocation((x + (width - widthOfBumpers)), y);
 		topSide.setLocation((x + widthOfBumpers), y);
 		bottomSide.setLocation((x + widthOfBumpers), (y + (height - widthOfBumpers)));
-	}
-	
-	public void incrementScoreBy(int i) {
-		score += i;
 	}
 
 	// *************************************************
@@ -196,6 +187,7 @@ public class Player extends DynamicObject {
 		return health;
 	}
 
+	// getter for score
 	public int getScore() {
 		return score;
 	}
@@ -239,6 +231,10 @@ public class Player extends DynamicObject {
 
 	public void setDxOff() {
 		super.setDx(0);
+	}
+
+	public void incrementScoreBy(int i) {
+		score += i;
 	}
 
 	// setter for jumping

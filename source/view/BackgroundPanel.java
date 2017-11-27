@@ -5,13 +5,20 @@ import java.awt.image.*;
 import javax.swing.*;
 
 /**
- * Support custom painting on a panel in the form of
  *
- * a) images - that can be scaled, tiled or painted at original size b) non
- * solid painting - that can be done by using a Paint object
+ * @author Rob Camick
+ * @see <a href="https://tips4java.wordpress.com/2008/10/12/background-panel/">https://tips4java.wordpress.com/2008/10/12/background-panel/</a>
+ * 
+ * <p>
+ * Supports custom painting on a panel in the form of
+ *
+ * a) images - that can be scaled, tiled or painted at original size 
+ * b) not solid painting - that can be done by using a Paint object
  *
  * Also, any component added directly to this panel will be made non-opaque so
  * that the custom painting can show through.
+ * </p>
+ * 
  */
 public class BackgroundPanel extends JPanel {
 	public static final int SCALED = 0;

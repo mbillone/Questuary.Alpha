@@ -11,7 +11,7 @@ import model.StaticObject;
 public class Platform extends StaticObject {
 
 	// *************************************************
-	// Methods
+	// Constructor
 
 	/**
 	 * Constructor for the Controller class
@@ -27,9 +27,12 @@ public class Platform extends StaticObject {
 	 */
 	public Platform(int x, int y, int width, int height) {
 		super.setName("platform");
-		
+
 		super.setBounds(x, y, width, height);
 	}
+
+	// *************************************************
+	// Getters
 
 	/**
 	 * Getter to get the right boundary of the platform

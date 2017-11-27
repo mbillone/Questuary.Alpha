@@ -69,17 +69,17 @@ public class Model {
 	private int gravity = 10;
 	// fields for game modes
 	private boolean changeCharacterMode = false;
+	private boolean isQuestionMode = false;
 	private boolean isGamePaused = false;
 	private boolean isGameOver = false;
-	//question objects
-	private boolean isQuestionMode = false;
+	// question objects
 	private Questions questions = new Questions();
 	private Question question;
-	
+	// character number
 	private int changeCharacterCount = 0;
 	// starting positions
-	private int startingY;
 	private int startingX;
+	private int startingY;
 	// for high score functionality
 	private String highScore = "";
 	private String name = "";
@@ -196,8 +196,8 @@ public class Model {
 		}
 		// if out of bound then don't increment the x
 		else {
-			System.out.println("Boundary invalid 0");
-			System.out.println("Player is out of Boundary to Left");
+			System.out.println("Boundary Invalid 0");
+			System.out.println("Player is Out of Left Boundary");
 			player.setDxOff();
 		}
 	}
@@ -219,7 +219,7 @@ public class Model {
 			// System.out.println("ground" + ground.getWidth());
 		} else {
 			System.out.println("Boundary invalid " + xBoundary);
-			System.out.println("Player is out of Boundary to Right");
+			System.out.println("Player is Out of Right Boundary");
 			player.setDxOff();
 		}
 	}
@@ -255,7 +255,7 @@ public class Model {
 				player.setDx(0);
 			}
 		}
-		
+
 		if ((player.getBottomSide()).intersects(ground)) {
 			player.setFalling(false);
 			isBottomCollide = true;
@@ -264,7 +264,7 @@ public class Model {
 		if (!isBottomCollide) {
 			player.setFalling(true);
 		}
-		
+
 	}
 
 	// if player collided with the enemy
@@ -343,10 +343,10 @@ public class Model {
 				}
 				c.setIsOpen(true);
 				System.out.println("Score: " + player.getScore());
-				// TODO: pause and display question/power-ups
+				// TODO: Finish Question & Power-Up Implementation
 				setIsQuestionMode(true);
-				// picks question based on number of collected collectibles(facts)
-				question = questions.pickQuestion(numCollected);   
+				// picks question based on number of collected(facts)
+				question = questions.pickQuestion(numCollected);
 			}
 		}
 	}
@@ -419,9 +419,7 @@ public class Model {
 				enemies.add(new EnemyCrab(platform));
 				System.out.println("New Enemy Crab Created");
 			} else if (randomNum == 1) {
-				Collectible newCollectible = new Collectible(platform);
-
-				collectibles.add(newCollectible);
+				collectibles.add(new Collectible(platform));
 				System.out.println("New Collectible Created");
 			} else if (chestCreated) {
 				// force new collectible creation so that chests don't keep getting created
@@ -430,13 +428,12 @@ public class Model {
 				chestCreated = false;
 			}
 		}
-
 		enemies.add(new EnemyOsprey((int) screenWidth, (int) screenHeight));
 		System.out.println("New Enemy Osprey Created");
 	}
 
 	/**
-	 * Checks if current score is a new highscore
+	 * Checks if current score is a new high-score
 	 * 
 	 * @return boolean - returns if there is a new highScore or not
 	 * 
@@ -604,24 +601,6 @@ public class Model {
 		return ground;
 	}
 
-	/**
-	 * Returns a platform's rectangle object for the game
-	 *
-	 * @return Rectangle - Platform1's rectangle object
-	 */
-	public Rectangle getPlatform() {
-		return platform1;
-	}
-
-	/**
-	 * Returns a platform's platform object for the game
-	 *
-	 * @return Platform - Platform1's platform object
-	 */
-	public Platform getPlat() {
-		return platform1;
-	}
-
 	// return the list of platforms
 	public ArrayList<Platform> getPlatforms() {
 		return platforms;
@@ -662,7 +641,7 @@ public class Model {
 	public boolean getIsQuestionMode() {
 		return isQuestionMode;
 	}
-	
+
 	/**
 	 * Getter for question that is chosen to be asked
 	 * 
@@ -670,15 +649,6 @@ public class Model {
 	 */
 	public Question getQuestion() {
 		return question;
-	}
-	
-	/**
-	 * Getter for the number character that you are on
-	 * 
-	 * @return int - Number for which character is currently selected
-	 */
-	public int getChangeCharacterCount() {
-		return changeCharacterCount;
 	}
 
 	/**
@@ -733,14 +703,19 @@ public class Model {
 		return player.getFalling();
 	}
 
+	// get the player's score
+	public int getPlayerScore() {
+		return player.getScore();
+	}
+
+	// get the player's health
+	public int getPlayerHealth() {
+		return player.getHealth();
+	}
+
 	// get the list of enemies
 	public ArrayList<Enemy> getEnemies() {
 		return enemies;
-	}
-
-	// get the plater's health
-	public int getPlayerHealth() {
-		return player.getHealth();
 	}
 
 	public ArrayList<Collectible> getCollectibles() {
@@ -753,6 +728,15 @@ public class Model {
 
 	public ArrayList<Chest> getChests() {
 		return chests;
+	}
+
+	/**
+	 * Getter for the High Score
+	 * 
+	 * @return String - Current player score converted to a string
+	 */
+	public String getScore() {
+		return Integer.toString(player.getScore());
 	}
 
 	/**
@@ -787,17 +771,42 @@ public class Model {
 		}
 	}
 
-	/**
-	 * Getter for the High Score
-	 * 
-	 * @return String - Current player score converted to a string
-	 */
-	public String getScore() {
-		return Integer.toString(player.getScore());
-	}
-
 	// *************************************************
 	// Setters
+
+	/**
+	 * Turns the player's Dx variable to 0
+	 * 
+	 * @see Player#setDxOff()
+	 */
+	public void setPlayerDxOff() {
+		player.setDxOff();
+	}
+
+	/**
+	 * Sets the player's jumping mode
+	 * 
+	 * @see Player#setJumping()
+	 */
+	public void makePlayerJump() {
+		player.setJumping(true);
+	}
+
+	/**
+	 * Increments the changeCharacter count which is responsible for showing you
+	 * what character you are
+	 */
+	public void incrementChangeCharacterCount() {
+		changeCharacterCount++;
+	}
+
+	/**
+	 * Decrements the changeCharacter count, will result in whatever character is
+	 * associated with that number
+	 */
+	public void decrementChangeCharacterCount() {
+		changeCharacterCount--;
+	}
 
 	/**
 	 * Sets the changeCharacterMode variable
@@ -819,44 +828,13 @@ public class Model {
 			isGamePaused = false;
 		}
 	}
-	
+
 	/**
 	 * Sets the isGamePaused variable
 	 * 
 	 */
 	public void setIsQuestionMode(boolean value) {
 		isQuestionMode = value;
-	}
-
-	/**
-	 * Sets the isGameOver variable
-	 * 
-	 */
-	public void setIsGameOver(boolean value) {
-		isGameOver = value;
-		if (isGameOver) {
-			if (highScore == "") {
-				highScore = this.getHighScore();
-			}
-		}
-	}
-
-	/**
-	 * Turns the player's Dx variable to 0
-	 * 
-	 * @see Player#setDxOff()
-	 */
-	public void setPlayerDxOff() {
-		player.setDxOff();
-	}
-
-	/**
-	 * Sets the player's jumping mode
-	 * 
-	 * @see Player#setJumping()
-	 */
-	public void makePlayerJump() {
-		player.setJumping(true);
 	}
 
 	/**
@@ -873,19 +851,16 @@ public class Model {
 	}
 
 	/**
-	 * Increments the changeCharacter count which is responsible for showing you
-	 * what character you are
+	 * Sets the isGameOver variable
+	 * 
 	 */
-	public void incrementChangeCharacterCount() {
-		changeCharacterCount++;
-	}
-
-	/**
-	 * Decrements the changeCharacter count, will result in whatever character is
-	 * associated with that number
-	 */
-	public void decrementChangeCharacterCount() {
-		changeCharacterCount--;
+	public void setIsGameOver(boolean value) {
+		isGameOver = value;
+		if (isGameOver) {
+			if (highScore == "") {
+				highScore = this.getHighScore();
+			}
+		}
 	}
 
 	/**

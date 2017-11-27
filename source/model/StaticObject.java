@@ -7,7 +7,7 @@ import java.awt.Toolkit;
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
  */
 public abstract class StaticObject extends Rectangle {
-	
+
 	String name;
 
 	// *************************************************
@@ -31,33 +31,13 @@ public abstract class StaticObject extends Rectangle {
 		return screenRatio;
 	}
 
-	/**
-	 * Gets the x location of a static object
-	 * 
-	 * @return int - object's x location
-	 * 
-	 */
-	public double getX() {
-		return x;
-	}
-
-	/**
-	 * Gets the y location of a static object
-	 * 
-	 * @return int - object's y location
-	 * 
-	 */
-	public double getY() {
-		return y;
-	}
-	
 	public String getName() {
 		return name;
 	}
-	
+
 	// *************************************************
 	// Setters
-	
+
 	protected void setName(String n) {
 		name = n;
 	}
