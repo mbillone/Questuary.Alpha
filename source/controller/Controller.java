@@ -15,6 +15,7 @@ import view.IntroductionView;
 import view.View;
 import view.fixed.QuestionsFrame;
 import model.Model;
+import model.fixed.Question;
 
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
@@ -36,6 +37,12 @@ public class Controller {
 
 	// question state
 	private boolean questionModeFlag = true;
+
+	// question state
+	private boolean questionModeFlag = true;
+	boolean questionMode = false;
+	Question question;
+	QuestionsFrame questionFrame;
 
 	// *************************************************
 	// Constructor
@@ -137,6 +144,21 @@ public class Controller {
 			// move the enemies
 			model.moveEnemies();
 			model.checkIsGameOver();
+
+			// add checkQuestionMode
+			// if model is in question mode then create the JFrame in view with the
+			// questions
+			questionMode = model.getIsQuestionMode();
+			if (questionMode) {
+				question = model.getQuestion();
+				// questionFrame = view.createQuestionFrame(question);
+				// questionFrame.addKeyListener(new QuestionKeyListener());
+				// questionFrame.requestFocus();
+				questionFrame = new QuestionsFrame(question);
+				view.displayQuestion(questionFrame.getQuestionFrame());
+				// questionFrame.requestFocus();
+			}
+
 			view.setPicNum();
 			// update score
 			view.setScore(model.getScore());
@@ -178,10 +200,54 @@ public class Controller {
 
 		}
 
+		}
 	}
 
-	// *************************************************
-	// KeyListener Methods
+	public class QuestionKeyListener implements KeyListener {
+
+		private boolean pressedRightTwice = false;
+
+		public void keyPressed(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			switch (arg0.getKeyCode()) {
+			case (KeyEvent.VK_UP):
+				System.out.println("Question up key pressed");
+				question.up();
+				questionFrame.updateQuestion(question.getIndex());
+				break;
+			case (KeyEvent.VK_DOWN):
+				System.out.println("Question down key pressed");
+				question.down();
+				questionFrame.updateQuestion(question.getIndex());
+				break;
+			case (KeyEvent.VK_RIGHT):
+				System.out.println("Question right key pressed");
+				if (!pressedRightTwice) {
+					if (question.right()) {
+						questionFrame.displayCorrect(question);
+					} else {
+						questionFrame.displayWrong(question);
+					}
+					pressedRightTwice = true;
+				} else {
+					model.setIsQuestionMode(false);
+					questionFrame.TurnOffQuestionFrame();
+				}
+				break;
+
+			}
+		}
+
+		public void keyReleased(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void keyTyped(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+
+		}
+	}
 
 	/**
 	 * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
@@ -357,4 +423,8 @@ public class Controller {
 		}
 	}
 
+		// *************************************************
+		// KeyListener Methods
+
+	
 }

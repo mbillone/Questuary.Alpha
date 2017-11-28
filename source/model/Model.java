@@ -358,7 +358,8 @@ public class Model {
 				c.setIsOpen(true);
 				System.out.println("Score: " + player.getScore());
 				// TODO: Finish Question & Power-Up Implementation
-				setIsQuestionMode(true);
+				setIsQuestionMode(true); 
+				setIsGamePaused();
 				// picks question based on number of collected(facts)
 				question = questions.pickQuestion(numCollected);
 			}
