@@ -32,7 +32,7 @@ public class Controller {
 	Timer gameTimer;
 	ArrayList<Integer> keys = new ArrayList<Integer>();
 	// private Long startGameTime;
-	int gameTimeLeft = 240; // 5 minutes in milliseconds
+	int gameTimeLeft = 120; // 2 minutes in seconds
 
 	// question state
 	private boolean questionModeFlag = true;

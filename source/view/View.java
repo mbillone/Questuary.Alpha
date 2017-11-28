@@ -126,7 +126,7 @@ public class View extends JPanel {
 	// game time field
 	private int gameTimeLeft;
 	final private int GameTimeBarHeight = 35;
-	final private int GameTimeBarWidth = 600;
+	final private int GameTimeBarWidth = 300;
 	final private int GameTimeBarXPos = GameOverScreenWidth / 2 - GameTimeBarWidth / 2;
 	final private int GameTimeBarYPos = 5;
 	int dynamicTimeBar;
