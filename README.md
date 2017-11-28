@@ -13,7 +13,7 @@ Use the arrow keys to move the researcher and use down + right keys to change ch
 Collect as many of the fact-tokens as possible to get the chance to get chests and increase your high score.
 
 ## Credits for Images
-**Everything not listed was custom made in PhotoShop**
+*Everything not listed was custom made in PhotoShop*
 
 Background Image - Artist: [Terrence Harvey's Cisc275 Class](http://www1.udel.edu/CIS/275/tharvey/17F/index.html); Source: [images drawings art.zip](http://www1.udel.edu/CIS/275/tharvey/17F/resources/images%20drawings%20art.zip)
 
