@@ -144,6 +144,8 @@ public class Controller {
 			view.setCollected(model.getCollected());
 			view.setFacts(model.getFacts());
 			view.setChests(model.getChests());
+			
+			view.setPicNum();
 
 			// add checkQuestionMode
 			// if model is in question mode then create the JFrame in view with the
@@ -159,16 +161,12 @@ public class Controller {
 				// questionFrame.requestFocus();
 			}
 
-			if (questionModeFlag && model.getIsQuestionMode() && !model.getIsGameOver()) {
-				questionModeFlag = false;
-				new QuestionsFrame(model.getQuestion());
-			}
-
 			if (model.getPlayerDx() != 0 || model.getPlayerDy() != 0) {
 				view.setAnimation(true);
 			} else {
 				view.setAnimation(false);
 			}
+			
 			view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
 					model.getPlayerCharacter(), model.getPlayerHealth());
 			if (model.getIsGameOver() || gameTimeLeft == 0) {
