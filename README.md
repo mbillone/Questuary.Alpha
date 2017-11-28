@@ -36,7 +36,7 @@ Ground Image - Unknown
 
 Heart Image - Artist: [soundemperor](https://opengameart.org/users/soundemperor); Source: [Heart Pixel Art](https://opengameart.org/content/heart-pixel-art)
 
-Platform Image - Artist: [Terrence Harvey's Cisc275 Class](http://www1.udel.edu/CIS/275/tharvey/17F/index.html); Source: [images drawings art.zip](http://www1.udel.edu/CIS/275/tharvey/17F/resources/images%20drawings%20art.zip
+Platform Image - Artist: [Terrence Harvey's Cisc275 Class](http://www1.udel.edu/CIS/275/tharvey/17F/index.html); Source: [images drawings art.zip](http://www1.udel.edu/CIS/275/tharvey/17F/resources/images%20drawings%20art.zip)
 
 
 
