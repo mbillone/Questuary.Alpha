@@ -23,6 +23,9 @@ public class ChestImage extends ImageObject {
 
 	private BufferedImage[] pics = new BufferedImage[frameCount];
 
+	/**
+	 * Constructor for chest image
+	 */
 	public ChestImage() {
 		super.setName("chest");
 		
@@ -41,6 +44,11 @@ public class ChestImage extends ImageObject {
 	// Methods
 
 	// The String imageFile is the input to the method, and is the file name
+	/**
+	 * Creates image
+	 * @param imageFile
+	 * @return null or bufferedImage - bufferedImage is returned if there is no exception with uploading the image
+	 */
 	private BufferedImage createImage(String imageFile) {
 		BufferedImage bufferedImage;
 		try {
@@ -54,10 +62,18 @@ public class ChestImage extends ImageObject {
 	}
 
 	// return the image
+	/**
+	 * Shows the image from the array
+	 * @param direct
+	 */
 	public BufferedImage show(int direct) {
 		return pics[picNum];
 	}
 
+	/**
+	 * Goes to the next image in the image array
+	 * @param canAnimate
+	 */
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists
 		if (canAnimate) {
@@ -71,11 +87,17 @@ public class ChestImage extends ImageObject {
 	// Getters
 
 	// getter for the image width
+	/**
+	 * Gets image width
+	 */
 	public int getWidth() {
 		return imgWidth;
 	}
 
 	// getter for the image height
+	/**
+	 * Gets image height
+	 */
 	public int getHeight() {
 		return imgHeight;
 	}

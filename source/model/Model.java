@@ -12,10 +12,13 @@ import model.dynamic.EnemyCrab;
 import model.dynamic.EnemyOsprey;
 import model.fixed.Chest;
 import model.fixed.Collectible;
+import model.fixed.Fact;
 import model.fixed.Ground;
 import model.fixed.Platform;
 import model.fixed.Question;
-import model.fixed.Questions;
+import model.fixed.Question2;
+import model.fixed.QuestionBank;
+import model.fixed.Questions2;
 
 import java.awt.Toolkit;
 import java.io.BufferedReader;
@@ -48,7 +51,6 @@ public class Model {
 	private int yBoundary;
 	// platform fields
 	private Ground ground;
-	private Platform platform1;
 	private Platform p1;
 	private Platform p2;
 	private Platform p3;
@@ -60,10 +62,13 @@ public class Model {
 	private ArrayList<Platform> platforms = new ArrayList<Platform>();
 	// fields for all other world objects
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>(3);
+	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>(1);
 	private ArrayList<Collectible> collected = new ArrayList<Collectible>();
+	private ArrayList<Fact> facts = new ArrayList<Fact>(1);
 	private ArrayList<Chest> chests = new ArrayList<Chest>(1);
+	// number of collectibles collected
 	private int numCollected = 0;
+	// to make sure only 1 chest is created per screen
 	private boolean chestCreated = false;
 	// fixed gravity constant
 	private int gravity = 10;
@@ -73,8 +78,8 @@ public class Model {
 	private boolean isGamePaused = false;
 	private boolean isGameOver = false;
 	// question objects
-	private Questions questions = new Questions();
-	private Question question;
+	private Questions2 questions = new Questions2();
+	private Question2 question2;
 	// character number
 	private int changeCharacterCount = 0;
 	// starting positions
@@ -83,7 +88,15 @@ public class Model {
 	// for high score functionality
 	private String highScore = "";
 	private String name = "";
+	private int gameTimeLeft;
 
+	//add Question variables and QuestionMode flag
+	private boolean questionMode = false;
+	//Object containing the questions
+	private QuestionBank QB = new QuestionBank();
+	private Question question;
+	
+	
 	// *************************************************
 	// Constructor
 
@@ -105,35 +118,32 @@ public class Model {
 		player = new Player(startingX, startingY, ((int) (playerWidth * .75)), playerHeight, gravity);
 		// create Ground object
 		ground = new Ground(-500, (int) (screenHeight - groundOffSet), (int) (screenWidth * 2), groundOffSet);
-		// create first platform object
-		platform1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 1000),
-				(int) ThreadLocalRandom.current().nextInt(765, 900), 350, 50);
 
 		// make 5 platforms
 		for (int i = 0; i < 5; i++) {
 			if (i == 0) {
-				p1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 400),
-						(int) ThreadLocalRandom.current().nextInt(765, 900), 350, 50);
+				p1 = new Platform((int) ThreadLocalRandom.current().nextInt((int)(screenWidth/4), (int)(screenWidth/3)),
+						(int) ThreadLocalRandom.current().nextInt((int) (screenHeight/2), (int)(screenHeight/1.5)), 350, 50);
 				platforms.add(p1);
 			} else if (i == 1) {
-				p2 = new Platform((int) (p1.getX() + ThreadLocalRandom.current().nextInt(350, 500)), (int) (p1.getY()
-						+ ThreadLocalRandom.current().nextInt(0, 300) - ThreadLocalRandom.current().nextInt(0, 300)),
+				p2 = new Platform((int) (p1.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth/4))), (int) (p1.getY()
+						+ ThreadLocalRandom.current().nextInt(0,(int)(screenHeight/5)) - ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))),
 						350, 50);
 				platforms.add(p2);
 			} else if (i == 2) {
-				p3 = new Platform((int) (p2.getX() + ThreadLocalRandom.current().nextInt(350, 500)), (int) (p2.getY()
-						+ ThreadLocalRandom.current().nextInt(0, 300) - ThreadLocalRandom.current().nextInt(0, 300)),
+				p3 = new Platform((int) (p2.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth/4))), (int) (p2.getY()
+						+ ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5)) - ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))),
 						350, 50);
 				platforms.add(p3);
 			} else if (i == 3) {
-				p4 = new Platform((int) (p3.getX() + ThreadLocalRandom.current().nextInt(350, 500)), (int) (p3.getY()
-						+ ThreadLocalRandom.current().nextInt(0, 300) - ThreadLocalRandom.current().nextInt(0, 300)),
+				p4 = new Platform((int) (p3.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth/4))), (int) (p3.getY()
+						+ ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5)) - ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))),
 						350, 50);
 				platforms.add(p4);
 			} else if (i == 4) {
-				p5 = new Platform((int) (p4.getX() + ThreadLocalRandom.current().nextInt(350, 500)),
-						(int) (p4.getCenterY() + ThreadLocalRandom.current().nextInt(0, 300)
-								- ThreadLocalRandom.current().nextInt(0, 300)),
+				p5 = new Platform((int) (p4.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth/4))),
+						(int) (p4.getCenterY() + ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))
+								- ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))),
 						350, 50);
 				platforms.add(p5);
 			}
@@ -203,7 +213,7 @@ public class Model {
 	}
 
 	/**
-	 * Moves the player left
+	 * Moves the player right
 	 *
 	 * @see Player#setDirection(int)
 	 * @see Player#getX()
@@ -268,6 +278,14 @@ public class Model {
 	}
 
 	// if player collided with the enemy
+	/**
+	 * Checks if player collides an enemy
+	 * 
+	 * @see Enemy#isKillable()
+	 * @see Enemy#isDead()
+	 * @see 
+	 * 
+	 */
 	private void checkCollisionEnemy() {
 		for (Enemy enemy : enemies) {
 			if (enemy.isKillable()) {
@@ -320,7 +338,10 @@ public class Model {
 		for (Iterator<Collectible> collectIter = collectibles.iterator(); collectIter.hasNext();) {
 			Collectible c = collectIter.next();
 			if (player.intersects(c)) {
-				// TODO: display collectible fact
+				// ensure that no more than one fact is displayed at a time
+				facts.clear();
+				// generate new fact object
+				facts.add(new Fact());
 				// add collectible to collected
 				collected.add(new Collectible(numCollected));
 				// increment number collected and score
@@ -334,6 +355,11 @@ public class Model {
 		}
 	}
 
+	/**
+	 * Checks if the player collides with a chest
+	 * 
+	 * 
+	 */
 	private void checkCollisionChest() {
 		for (Iterator<Chest> chestIter = chests.iterator(); chestIter.hasNext();) {
 			Chest c = chestIter.next();
@@ -341,13 +367,19 @@ public class Model {
 				for (int i = 0; i < 5; i++) {
 					player.incrementScoreBy(10);
 				}
+				
+				if(!c.getIsOpen())
+				{
+					questionMode = true;
+					this.generateQuestion();
+					// picks question based on number of collected(facts)
+				}
+				
 				c.setIsOpen(true);
 				System.out.println("Score: " + player.getScore());
 				// TODO: Finish Question & Power-Up Implementation
-				setIsQuestionMode(true); 
-				setIsGamePaused();
-				// picks question based on number of collected(facts)
-				question = questions.pickQuestion(numCollected);
+				//setIsQuestionMode(true);
+				question2 = questions.pickQuestion(numCollected);
 			}
 		}
 	}
@@ -365,14 +397,45 @@ public class Model {
 		}
 	}
 
+	//add Question methods
+		//returns questionMode
+		public boolean isQuestionMode() {
+			return questionMode;
+		}
+		
+		//pick question from question bank and return that question object
+		private void generateQuestion() {
+			question = QB.pickQuestion();
+		}
+		
+		//getter for the question
+		public Question getQuestion() {
+			return question;
+		}
+		
+		//set the questionMode
+		public void setQuestionMode(boolean b)
+		{
+			questionMode = b;
+			/*if(!questionMode)
+			{
+				isGamePaused = false;
+			}*/
+		}
+		
+		//end of Question methods
+	
+	
 	/**
 	 * Randomly generate new room
 	 *
 	 */
 	private void createNewPlatform() {
+		// clear screen in order to rewrite objects/images
 		platforms.clear();
 		enemies.clear();
 		collectibles.clear();
+		facts.clear();
 		chests.clear();
 
 		for (int i = 0; i < 5; i++) {
@@ -648,8 +711,8 @@ public class Model {
 	 * 
 	 * @return Question- returns the question object
 	 */
-	public Question getQuestion() {
-		return question;
+	public Question2 getQuestion2() {
+		return question2;
 	}
 
 	/**
@@ -726,6 +789,10 @@ public class Model {
 	public ArrayList<Collectible> getCollected() {
 		return collected;
 	}
+	
+	public ArrayList<Fact> getFacts() {
+		return facts;
+	}
 
 	public ArrayList<Chest> getChests() {
 		return chests;
@@ -771,9 +838,27 @@ public class Model {
 			}
 		}
 	}
+	
+	/**
+	 * Getter for the Game Timer
+	 * 
+	 * @return int - Current game time left
+	 */
+	public int getGameTimeLeft() {
+		return gameTimeLeft;
+	}
 
 	// *************************************************
 	// Setters
+	
+	/**
+	 * Sets the game timer
+	 * @param currentGameTime 
+	 * 
+	 */
+	public void setGameTimeLeft(int currentGameTime) {
+		this.gameTimeLeft  = gameTimeLeft;
+	}
 
 	/**
 	 * Turns the player's Dx variable to 0

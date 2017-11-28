@@ -48,6 +48,14 @@ public class Player extends DynamicObject {
 	// *************************************************
 	// Constructor
 
+	/**
+	 * Constructor for the Player
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param gravity
+	 */
 	public Player(int x, int y, int width, int height, int gravity) {
 		// setLocation in Rectangle class used to set x and y coordinate
 		super.setLocation(x, y);
@@ -81,10 +89,20 @@ public class Player extends DynamicObject {
 
 	// determines if touching the ground with appropriate actions for jumping and
 	// falling
+	
+	/**
+	 * Enacts gravity on the player
+	 * @param ground
+	 */
 	public void gravityEffect(Ground ground) {
 
 		if (falling && !jumping) {
 			playerFalling();
+		}
+		
+		else if(y<0) {
+			falling = true;
+			jumping = false;
 		}
 
 		// if player is not touching the ground but is jumping then allow player to jump
@@ -116,6 +134,9 @@ public class Player extends DynamicObject {
 	}
 
 	// make the player fall
+	/**
+	 * Makes the player fall
+	 */
 	public void playerFalling() {
 		System.out.println("Executed: playerFalling()");
 		if (super.getDy() <= maxDy) {
@@ -125,6 +146,9 @@ public class Player extends DynamicObject {
 	}
 
 	// make the player jump
+	/**
+	 * Makes the player jump
+	 */
 	public void playerJumping() {
 		System.out.println("Executed: playerJumping()");
 		if (super.getDy() >= minDy) {
@@ -134,6 +158,10 @@ public class Player extends DynamicObject {
 	}
 
 	// collision between player and platforms
+	/**
+	 * Stops the player from moving forward when they hit a platform
+	 * @param plat
+	 */
 	public void playerPlatCollision(Platform plat) {
 		if (this.intersects(plat.getLeft()) && this.getDirection() == 1) {
 			this.setDx(0);
@@ -142,6 +170,9 @@ public class Player extends DynamicObject {
 		}
 	}
 
+	/**
+	 * Moves the player with a certain velocity
+	 */
 	public void move() {
 		int x = (int) super.getX() + super.getDx();
 		int y = (int) super.getY() + super.getDy();
@@ -157,57 +188,102 @@ public class Player extends DynamicObject {
 	// Getters
 
 	// getter for jumping
+	/**
+	 * Gets the jumping boolean
+	 * @return jumping - boolean determining whether or not the player is jumping
+	 */
 	public boolean getJumping() {
 		return jumping;
 	}
 
 	// getter for falling
+	/**
+	 * Gets the falling boolean
+	 * @return falling - boolean determining whether or not the player is jumping or not
+	 */
 	public boolean getFalling() {
 		return falling;
 	}
 
+	/**
+	 * Gets the maximum jumping height
+	 * @return maxJumpingHeight - integer that holds the maximum jumping height for the player
+	 */
 	public int getMaxJumpingHeight() {
 		return maxJumpingHeight;
 	}
 
+	/**
+	 * Shows which character the player is playing as
+	 * @param changeCharacterCount
+	 * @return researcher or bird - strings that corresponds with the character that is being selected/played
+	 */
 	public String getPlayerCharacter(int changeCharacterCount) {
 		if (changeCharacterCount % numOfCharacter == 0) {
-			maxJumpingHeight = height / 2;
+			maxJumpingHeight = (int) (height / 1.7);
 			state = "researcher";
 			return "researcher";
 		} else {
-			maxJumpingHeight = height * 2;
+			maxJumpingHeight = (int)(height * 1.5);
 			state = "bird";
 			return "bird";
 		}
 	}
 
 	// getter for health
+	/**
+	 * Gets the current health of the player
+	 * @return health - integer corresponding to how much health the player has
+	 */
 	public int getHealth() {
 		return health;
 	}
 
 	// getter for score
+	/**
+	 * Gets the player's current score
+	 * @return score - integer corresponding to the score that the player has
+	 */
 	public int getScore() {
 		return score;
 	}
 
+	/**
+	 * Gets the left hit box for the character
+	 * @return leftSide - rectangle that represents the player's left hit box
+	 */
 	public Rectangle getLeftSide() {
 		return leftSide;
 	}
 
+	/**
+	 * Gets the right hit box for the character
+	 * @return rightSide - rectangle that represents the player's right hit box
+	 */
 	public Rectangle getRightSide() {
 		return rightSide;
 	}
 
+	/**
+	 * Gets the top side hit box for the character 
+	 * @return topSide - rectangle that represents the player's top hit box
+	 */
 	public Rectangle getTopSide() {
 		return topSide;
 	}
 
+	/**
+	 * Gets the bottom side hit box for the character
+	 * @return bottomSide - rectangle that represents the player's bottom hit box
+	 */
 	public Rectangle getBottomSide() {
 		return bottomSide;
 	}
 
+	/**
+	 * Determines whether or not the player can attack/kill a killable enemy
+	 * @return boolean - true if the player is falling and not jumping, false otherwise
+	 */
 	public boolean isAbleToAttack() {
 		return (falling && !jumping);
 	}
@@ -216,44 +292,90 @@ public class Player extends DynamicObject {
 	// Setters
 
 	// setter for the player's dimensions
+	
+	/**
+	 * Sets the players dimensions
+	 * @param width
+	 * @param height
+	 */
 	public void setDimensions(int width, int height) {
 		super.setSize(width, height);
 	}
 
 	// setter for turning the dx between left, right, and 0
+	
+	/**
+	 * Moves the character left
+	 */
 	public void moveLeft() {
+		if(state.equalsIgnoreCase("bird")) {
+			super.setDx(-5);
+		}
+		else {
 		super.setDx(-20);
+		}
 	}
 
+	/**
+	 * Moves the character right
+	 */
 	public void moveRight() {
+		if(state.equalsIgnoreCase("bird")) {
+			super.setDx(5);
+		}
+		else {
 		super.setDx(20);
+		}
 	}
 
+	/**
+	 * Sets the x velocity to 0
+	 */
 	public void setDxOff() {
 		super.setDx(0);
 	}
 
+	/**
+	 * Increments the player's score
+	 * @param i
+	 */
 	public void incrementScoreBy(int i) {
 		score += i;
 	}
 
 	// setter for jumping
+	/**
+	 * Sets the player's jumping status
+	 * @param b
+	 */
 	public void setJumping(boolean b) {
 		jumping = b;
 		prevY = super.getY();
 	}
 
 	// setter for falling
+	/**
+	 * Sets the player's falling status
+	 * @param b
+	 */
 	public void setFalling(boolean b) {
 		falling = b;
 	}
 
 	// setter for maxJumpingHeight
+	/**
+	 * Sets the player's max jumping height
+	 * @param j
+	 */
 	public void setMaxJumpingHeight(int j) {
 		maxJumpingHeight = j;
 	}
 
 	// setter for health
+	/**
+	 * Sets the player's current health
+	 * @param i
+	 */
 	public void setHealth(int i) {
 		health = i;
 	}

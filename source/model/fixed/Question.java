@@ -1,28 +1,19 @@
 package model.fixed;
 
-//import java.util.ArrayList;
-
 public class Question {
 
-	// *************************************************
-	// Fields
-
-	private String question;
-	private String[] answers;
-	private String correctAnswer;
+	String name = "Estuary Question";
+	String question;
+	String[] answers;
+	String correctAnswer;
 	int index = 0;
-
-	// *************************************************
-	// Constructor
-
-	public Question(String question, String[] answers, String correctAnswer) {
-		this.question = question;
-		this.answers = answers;
-		this.correctAnswer = correctAnswer;
+	
+	public Question(String q, String[] ans, String cAns) {
+		question = q;
+		answers = ans;
+		correctAnswer = cAns;
 	}
-
-	// *************************************************
-	// Methods
+	
 	public void up() {
 		if(index > 0)
 		{
@@ -46,42 +37,34 @@ public class Question {
 		return (answers[index].equalsIgnoreCase(correctAnswer));
 	}
 	
-	public boolean checkAnswer(int index) {
-		if (answers[index-1] == correctAnswer) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	// *************************************************
-	// Getters
 	public int getIndex() {
 		return index;
 	}
-	/**
-	 * Getter for question
-	 * 
-	 * @return String- returns the question
-	 */
+	
+	public String getName() {
+		return name;
+	}
+	
 	public String getQuestion() {
 		return question;
 	}
-
-	/**
-	 * Getter for answers
-	 * 
-	 * @return String[]- returns the list of answers
-	 */
+	
 	public String[] getAnswers() {
 		return answers;
 	}
-
-	/**
-	 * Getter for Correct answer
-	 * 
-	 * @return String- returns the Correct answer
-	 */
+	
+	public String getA1() {
+		return answers[0];
+	}
+	
+	public String getA2() {
+		return answers[1];
+	}
+	
+	public String getA3() {
+		return answers[2];
+	}
+	
 	public String getCorrectAnswer() {
 		return correctAnswer;
 	}

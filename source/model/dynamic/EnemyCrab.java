@@ -12,6 +12,10 @@ public class EnemyCrab extends Enemy {
 	// *************************************************
 	// Constructor
 
+	/**
+	 * Constructor for the crab enemy
+	 * @param platform
+	 */
 	public EnemyCrab(Rectangle platform) {
 
 		System.out.println("Platform Boundary: " + platform.getX() + "-" + (platform.getX() + platform.getWidth()));
@@ -46,6 +50,9 @@ public class EnemyCrab extends Enemy {
 	// Methods
 
 	@Override
+	/**
+	 * Overridden move method for green crabs
+	 */
 	public void move() {
 		System.out.println("Executed: Crab move()");
 		System.out.println("Boundary: " + bound1 + "-" + bound2);

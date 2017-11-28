@@ -12,6 +12,7 @@ public abstract class StaticObject extends Rectangle {
 
 	// *************************************************
 	// Fields
+	
 	private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	private double screenRatio = screenHeight / screenWidth;

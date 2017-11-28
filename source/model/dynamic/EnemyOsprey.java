@@ -11,6 +11,11 @@ public class EnemyOsprey extends Enemy {
 	// *************************************************
 	// Constructor
 
+	/**
+	 * Constructor for the osprey enemy
+	 * @param xbound
+	 * @param ybound
+	 */
 	public EnemyOsprey(int xbound, int ybound) {
 		System.out.println("Platform boundary: " + xbound + "-" + ybound);
 		super.setName("osprey");
@@ -30,6 +35,9 @@ public class EnemyOsprey extends Enemy {
 	// Methods
 
 	@Override
+	/**
+	 * Overridden move method for the osprey to fly around the screen
+	 */
 	public void move() {
 		System.out.println("Executed: Osprey move()");
 		System.out.println("Boundary: " + bound1 + "-" + bound2);

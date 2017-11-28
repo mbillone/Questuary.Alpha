@@ -37,14 +37,26 @@ public abstract class ImageObject {
 	// *************************************************
 	// Getters
 
+	/**
+	 * Gets the width of the screen
+	 * @return screenWidth - double that is the screen width for whatever resolution the user has
+	 */
 	public double getScreenWidth() {
 		return screenWidth;
 	}
 
+	/**
+	 * Gets the screen's height
+	 * @return screenHeight - double that is the screen height for whatever resolution the user has
+	 */
 	public double getScreenHeight() {
 		return screenHeight;
 	}
 
+	/**
+	 * Gets the screen ratio
+	 * @return screenRatio - double for the screen ratio based on the resolution of the screen
+	 */
 	public double getScreenRatio() {
 		return screenRatio;
 	}
@@ -52,6 +64,10 @@ public abstract class ImageObject {
 	// *************************************************
 	// Setters
 
+	/**
+	 * Sets the name of an image
+	 * @param n
+	 */
 	protected void setName(String n) {
 		name = n;
 	}

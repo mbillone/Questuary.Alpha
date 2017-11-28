@@ -28,6 +28,9 @@ public class GroundImage extends ImageObject {
 
 	private BufferedImage[] pics = new BufferedImage[frameCount];
 
+	/**
+	 * Constructor for the image of the ground
+	 */
 	public GroundImage() {
 		super.setName("ground");
 
@@ -43,6 +46,11 @@ public class GroundImage extends ImageObject {
 	// Methods
 
 	// The String imageFile is the input to the method, and is the file name
+	/**
+	 * Creates image
+	 * @param imageFile
+	 * @return bufferedImage - image returned if no exception thrown
+	 */
 	private BufferedImage createImage(String imageFile) {
 		BufferedImage bufferedImage;
 		try {
@@ -56,10 +64,18 @@ public class GroundImage extends ImageObject {
 	}
 
 	// return the image
+	/**
+	 * Shows the image
+	 * @param direct
+	 */
 	public BufferedImage show(int direct) {
 		return pics[picNum];
 	}
 
+	/**
+	 * Increments to next image in the image array
+	 * @param canAnimate
+	 */
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists
 		if ((picNum + 1) < frameCount) {
@@ -73,11 +89,17 @@ public class GroundImage extends ImageObject {
 	// Getters
 
 	// getter for the image width
+	/**
+	 * Gets the width of the image
+	 */
 	public int getWidth() {
 		return imgWidth;
 	}
 
 	// getter for the image height
+	/**
+	 * Gets the height of the image
+	 */
 	public int getHeight() {
 		return imgHeight;
 	}

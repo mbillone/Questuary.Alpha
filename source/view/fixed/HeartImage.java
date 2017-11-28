@@ -29,6 +29,11 @@ public class HeartImage extends ImageObject {
 	// *************************************************
 	// Constructor
 
+	/**
+	 * Heart image constructor
+	 * @param x
+	 * @param y
+	 */
 	public HeartImage(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -43,6 +48,11 @@ public class HeartImage extends ImageObject {
 	// Methods
 
 	// The String imageFile is the input to the method, and is the file name
+	/**
+	 * Creates image
+	 * @param imageFile
+	 * @return bufferedImage - image created if exception is not thrown
+	 */
 	private BufferedImage createImage(String imageFile) {
 		BufferedImage bufferedImage;
 		try {
@@ -56,11 +66,18 @@ public class HeartImage extends ImageObject {
 	}
 
 	// return the image
+	/**
+	 * Shows the image
+	 * @param direct
+	 */
 	public BufferedImage show(int direct) {
 		return pics[picNum];
 	}
 
 	// increment through the image
+	/**
+	 * Increment through image array
+	 */
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists
 		if ((picNum + 1) < frameCount) {
@@ -73,20 +90,34 @@ public class HeartImage extends ImageObject {
 	// *************************************************
 	// Getters
 
+	/**
+	 * Gets x coordinate
+	 * @return x - int for x coordinate
+	 */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * Gets y coordinate
+	 * @return y - int for y coordinate
+	 */
 	public int getY() {
 		return y;
 	}
 
 	// getter for the image width
+	/**
+	 * Gets image width
+	 */
 	public int getWidth() {
 		return imgWidth;
 	}
 
 	// getter for the image height
+	/**
+	 * Gets image height
+	 */
 	public int getHeight() {
 		return imgHeight;
 	}

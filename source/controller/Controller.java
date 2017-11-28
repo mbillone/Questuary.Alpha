@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import controller.Controller.QuestionKeyListener;
 import view.View;
 import view.fixed.QuestionsFrame;
 import model.Model;
@@ -24,19 +25,25 @@ public class Controller {
 
 	// *************************************************
 	// Fields
-
 	Model model;
 	View view;
 	JFrame frame;
+	//IntroductionView intro = new IntroductionView(frame);
 	Timer timer;
+	Timer gameTimer;
 	ArrayList<Integer> keys = new ArrayList<Integer>();
-
-	// question state
+	//private Long startGameTime;
+	int gameTimeLeft = 240; // 5 minutes in milli seconds 
+	
+	//question state
 	private boolean questionModeFlag = true;
+
+	//Add question state
 	boolean questionMode = false;
 	Question question;
-	QuestionsFrame questionFrame;
-
+	JFrame questionFrame;
+	//end question
+	
 	// *************************************************
 	// Constructor
 
@@ -64,6 +71,9 @@ public class Controller {
 
 		// give view list of collected
 		view.setCollected(model.getCollected());
+		
+		// give view list of facts
+		//view.setFacts(model.getFacts());
 
 		// give view list of chests
 		view.setChests(model.getChests());
@@ -76,8 +86,24 @@ public class Controller {
 
 		timer = new Timer(45, new UpdateView());
 		timer.start();
+		gameTimer = new Timer(1000, new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				gameTimeLeft--;
+				if (gameTimeLeft == 0) {
+					gameTimer.stop();
+				}
+			}
+		});
+		gameTimer.start();
+		
+		
+		//gameTimer 
+		
+		//gameTimer = new Timer(1000, view.gameOverMode(););
+		//gameTimer.start();
 
 	}
+	
 
 	// *************************************************
 	// Methods
@@ -104,111 +130,88 @@ public class Controller {
 		 *            - Basic argument for a the actionPerformed function
 		 */
 		public void actionPerformed(ActionEvent arg0) {
-			// test the player on falling and jumping
-			model.changeRoom();
-			model.checkCollision();
-			model.gravity();
-			// increment the player's x and y
-			model.movePlayer();
-			// move the enemies
-			model.moveEnemies();
-			model.checkIsGameOver();
-
-			// add checkQuestionMode
-			// if model is in question mode then create the JFrame in view with the
-			// questions
-			questionMode = model.getIsQuestionMode();
-			if (questionMode) {
-				question = model.getQuestion();
-				// questionFrame = view.createQuestionFrame(question);
-				// questionFrame.addKeyListener(new QuestionKeyListener());
-				// questionFrame.requestFocus();
-				questionFrame = new QuestionsFrame(question);
-				view.displayQuestion(questionFrame.getQuestionFrame());
-				// questionFrame.requestFocus();
-			}
-
-			view.setPicNum();
-
-			// update the view and draw the image
-			view.setPlatforms(model.getPlatforms());
-			view.setEnemies(model.getEnemies());
-			view.setCollectibles(model.getCollectibles());
-			/*
-			 * if (questionModeFlag && model.getIsQuestionMode() && model.getIsGamePaused())
-			 * { questionModeFlag = false; //new QuestionsFrame(model.getQuestion());
-			 * questionFrame = new QuestionsFrame(question); questionFrame.a
-			 * questionFrame.requestFocus(); }
-			 */
-			if (model.getPlayerDx() != 0 || model.getPlayerDy() != 0) {
-				view.setAnimation(true);
-			} else {
-				view.setAnimation(false);
-			}
-			view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
-					model.getPlayerCharacter(), model.getPlayerHealth());
-			if (model.getIsGameOver()) {
-				// controls for game over state
-				if (model.isNewHighScore()) {
-					String name = view.getName();
-					model.setName(name);
-					model.updateHighScore();
+			if(!questionMode)
+			{
+				// test the player on falling and jumping
+				if(model.getIsGamePaused()) {
+					gameTimer.stop();
+				}else {
+					gameTimer.start();
 				}
+				view.setGameTime(gameTimeLeft);
+				model.setGameTimeLeft(gameTimeLeft);
+				model.changeRoom();
+				model.checkCollision();
+				model.gravity();
+				// increment the player's x and y
+				model.movePlayer();
+				// move the enemies
+				model.moveEnemies();
+				model.checkIsGameOver();
+				view.setPicNum();
+			
+				// update the view and draw the image
+				view.setPlatforms(model.getPlatforms());
+				view.setEnemies(model.getEnemies());
+				view.setCollectibles(model.getCollectibles());
+				view.setCollected(model.getCollected());
+				//view.setFacts(model.getFacts());
+				view.setChests(model.getChests());
 
-				view.setHighScore(model.getHighScore());
-				view.setScore(model.getScore());
-				view.gameOverMode();
+				//add checkQuestionMode
+				//if model is in question mode then create the JFrame in view with the questions
+				questionMode = model.isQuestionMode();
+				if(questionMode)
+				{
+					//pause the game timer
+					//model.setIsGamePaused();
+					question = model.getQuestion();
+					questionFrame = view.createQuestionFrame(question);
+					questionFrame.addKeyListener(new QuestionKeyListener());
+					questionFrame.requestFocus();
+				}
+		
+				//end of QuestionMode
+			
+				/*if (questionModeFlag && model.getIsQuestionMode() && !model.getIsGameOver()) {
+				questionModeFlag = false;
+				new QuestionsFrame(model.getQuestion2());
+				}*/
 
-			}
-
-		}
-	}
-
-	public class QuestionKeyListener implements KeyListener {
-
-		private boolean pressedRightTwice = false;
-
-		public void keyPressed(KeyEvent arg0) {
-			// TODO Auto-generated method stub
-			switch (arg0.getKeyCode()) {
-			case (KeyEvent.VK_UP):
-				System.out.println("Question up key pressed");
-				question.up();
-				questionFrame.updateQuestion(question.getIndex());
-				break;
-			case (KeyEvent.VK_DOWN):
-				System.out.println("Question down key pressed");
-				question.down();
-				questionFrame.updateQuestion(question.getIndex());
-				break;
-			case (KeyEvent.VK_RIGHT):
-				System.out.println("Question right key pressed");
-				if (!pressedRightTwice) {
-					if (question.right()) {
-						questionFrame.displayCorrect(question);
-					} else {
-						questionFrame.displayWrong(question);
-					}
-					pressedRightTwice = true;
+				if (model.getPlayerDx() != 0 || model.getPlayerDy() != 0) {
+					view.setAnimation(true);
 				} else {
-					model.setIsQuestionMode(false);
-					questionFrame.TurnOffQuestionFrame();
+					view.setAnimation(false);
 				}
-				break;
+				view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
+					model.getPlayerCharacter(), model.getPlayerHealth());
+				if (model.getIsGameOver() || gameTimeLeft == 0) {
+					if(!model.getIsGameOver()) {
+						model.setIsGameOver(true);
+					}
+					// controls for game over state
+					if (model.isNewHighScore()) {
+						String name = view.getName();
+						model.setName(name);
+						model.updateHighScore();
+					}
 
+					view.setHighScore(model.getHighScore());
+					view.setScore(model.getScore());
+					view.gameOverMode();
+					//System.
+				}
+			}
+			else
+			{
+				questionMode = model.isQuestionMode();
 			}
 		}
 
-		public void keyReleased(KeyEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void keyTyped(KeyEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
 	}
+
+	// *************************************************
+	// KeyListener Methods
 
 	/**
 	 * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
@@ -296,13 +299,14 @@ public class Controller {
 						System.exit(0);
 						break;
 					}
-					/*
-					 * } else if (model.getIsQuestionMode() && !model.getIsGameOver()) { //int
-					 * counter = 0; // counter to know which option was chosen switch (keys.get(0))
-					 * { case (KeyEvent.VK_DOWN): counter++; //QuestionsFrame.down(); case
-					 * (KeyEvent.VK_UP): counter--; //QuestionsFrame.up(); case (KeyEvent.VK_RIGHT):
-					 * //TODO: implement answer result model.getQuestion().checkAnswer(counter); }
-					 */
+
+				} else if (model.getIsQuestionMode() && !model.getIsGameOver()) {
+					switch (keys.get(0)) {
+					case (KeyEvent.VK_DOWN):
+						QuestionsFrame.down();
+					case (KeyEvent.VK_UP):
+						QuestionsFrame.up();
+					}
 				} else if (model.getIsGameOver()) {
 					// controls for game over state
 				}
@@ -372,9 +376,74 @@ public class Controller {
 
 		}
 	}
-
-		// *************************************************
-		// KeyListener Methods
-
 	
+	public class QuestionKeyListener implements KeyListener {
+
+		private boolean pressedRightTwice = false;
+		
+		boolean allowInput = false;
+		Timer delay = new Timer(1500, new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				allowInput = true;
+				delay.stop();
+			}
+		});
+				
+		public QuestionKeyListener() {
+			delay.start();
+		}
+		
+		public void keyPressed(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			if(allowInput)
+			{
+				switch(arg0.getKeyCode()) {
+				case (KeyEvent.VK_UP):
+					System.out.println("Question up key pressed");
+					question.up();
+					view.updateQuestion(question.getIndex());
+					break;
+				case (KeyEvent.VK_DOWN):
+					System.out.println("Question down key pressed");
+					question.down();
+					view.updateQuestion(question.getIndex());
+					break;
+				case (KeyEvent.VK_RIGHT):
+					System.out.println("Question right key pressed");
+					if(!pressedRightTwice)
+					{
+						if(question.right())
+						{
+							view.displayCorrect(question);
+							//increment model.playerIncrementHealth
+						}
+						else						{
+							view.displayWrong(question);
+						}
+						pressedRightTwice = true;
+					}
+					else
+					{
+						model.setQuestionMode(false);
+						view.TurnOffQuestionFrame();
+						//Turn game timer back on
+					}
+					break;
+				}
+			}
+		}
+
+		public void keyReleased(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void keyTyped(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+
+
 }

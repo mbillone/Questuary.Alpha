@@ -1,21 +1,15 @@
 package model.fixed;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
-public class Questions {
+public class QuestionBank {
 
-	// *************************************************
-	// Fields
-
-	private static ArrayList<Question> questions = new ArrayList<Question>();
-
-	// *************************************************
-	// Constructor
-
-	public Questions() {
+	ArrayList<Question> questions = new ArrayList<Question>();
+	
+	public QuestionBank() {
 		FileReader fr = null;
 		BufferedReader br = null;
 		try {
@@ -51,14 +45,11 @@ public class Questions {
 			}
 		}
 	}
-
-	// *************************************************
-	// Methods
-
-	public Question pickQuestion(int numCollectible) {
-		int questionIndex = numCollectible / 3;
-		return questions.get(0);        //TODO: when there are more questions questionIndex is passed into questions.get(questionIndex)
-		//TODO: this method will not work
+	
+	public Question pickQuestion() {
+		int size = questions.size();
+		Random random = new Random(System.nanoTime());
+		int index = (random.nextInt(25))%size;
+		return questions.get(index);
 	}
-
 }

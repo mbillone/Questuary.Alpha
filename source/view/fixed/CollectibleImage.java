@@ -27,6 +27,9 @@ public class CollectibleImage extends ImageObject {
 
 	private BufferedImage[] pics = new BufferedImage[frameCount];
 
+	/**
+	 * Image constructor
+	 */
 	public CollectibleImage() {
 		super.setName("collectible");
 
@@ -41,6 +44,11 @@ public class CollectibleImage extends ImageObject {
 	// Methods
 
 	// The String imageFile is the input to the method, and is the file name
+	/**
+	 * Creates image
+	 * @param imageFile
+	 * @return bufferedImage - BufferedImage displayed unless excpetion is thrown
+	 */
 	private BufferedImage createImage(String imageFile) {
 		BufferedImage bufferedImage;
 		try {
@@ -54,10 +62,18 @@ public class CollectibleImage extends ImageObject {
 	}
 
 	// return the image
+	/**
+	 * Shows the image
+	 * @param direct
+	 */
 	public BufferedImage show(int direct) {
 		return pics[picNum];
 	}
 
+	/**
+	 * Shows the next image in the array
+	 * @param canAnimate
+	 */
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists
 		if ((picNum + 1) < frameCount) {
@@ -71,11 +87,17 @@ public class CollectibleImage extends ImageObject {
 	// Getters
 
 	// getter for the image width
+	/**
+	 * Gets the width of image
+	 */
 	public int getWidth() {
 		return imgWidth;
 	}
 
 	// getter for the image height
+	/**
+	 * Gets the height of image
+	 */
 	public int getHeight() {
 		return imgHeight;
 	}

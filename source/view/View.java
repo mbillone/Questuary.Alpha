@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 
 import java.awt.Dimension;
@@ -13,14 +14,20 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
+import javax.swing.Box;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
 import view.dynamic.ResearcherImage;
 import view.fixed.ChestImage;
 import view.fixed.CollectibleImage;
+import view.fixed.FactImage;
 import view.fixed.GroundImage;
 import view.fixed.HeartImage;
 import view.fixed.PlatformImage;
@@ -31,6 +38,7 @@ import model.fixed.Chest;
 import model.fixed.Collectible;
 import model.fixed.Ground;
 import model.fixed.Platform;
+import model.fixed.Question;
 
 /**
  * 
@@ -107,6 +115,18 @@ public class View extends JPanel {
 	// high-score fields
 	public String highScore = "";
 	public String score = "";
+	// game time field
+	private int gameTimeLeft;
+	final private int GameTimeBarHeight = 35;
+	final private int GameTimeBarWidth = 600;
+	final private int GameTimeBarXPos = GameOverScreenWidth / 2 - GameTimeBarWidth / 2;
+	final private int GameTimeBarYPos = 5;
+	int dynamicTimeBar;
+
+	// Add question JFrame
+	JFrame questionFrame;
+	ArrayList<JRadioButton> buttons = new ArrayList<JRadioButton>();
+	// end of add question
 
 	// *************************************************
 	// Constructor
@@ -126,6 +146,7 @@ public class View extends JPanel {
 		characterImages.put("greenCrab", new CrabImage());
 		characterImages.put("osprey", new OspreyImage());
 		characterImages.put("collectible", new CollectibleImage());
+		characterImages.put("fact", new FactImage());
 		characterImages.put("chest", new ChestImage());
 
 		// set up background and add view object to the frame
@@ -156,6 +177,122 @@ public class View extends JPanel {
 	// *************************************************
 	// Methods
 
+	// Add question methods****************************
+	// setting up the Question JFrame
+	/**
+	 * Creates the question frame
+	 * 
+	 * @param q
+	 * @return questionFrame - JFrame that has the question being asked
+	 */
+	public JFrame createQuestionFrame(Question q) {
+		questionFrame = new JFrame(q.getName());
+		int frameWidth = 500;
+		int frameHeight = 250;
+		questionFrame.setSize(frameWidth, frameHeight);
+		questionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// set the location of the questionFrame
+		int x = (int) (screenWidth / 2) - (frameWidth / 2);
+		int y = (int) (screenHeight / 2) - (frameHeight / 2);
+		questionFrame.setLocation(x, y);
+
+		// add the question label onto the frame
+		JLabel label = new JLabel(q.getQuestion());
+		label.setHorizontalAlignment(JLabel.LEFT);
+		label.setHorizontalAlignment(JLabel.CENTER);
+		questionFrame.add(label, BorderLayout.NORTH);
+
+		// add the JRadio Buttons
+		Box buttonBox = Box.createVerticalBox();
+		JRadioButton a1 = new JRadioButton(q.getA1());
+		a1.setSelected(true);
+		buttons.add(a1);
+		buttonBox.add(a1);
+		JRadioButton a2 = new JRadioButton(q.getA2());
+		buttons.add(a2);
+		buttonBox.add(a2);
+		JRadioButton a3 = new JRadioButton(q.getA3());
+		buttons.add(a3);
+		buttonBox.add(a3);
+		questionFrame.add(buttonBox);
+
+		questionFrame.setVisible(true);
+		return questionFrame;
+	}
+
+	// implemented with arrow keys to visually display the selected options
+	/**
+	 * Updates the question frame
+	 * @param index
+	 */
+	public void updateQuestion(int index) {
+		JRadioButton selectedButton = buttons.get(index);
+		selectedButton.setSelected(true);
+
+		Iterator<JRadioButton> btnIter = buttons.iterator();
+		while (btnIter.hasNext()) {
+			JRadioButton btn = btnIter.next();
+			if (!(btn.equals(selectedButton))) {
+				btn.setSelected(false);
+			}
+		}
+		(buttons.get(index)).setSelected(true);
+	}
+
+	/**
+	 * Displays if the correct answer is chosen
+	 * @param q
+	 */
+	public void displayCorrect(Question q) {
+		removeButtons();
+		Box box = Box.createVerticalBox();
+		JLabel correctMessage = new JLabel(q.getCorrectAnswer() + " was correct");
+		JLabel continueMessage = new JLabel("Press the Right Key to continue your adventure");
+		box.add(correctMessage);
+		box.add(continueMessage);
+		questionFrame.add(box);
+		questionFrame.setVisible(true);
+	}
+
+	/**
+	 * Displays if the wrong answer is chosen
+	 * @param q
+	 */
+	public void displayWrong(Question q) {
+		removeButtons();
+		Box box = Box.createVerticalBox();
+		JLabel message = new JLabel("Sorry Incorrect, the right answer is: ");
+		JLabel correctAnswer = new JLabel(q.getCorrectAnswer());
+		box.add(message);
+		box.add(correctAnswer);
+		box.add(new JLabel("Press the Right Key to continue your adventure"));
+		questionFrame.add(box);
+		questionFrame.setVisible(true);
+	}
+
+	/**
+	 * Makes the buttons on the question screen invisible after the question frame is done being used
+	 */
+	private void removeButtons() {
+		// set each JRadioButton to invisible
+		Iterator<JRadioButton> btnIter = buttons.iterator();
+		while (btnIter.hasNext()) {
+			JRadioButton btn = btnIter.next();
+			btn.setVisible(false);
+			btnIter.remove();
+		}
+	}
+
+	/**
+	 * Gets rid of the question frame when it is done being used
+	 */
+	public void TurnOffQuestionFrame() {
+		questionFrame.removeAll();
+		questionFrame.setVisible(false);
+	}
+	// end of question methods****************************
+
 	/**
 	 * Draws the characters, ground, and platform on the screen
 	 * 
@@ -164,9 +301,14 @@ public class View extends JPanel {
 	 */
 	@Override
 	public void paint(Graphics g) {
-
-		// paint character image
+		dynamicTimeBar = 10 * (gameTimeLeft / 4);
 		if (!changeCharacterMode && !gameOverMode) {
+			// paint timer bar
+			g.setColor(Color.RED);
+			g.fillRect(GameTimeBarXPos, GameTimeBarYPos, GameTimeBarWidth, GameTimeBarHeight);
+			g.setColor(Color.BLUE);
+			g.fillRect(GameTimeBarXPos, GameTimeBarYPos, dynamicTimeBar, GameTimeBarHeight);
+			// paint character image
 			if (playerCharacter == "researcher") {
 				g.drawImage(researcherImage.show(direct), playerX, playerY, researcherImage.getWidth(),
 						researcherImage.getHeight(), this);
@@ -201,13 +343,6 @@ public class View extends JPanel {
 
 			}
 
-			/*
-			 * // generate hearts location
-			 *  hearts.clear();
-			 *  for (int i = 0; i < health; i++) { 
-			 *  hearts.add(new HeartImage((int) (screenWidth - ((i+1) * 50)), 0)); }
-			 */
-
 			// paint heart images
 			for (int heart = 0; heart < health; heart++) {
 				ImageObject heartImg = new HeartImage((int) (screenWidth - ((heart + 1) * 50)), 0);
@@ -220,7 +355,6 @@ public class View extends JPanel {
 				ImageObject collectibleImg = characterImages.get(collectible.getName());
 				g.drawImage(collectibleImg.show(0), (int) collectible.getX(), (int) collectible.getY(),
 						(int) collectible.getWidth(), (int) collectible.getHeight(), this);
-
 			}
 
 			// paint collected
@@ -309,10 +443,6 @@ public class View extends JPanel {
 		chestImage.nextImage(chestStatus);
 		frame.repaint();
 	}
-	
-	public void displayQuestion(JFrame q) {
-		q.setVisible(true);
-	}
 
 	// *************************************************
 	// Getters
@@ -375,6 +505,16 @@ public class View extends JPanel {
 	}
 
 	/**
+	 * Sets the current GameTime
+	 * 
+	 * @param score
+	 *            - Sets the score to String score
+	 */
+	public void setGameTime(int gameTimeLeft) {
+		this.gameTimeLeft = gameTimeLeft;
+	}
+
+	/**
 	 * After seeing if the character is a bird or researcher, it will increment the
 	 * researcher or bird image. It will only increment if animate is true\
 	 * 
@@ -422,18 +562,38 @@ public class View extends JPanel {
 		this.ground = ground;
 	}
 
+	/**
+	 * Sets the enemies on the screen
+	 * 
+	 * @param e
+	 */
 	public void setEnemies(ArrayList<Enemy> e) {
 		enemies = e;
 	}
 
+	/**
+	 * Sets collectibles on the screen
+	 * 
+	 * @param collect
+	 */
 	public void setCollectibles(ArrayList<Collectible> collect) {
 		collectibles = collect;
 	}
 
+	/**
+	 * Sets the collected collectibles in the top right
+	 * 
+	 * @param collect
+	 */
 	public void setCollected(ArrayList<Collectible> collect) {
 		collected = collect;
 	}
 
+	/**
+	 * Sets the chest object on the screen
+	 * 
+	 * @param chest
+	 */
 	public void setChests(ArrayList<Chest> chest) {
 		chests = chest;
 	}

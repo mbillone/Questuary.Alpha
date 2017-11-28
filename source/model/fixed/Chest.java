@@ -19,6 +19,10 @@ public class Chest extends StaticObject {
 	// *************************************************
 	// Constructor
 
+	/**
+	 * Constructor for the power up chest object
+	 * @param platform
+	 */
 	public Chest(Platform platform) {
 
 		super.setName("chest");
@@ -35,6 +39,10 @@ public class Chest extends StaticObject {
 	// *************************************************
 	// Getters
 
+	/**
+	 * Gets the variable associated with the chest being open or not
+	 * @return isOpen - boolean saying if the chest is open
+	 */
 	public boolean getIsOpen() {
 		return isOpen;
 	}
@@ -42,6 +50,10 @@ public class Chest extends StaticObject {
 	// *************************************************
 	// Setters
 
+	/**
+	 * Sets the boolean for if the chest is open
+	 * @param b
+	 */
 	public void setIsOpen(boolean b) {
 		isOpen = b;
 	}

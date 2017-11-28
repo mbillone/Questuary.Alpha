@@ -26,6 +26,9 @@ public class OspreyImage extends ImageObject {
 	// *************************************************
 	// Constructor
 
+	/**
+	 * Constructor for the osprey image
+	 */
 	public OspreyImage() {
 		super.setName("osprey");
 
@@ -46,6 +49,11 @@ public class OspreyImage extends ImageObject {
 	// Methods
 
 	// The String imageFile is the input to the method, and is the file name
+	/**
+	 * Creates the image on screen
+	 * @param imageFile
+	 * @return null or bufferedImage - bufferedImage is returned if there is no exception with uploading the image
+	 */
 	private BufferedImage createImage(String imageFile) {
 		BufferedImage bufferedImage;
 		try {
@@ -59,10 +67,18 @@ public class OspreyImage extends ImageObject {
 	}
 
 	// return the image
+	/**
+	 * Shows the image from the array
+	 * @param direct
+	 */
 	public BufferedImage show(int direct) {
 		return pics[direct][picNum];
 	}
 
+	/**
+	 * Increments through the osprey images, creating an animation
+	 * @param canAnimate
+	 */
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists
 		if ((picNum + 1) < frameCount) {
@@ -76,11 +92,17 @@ public class OspreyImage extends ImageObject {
 	// Getters
 
 	// getter for the image width
+	/**
+	 * Gets the width of the image
+	 */
 	public int getWidth() {
 		return imgWidth;
 	}
 
 	// getter for the image height
+	/**
+	 * Gets the height of the image
+	 */
 	public int getHeight() {
 		return imgHeight;
 	}
