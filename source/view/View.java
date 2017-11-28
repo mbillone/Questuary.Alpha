@@ -309,6 +309,10 @@ public class View extends JPanel {
 		chestImage.nextImage(chestStatus);
 		frame.repaint();
 	}
+	
+	public void displayQuestion(JFrame q) {
+		q.setVisible(true);
+	}
 
 	// *************************************************
 	// Getters
