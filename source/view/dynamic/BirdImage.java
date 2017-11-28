@@ -11,8 +11,7 @@ import view.ImageObject;
 
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
- *         Bird Image from --
- *         "https://opengameart.org/content/free-game-asset-grumpy-flappy-bird-sprite-sheets"
+ *      
  */
 
 public class BirdImage extends ImageObject {
