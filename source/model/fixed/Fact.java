@@ -17,10 +17,13 @@ public class Fact extends StaticObject {
 	// *************************************************
 	// Constructor
 
+	/**
+	 * Constructor for the fact
+	 */
 	public Fact() {
 		super.setName("fact");
 
-		if (picIter < 15) {
+		if (picIter < 10) {
 			picIter++;
 		} else {
 			picIter = 0;
@@ -35,14 +38,26 @@ public class Fact extends StaticObject {
 		super.setLocation(xLoc, yLoc);
 	}
 
+	/**
+	 * Gets the x location of the fact
+	 * @return xLoc - x location on screen
+	 */
 	public static int getxLoc() {
 		return xLoc;
 	}
 
+	/**
+	 * Gets the y location of the fact
+	 * @return yLoc - y location on screen
+	 */
 	public static int getyLoc() {
 		return yLoc;
 	}
 
+	/**
+	 * Gets the current fact to display from the array of facts
+	 * @return picIter - current fact being displayed
+	 */
 	public static int getPicIter() {
 		return picIter;
 	}

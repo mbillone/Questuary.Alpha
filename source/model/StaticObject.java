@@ -20,18 +20,34 @@ public abstract class StaticObject extends Rectangle {
 	// *************************************************
 	// Getters
 
+	/**
+	 * Gets the width of the screen
+	 * @return screenWidth - width of the user's screen
+	 */
 	protected double getScreenWidth() {
 		return screenWidth;
 	}
 
+	/**
+	 * Gets the screens height
+	 * @return screenHeight - height of the user's screen
+	 */
 	protected double getScreenHeight() {
 		return screenHeight;
 	}
 
+	/**
+	 * Gets the ratio between screen and image size based on resolution
+	 * @return screenRatio - ratio for screen and image sizes based on the user's screen resolution
+	 */
 	protected double getScreenRatio() {
 		return screenRatio;
 	}
 
+	/**
+	 * Gets the name of the object
+	 * @return name - name of the object
+	 */
 	public String getName() {
 		return name;
 	}
@@ -39,6 +55,10 @@ public abstract class StaticObject extends Rectangle {
 	// *************************************************
 	// Setters
 
+	/**
+	 * Sets the name of the object 
+	 * @param n - name for the object
+	 */
 	protected void setName(String n) {
 		name = n;
 	}

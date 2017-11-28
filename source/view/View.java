@@ -134,6 +134,7 @@ public class View extends JPanel {
 	// Add question JFrame
 	JFrame questionFrame;
 	ArrayList<JRadioButton> buttons = new ArrayList<JRadioButton>();
+	Box questionBox;
 	// end of add question
 	private boolean gameIntroMode = true;
 	private int introSlideNumber;
@@ -174,7 +175,7 @@ public class View extends JPanel {
 
 		// set up the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Questary Alpha");
+		frame.setTitle("Questary Beta");
 		// scale frame to screen's dimensions, and set location
 		setSize(new Dimension((int) screenWidth, (int) screenHeight));
 		frame.setSize(new Dimension((int) screenWidth, (int) screenHeight));
@@ -207,30 +208,34 @@ public class View extends JPanel {
 		int x = (int) (screenWidth / 2) - (frameWidth / 2);
 		int y = (int) (screenHeight / 2) - (frameHeight / 2);
 		questionFrame.setLocation(x, y);
-
+		
 		// add the question label onto the frame
-		JLabel label = new JLabel(q.getQuestion());
-		label.setHorizontalAlignment(JLabel.LEFT);
-		label.setHorizontalAlignment(JLabel.CENTER);
-		JLabel label2 = new JLabel("Use UP and DOWN key to move and RIGHT key to select");
+		JLabel questionLabel = new JLabel(q.getQuestion());
+		questionLabel.setHorizontalAlignment(JLabel.LEFT);
+		questionLabel.setHorizontalAlignment(JLabel.CENTER);
+		
+		questionBox = Box.createVerticalBox();
+		questionBox.add(questionLabel);
+		
+		JLabel label2 = new JLabel("After a delay, use UP and DOWN key to move and RIGHT key to select");
 		label2.setHorizontalAlignment(JLabel.LEFT);
 		label2.setHorizontalAlignment(JLabel.CENTER);
-		questionFrame.add(label, BorderLayout.NORTH);
-		questionFrame.add(label2, BorderLayout.SOUTH);
-
-		// add the JRadio Buttons
-		Box buttonBox = Box.createVerticalBox();
+		
+		questionBox.add(label2);
+		
 		JRadioButton a1 = new JRadioButton(q.getA1());
 		a1.setSelected(true);
 		buttons.add(a1);
-		buttonBox.add(a1);
+		questionBox.add(a1);
 		JRadioButton a2 = new JRadioButton(q.getA2());
 		buttons.add(a2);
-		buttonBox.add(a2);
+		questionBox.add(a2);
 		JRadioButton a3 = new JRadioButton(q.getA3());
 		buttons.add(a3);
-		buttonBox.add(a3);
-		questionFrame.add(buttonBox);
+		questionBox.add(a3);
+		
+		questionBox.setVisible(true);
+		questionFrame.add(questionBox);
 
 		questionFrame.setVisible(true);
 		return questionFrame;
@@ -261,13 +266,23 @@ public class View extends JPanel {
 	 */
 	public void displayCorrect(Question q) {
 		removeButtons();
-		Box box = Box.createVerticalBox();
-		JLabel correctMessage = new JLabel(q.getCorrectAnswer() + " was correct");
+		questionBox.setVisible(false);
+		
+		Box correctBox = Box.createVerticalBox();
+		JLabel question = new JLabel(q.getQuestion());
+		JLabel correctMessage = new JLabel(" CORRECT");
+		correctMessage.setHorizontalAlignment(JLabel.CENTER);
+		correctMessage.setFont(new Font("Serif", Font.BOLD, 30));
+		JLabel healthMessage = new JLabel("Congradulations you get an extra health\n");
 		JLabel continueMessage = new JLabel("Press the Right Key to continue your adventure");
-		box.add(correctMessage);
-		box.add(continueMessage);
-		questionFrame.add(box);
-		questionFrame.setVisible(true);
+		correctBox.add(question);
+		correctBox.add(correctMessage);
+		correctBox.add(healthMessage);
+		correctBox.add(continueMessage);
+		correctBox.setVisible(true);
+		
+		questionFrame.add(correctBox);
+		
 	}
 
 	/**
@@ -276,14 +291,23 @@ public class View extends JPanel {
 	 */
 	public void displayWrong(Question q) {
 		removeButtons();
-		Box box = Box.createVerticalBox();
-		JLabel message = new JLabel("Sorry Incorrect, the right answer is: ");
+		questionBox.setVisible(false);
+		
+		Box wrongBox = Box.createVerticalBox();
+		JLabel wrong = new JLabel("WRONG");
+		wrong.setFont(new Font("Serif", Font.BOLD, 30));
+		JLabel question = new JLabel(q.getQuestion());
+		JLabel message = new JLabel("The right answer is: ");
 		JLabel correctAnswer = new JLabel(q.getCorrectAnswer());
-		box.add(message);
-		box.add(correctAnswer);
-		box.add(new JLabel("Press the Right Key to continue your adventure"));
-		questionFrame.add(box);
-		questionFrame.setVisible(true);
+		wrongBox.add(wrong);
+		wrongBox.add(question);
+		wrongBox.add(message);
+		wrongBox.add(correctAnswer);
+		wrongBox.add(new JLabel("Press the Right Key to continue your adventure"));
+		
+		wrongBox.setVisible(true);
+		
+		questionFrame.add(wrongBox);
 	}
 
 	/**
@@ -320,7 +344,7 @@ public class View extends JPanel {
 		if (!changeCharacterMode && !gameOverMode && !gameIntroMode) {
 			// paint score
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 50));
-			g.drawString("Score:" + score, (int) screenWidth - 200, 96);
+			g.drawString("Score:" + score, (int) screenWidth - 225, 96);
 			
 			// paint timer bar
 			g.setColor(Color.RED);
@@ -337,21 +361,6 @@ public class View extends JPanel {
 						this);
 			}
 
-			// paint enemies
-			for (Enemy enemy : enemies) {
-				ImageObject enemyImg = characterImages.get(enemy.getName());
-				int direct = enemy.getDirection();
-				g.drawImage(enemyImg.show(direct), (int) enemy.getX(), (int) enemy.getY(), (int) enemy.getWidth(),
-						(int) enemy.getHeight(), this);
-			}
-
-			// paint ground
-			g.setColor(Color.GRAY);
-			g.fillRect((int) ground.getX(), (int) ground.getY(), (int) ground.getWidth(), (int) ground.getHeight());
-			ImageObject groundImg = characterImages.get(ground.getName());
-			g.drawImage(groundImg.show(0), (int) ground.getX(), (int) ground.getY(), (int) ground.getWidth(),
-					(int) ground.getHeight(), this);
-
 			// paint platform images
 			for (Platform platform : platforms) {
 				g.setColor(Color.GRAY);
@@ -363,12 +372,31 @@ public class View extends JPanel {
 
 			}
 
+			// paint enemies
+			for (Enemy enemy : enemies) {
+				//g.drawRect((int)enemy.getX(), (int)enemy.getY(), (int)enemy.getWidth(), (int)enemy.getHeight());
+				ImageObject enemyImg = characterImages.get(enemy.getName());
+				int direct = enemy.getDirection();
+				int imgX = (int)enemy.getX() - ( (  enemyImg.getWidth() - (int)enemy.getWidth() )/2 );
+				int imgY = (int)enemy.getY() - ( (  enemyImg.getHeight() - (int)enemy.getHeight() ) /2 );
+				g.drawImage(enemyImg.show(direct), imgX, imgY, enemyImg.getWidth(),
+						enemyImg.getHeight(), this);
+			}
+			
 			// paint heart images
 			for (int heart = 0; heart < health; heart++) {
 				ImageObject heartImg = new HeartImage((int) (screenWidth - ((heart + 1) * 50)), 0);
 				g.drawImage(heartImg.show(0), (int) (screenWidth - ((heart + 1) * 50)), 0, heartImg.getWidth(),
 						heartImg.getHeight(), this);
 			}
+			
+			// paint ground
+			g.setColor(Color.GRAY);
+			g.fillRect((int) ground.getX(), (int) ground.getY(), (int) ground.getWidth(), (int) ground.getHeight());
+			ImageObject groundImg = characterImages.get(ground.getName());
+			g.drawImage(groundImg.show(0), (int) ground.getX(), (int) ground.getY(), (int) ground.getWidth(),
+					(int) ground.getHeight(), this);
+
 
 			// paint collectibles
 			for (Collectible collectible : collectibles) {

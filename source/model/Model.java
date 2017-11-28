@@ -172,7 +172,11 @@ public class Model {
 			player.move();
 		}
 	}
-
+	
+	/**
+	 * Moves enemy 
+	 *
+	 */
 	public void moveEnemies() {
 		if (!getIsGamePaused() && !getIsGameOver()) {
 			Iterator<Enemy> enemyIter = enemies.iterator();
@@ -243,6 +247,9 @@ public class Model {
 	}
 
 	// check each collision
+	/**
+	 * Checks for on every object
+	 */
 	public void checkCollision() {
 		checkCollisionPlatform();
 		checkCollisionEnemy();
@@ -250,6 +257,9 @@ public class Model {
 		checkCollisionChest();
 	}
 
+	/**
+	 * Checks for a collision with a platform
+	 */
 	private void checkCollisionPlatform() {
 		boolean isBottomCollide = false;
 		for (Platform platform : platforms) {
@@ -318,6 +328,11 @@ public class Model {
 		}
 	}
 
+	/**
+	 * Handles horizontal collisions with an enemy
+	 * @param enemy - enemy you're colliding with
+	 * @return true if collision, false if no collision
+	 */
 	private boolean horizontalCollision(Enemy enemy) {
 		for (Platform platform : platforms) {
 			// if player hit left side of platform and enemy is facing right
@@ -331,7 +346,13 @@ public class Model {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Handles Collectible collisions with a player
+	 * Generates new fact after clearing previous fact
+	 * adds collectible to collected
+	 * Increments score by 5
+	 */
 	private void checkCollisionCollectible() {
 		for (Iterator<Collectible> collectIter = collectibles.iterator(); collectIter.hasNext();) {
 			Collectible c = collectIter.next();
@@ -355,8 +376,9 @@ public class Model {
 
 	/**
 	 * Checks if the player collides with a chest
-	 * 
-	 * 
+	 * Opens the chest
+	 * sets questionMode to true
+	 * And then generates a question
 	 */
 	private void checkCollisionChest() {
 		for (Iterator<Chest> chestIter = chests.iterator(); chestIter.hasNext();) {
@@ -387,33 +409,37 @@ public class Model {
 		}
 	}
 
-	//add Question methods
-		//returns questionMode
-		public boolean isQuestionMode() {
-			return questionMode;
-		}
+	/**
+	 * Checks for question mode
+	 * @return boolean - questionMode
+	 */
+	public boolean isQuestionMode() {
+		return questionMode;
+	}
 		
-		//pick question from question bank and return that question object
-		private void generateQuestion() {
-			question = QB.pickQuestion();
-		}
-		
-		//getter for the question
-		public Question getQuestion() {
-			return question;
-		}
-		
-		//set the questionMode
-		public void setQuestionMode(boolean b)
-		{
-			questionMode = b;
-			/*if(!questionMode)
-			{
-				isGamePaused = false;
-			}*/
-		}
-		
-		//end of Question methods
+	/**
+	 * Generates new question
+	 */
+	private void generateQuestion() {
+		question = QB.pickQuestion(this.numCollected);
+	}
+	
+	/**
+	 * Checks for question mode
+	 * @return - questionMode
+	 */
+	public void setQuestionMode(boolean b){
+		questionMode = b;
+	}
+	
+	//end of Question methods
+	
+	/**
+	 * Method to increment health
+	 */
+	public void incrementPlayerHealth() {
+		player.incrementHealth();
+	}
 	
 	
 	/**
@@ -638,24 +664,37 @@ public class Model {
 	}
 
 	/**
-	 * Returns a rectangle object that is the ground for the game
+	 * returns player x position
 	 *
-	 * @return Rectangle - Ground's Rectangle object
+	 * @return int - x position
 	 */
-
 	public int getPlayerDx() {
 		return player.getDx();
 	}
-
+	
+	/**
+	 * returns player y position
+	 *
+	 * @return int - y position
+	 */
 	public int getPlayerDy() {
 		return player.getDy();
 	}
-
+	
+	/**
+	 * Getter for ground
+	 *
+	 * @return Ground - ground object at the bottom of the screen
+	 */
 	public Ground getGround() {
 		return ground;
 	}
 
-	// return the list of platforms
+	/**
+	 * Getter for platforms
+	 *
+	 * @return ArrayList<Platform> - ArrayList containing platforms
+	 */
 	public ArrayList<Platform> getPlatforms() {
 		return platforms;
 	}
@@ -694,6 +733,15 @@ public class Model {
 	 */
 	public boolean getIsQuestionMode() {
 		return isQuestionMode;
+	}
+	
+	/**
+	 * Getter for question
+	 * 
+	 * @return Question - question
+	 */
+	public Question getQuestion() {
+		return question;
 	}
 
 	/**
@@ -748,26 +796,38 @@ public class Model {
 		return player.getFalling();
 	}
 
-	// get the player's score
+	/**
+	 * Getter for player's score
+	 *
+	 * @return int - player score
+	 */
 	public int getPlayerScore() {
 		return player.getScore();
 	}
 
-	// get the player's health
+	/**
+	 * Getter for Player Health
+	 *
+	 * @return int - players health
+	 */
 	public int getPlayerHealth() {
 		return player.getHealth();
 	}
 	
+	/**
+	 * Getter for number of collected collectibles
+	 *
+	 * @return int - numCollected
+	 */
 	public int getNumCollected() {
 		return numCollected;
 	}
-
-	//increment player health by 1
-	public void incrementPlayerHealth() {
-		player.incrementHealth();
-	}
 	
-	// get the list of enemies
+	/**
+	 * Getter for enemies
+	 *
+	 * @return ArrayList<Enemy> - enemies
+	 */
 	public ArrayList<Enemy> getEnemies() {
 		return enemies;
 	}

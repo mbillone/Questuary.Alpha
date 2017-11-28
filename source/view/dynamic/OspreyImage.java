@@ -15,8 +15,14 @@ public class OspreyImage extends ImageObject {
 	// Fields
 
 	// set the image's dimensions
-	private int imgWidth = 120;
-	private int imgHeight = 100;
+
+	final private double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	final private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	final private double screenRatio = screenWidth / screenHeight;
+	double width = (0.07 * screenWidth);
+	double height = (0.07* screenHeight);
+	private int imgWidth = (int)(1.5 * width);
+	private int imgHeight = (int)(1.5 * height);
 
 	private int frameCount = 9;
 	private int picNum = 0;

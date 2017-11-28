@@ -80,18 +80,27 @@ public class EnemyCrab extends Enemy {
 	// *************************************************
 	// Methods
 
+	/**
+	 * Increments the x position value for the crab
+	 */
 	private void incrementX() {
 		int y = (int) (super.getY());
 		int x = ((int) (super.getX())) + super.getDx();
 		super.setLocation(x, y);
 	}
 
+	/**
+	 * Decrements the x position value for the crab
+	 */
 	private void decrementX() {
 		int y = (int) (super.getY());
 		int x = ((int) (super.getX())) - super.getDx();
 		super.setLocation(x, y);
 	}
 
+	/**
+	 * Increments the y position value for the crab
+	 */
 	private void incrementY() {
 		int y = (int) (super.getY() + super.getDy());
 		int x = ((int) (super.getX()));

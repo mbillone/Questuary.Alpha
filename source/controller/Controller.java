@@ -208,6 +208,7 @@ public class Controller {
 
 		/**
 		 * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+		 * ArrowKeyListener used by all aspects of game except for questionMode
 		 */
 		public class ArrowKeyListener implements KeyListener {
 			/**
@@ -382,6 +383,10 @@ public class Controller {
 			}
 		}
 		
+		/**
+		 * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+		 * QuestionKeyListener used only by questionMode
+		 */
 		public class QuestionKeyListener implements KeyListener {
 
 			private boolean pressedRightTwice = false;
@@ -394,11 +399,20 @@ public class Controller {
 					delay.stop();
 				}
 			});
-					
+			
+			/**
+			 * Delays key inputs in Question mode so that player doesn't accidentally submit empty answer
+			 */
 			public QuestionKeyListener() {
 				delay.start();
 			}
 			
+			/**
+			 * Used to navigate the radio buttons for answer options
+			 * @param - Up- selects the answer on top of current answer
+			 * 		Down - selects answer below the current answer
+			 * 		Right - submits the current chosen answer
+			 */
 			public void keyPressed(KeyEvent arg0) {
 				// TODO Auto-generated method stub
 				if(allowInput)

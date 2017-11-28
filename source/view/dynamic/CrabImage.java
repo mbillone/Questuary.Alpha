@@ -15,8 +15,8 @@ public class CrabImage extends ImageObject {
 	// Fields
 
 	// set the image's dimensions
-	private int imgWidth = 60;
-	private int imgHeight = 40;
+	private int imgWidth = 80;
+	private int imgHeight = 60;
 
 	private int frameCount = 6;
 	private int picNum = 0;

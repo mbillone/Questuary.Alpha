@@ -1,50 +1,55 @@
-What is 1 + 1?
-1
-2
-3
-2
-What is 2 + 2?
-1
-2
-4
-4
-What is 3 + 3?
-1
-2
-6
-6
-What is 4 + 4?
-1
-8
-3
-8
-What is 5 + 5?
-10
-2
-3
-10
-What is 6 + 6?
-1
-12
-3
-12
-What is 7 + 7?
-1
-14
-3
-14
-What is 8 + 8?
-1
-2
-16
-16
-What is 9 + 9?
-18
-2
-3
-19
-What is 10 + 10?
-1
-2
-20
-20
+What is an estuary?
+An old mountain range
+Combination of freshwater and saltwater
+A type of climate
+Combination of freshwater and saltwater
+Why are estuaries crucial to humans?
+They are important for trade and travel
+They provide nice vacation getaways
+They are not important to humans
+They are important for trade and travel
+Why are horseshoe crabs important?
+They clean beaches.
+Their blood is important for testing.
+They know where the candy is.
+Their blood is important for testing.
+Which of these is an invasive species?
+Polar Bears
+European Green Crabs
+Catfish
+European Green Crabs 
+Which of these is an invasive species?
+Chinese Mitten Crab
+American Bald Eagle
+Horseshoe Crab
+Chinese Mitten Crab
+Why are horseshoe crab eggs important for Red Knots?
+They help navigate
+They provide shelter
+Red Knots feed on horseshoe crab eggs
+Red Knots feed on horseshoe crab eggs
+What estuary is home to the world’s largest horseshoe crab population?
+Delaware
+Chesapeake
+Hudson
+Delaware
+What is another habitat in estuaries?
+Jungle
+City
+Oyster Reefs
+Oyster Reefs
+Which ocean do Delaware estuaries connect to?
+Pacific Ocean
+Atlantic Ocean
+Indian Ocean
+Atlantic Ocean
+Which of these is a predator in Delaware estuaries?
+Lion
+Wombat
+Osprey
+Osprey
+Which of these are found in Delaware estuaries?
+Whelks
+Conks
+Tigers
+Whelks

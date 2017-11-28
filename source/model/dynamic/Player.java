@@ -190,11 +190,7 @@ public class Player extends DynamicObject {
 	// getter for jumping
 	/**
 	 * Gets the jumping boolean
-<<<<<<< HEAD
 	 * @return jumping - boolean determining whether or not the player is jumping
-=======
-	 * @return - 
->>>>>>> e3a5bd1a6cf7a06fef76f771e78d3bb4d30b3b92
 	 */
 	public boolean getJumping() {
 		return jumping;
@@ -299,8 +295,8 @@ public class Player extends DynamicObject {
 	
 	/**
 	 * Sets the players dimensions
-	 * @param width
-	 * @param height
+	 * @param width - int to set the width
+	 * @param height - int to set the height
 	 */
 	public void setDimensions(int width, int height) {
 		super.setSize(width, height);
@@ -341,7 +337,7 @@ public class Player extends DynamicObject {
 
 	/**
 	 * Increments the player's score
-	 * @param i
+	 * @param i - number incrementing the score by
 	 */
 	public void incrementScoreBy(int i) {
 		score += i;
@@ -350,7 +346,7 @@ public class Player extends DynamicObject {
 	// setter for jumping
 	/**
 	 * Sets the player's jumping status
-	 * @param b
+	 * @param b - boolean to set jumping
 	 */
 	public void setJumping(boolean b) {
 		jumping = b;
@@ -360,7 +356,7 @@ public class Player extends DynamicObject {
 	// setter for falling
 	/**
 	 * Sets the player's falling status
-	 * @param b
+	 * @param b - boolean to set the falling to
 	 */
 	public void setFalling(boolean b) {
 		falling = b;
@@ -369,7 +365,7 @@ public class Player extends DynamicObject {
 	// setter for maxJumpingHeight
 	/**
 	 * Sets the player's max jumping height
-	 * @param j
+	 * @param j 
 	 */
 	public void setMaxJumpingHeight(int j) {
 		maxJumpingHeight = j;

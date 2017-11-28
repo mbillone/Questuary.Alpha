@@ -38,7 +38,13 @@ public abstract class DynamicObject extends Rectangle {
 
 	// *************************************************
 	// Getters
-
+	
+	/**
+	 * Gets name of object
+	 * 
+	 * @return String - name
+	 * 
+	 */
 	public String getName() {
 		return name;
 	}
@@ -87,21 +93,38 @@ public abstract class DynamicObject extends Rectangle {
 		}
 	}
 
+	/**
+	 * Gets the screen width
+	 * @return screenWidth - width of the screen of the user
+	 */
 	protected double getScreenWidth() {
 		return screenWidth;
 	}
 
+	/**
+	 * Gets the screen height
+	 * @return screenHeight - height of the screen of the user
+	 */
 	protected double getScreenHeight() {
 		return screenHeight;
 	}
 
+	/**
+	 * Gets ratio
+	 * @return screenRatio - ratio of the sizes of images relative to screen resolution of the user
+	 */
 	protected double getScreenRatio() {
 		return screenRatio;
 	}
 
 	// *************************************************
 	// Setters
-
+	
+	/**
+	 * Sets the name of object
+	 * 
+	 * @param n - sets name to n
+	 */
 	protected void setName(String n) {
 		name = n;
 	}
@@ -109,8 +132,7 @@ public abstract class DynamicObject extends Rectangle {
 	/**
 	 * This sets the x velocity of a dynamic object
 	 * 
-	 * @param dx
-	 *            - The velocity of that will be set by the function
+	 * @param dx - The velocity of that will be set by the function
 	 */
 	public void setDx(int dx) {
 		xVelocity = dx;
@@ -119,8 +141,7 @@ public abstract class DynamicObject extends Rectangle {
 	/**
 	 * This sets the y velocity of a dynamic object
 	 * 
-	 * @param dy
-	 *            - The velocity of that will be set by the function
+	 * @param dy - The velocity of that will be set by the function
 	 */
 	public void setDy(int dy) {
 		yVelocity = dy;
@@ -129,8 +150,7 @@ public abstract class DynamicObject extends Rectangle {
 	/**
 	 * This sets the direction that the dynamic object is facing
 	 * 
-	 * @param d
-	 *            - The velocity of that will be set by the function
+	 * @param d - The velocity of that will be set by the function
 	 */
 	public void setDirection(int d) {
 		direction = d;

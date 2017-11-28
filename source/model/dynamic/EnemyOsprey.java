@@ -23,8 +23,8 @@ public class EnemyOsprey extends Enemy {
 		super.setDy(8);
 		super.setDx(4);
 		// set the dimensions
-		double width = 0.1 * super.getScreenWidth();
-		double height = width * super.getScreenRatio();
+		double width = 0.07 * super.getScreenWidth();
+		double height = 0.07 * super.getScreenHeight();
 		super.setSize((int) width, (int) height);
 		super.setDamage(1);
 		super.setBoundary(xbound, ybound);

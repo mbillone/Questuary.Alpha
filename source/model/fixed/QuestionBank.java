@@ -5,10 +5,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ * Creates an instance of a question
+ */
 public class QuestionBank {
-
+	
+	
 	ArrayList<Question> questions = new ArrayList<Question>();
 	
+	/**
+	 * Constructor for QuestionBank object
+	 */
 	public QuestionBank() {
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -46,10 +54,23 @@ public class QuestionBank {
 		}
 	}
 	
-	public Question pickQuestion() {
+	/**
+	 * Picks a question from the ArrayList of questions
+	 * @return Question  
+	*/
+	public Question pickQuestion(int num) {
 		int size = questions.size();
-		Random random = new Random(System.nanoTime());
-		int index = (random.nextInt(25))%size;
-		return questions.get(index);
+		/*Random random = new Random(System.nanoTime());
+		System.out.println("Question input number: " + num);
+		int numCollected = num;
+		if(num < 0)
+		{
+			numCollected *= -1;
+		}
+		
+		int questionLimit = Math.abs(num % size);*/
+		
+		//int index = random.nextInt(num % size);
+		return questions.get(num % size);
 	}
 }
