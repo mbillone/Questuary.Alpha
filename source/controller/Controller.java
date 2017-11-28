@@ -151,6 +151,7 @@ public class Controller {
 			view.setFacts(model.getFacts());
 			view.setChests(model.getChests());
 			
+			view.setScore(model.getScore());
 			view.setPicNum();
 
 			// add checkQuestionMode
@@ -335,19 +336,7 @@ public class Controller {
 							break;
 						}
 
-					} else if (model.getIsQuestionMode() && !model.getIsGameOver()) {
-						switch (keys.get(0)) {
-						case (KeyEvent.VK_DOWN):
-							QuestionsFrame.down();
-						case (KeyEvent.VK_UP):
-							QuestionsFrame.up();
-						case (KeyEvent.VK_ESCAPE):
-						case (KeyEvent.VK_Q):
-							// if q is press then quit
-							System.exit(0);
-							break;
-						}
-					}
+					} 
 
 				}  // if more then 1 key is pressed
 				else if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT))
