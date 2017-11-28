@@ -384,8 +384,12 @@ public class Model {
 		for (Iterator<Chest> chestIter = chests.iterator(); chestIter.hasNext();) {
 			Chest c = chestIter.next();
 			if (player.intersects(c)) {
+				// when player hits chest that has not been opened
 				if(!c.getIsOpen()) {
+					// ensure no fact is shown when player hits the chest
+					facts.clear();
 					player.incrementScoreBy(10);
+					// go to question mode
 					questionMode = true;
 					this.generateQuestion();
 					// picks question based on number of collected(facts)
@@ -408,13 +412,12 @@ public class Model {
 			createNewPlatform();
 		}
 	}
-
+	
 	/**
-	 * Checks for question mode
-	 * @return boolean - questionMode
+	 * Method to increment health
 	 */
-	public boolean isQuestionMode() {
-		return questionMode;
+	public void incrementPlayerHealth() {
+		player.incrementHealth();
 	}
 		
 	/**
@@ -424,22 +427,7 @@ public class Model {
 		question = QB.pickQuestion(this.numCollected);
 	}
 	
-	/**
-	 * Checks for question mode
-	 * @return - questionMode
-	 */
-	public void setQuestionMode(boolean b){
-		questionMode = b;
-	}
-	
 	//end of Question methods
-	
-	/**
-	 * Method to increment health
-	 */
-	public void incrementPlayerHealth() {
-		player.incrementHealth();
-	}
 	
 	
 	/**
@@ -847,6 +835,14 @@ public class Model {
 	public ArrayList<Chest> getChests() {
 		return chests;
 	}
+	
+	/**
+	 * Checks for question mode
+	 * @return boolean - questionMode
+	 */
+	public boolean isQuestionMode() {
+		return questionMode;
+	}
 
 	/**
 	 * Getter for the High Score
@@ -1052,5 +1048,15 @@ public class Model {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+
+	/**
+	 * Checks for question mode
+	 * @return - questionMode
+	 */
+	public void setQuestionMode(boolean b){
+		questionMode = b;
+	}
+	
 
 }

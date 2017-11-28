@@ -87,7 +87,7 @@ public class View extends JPanel {
 	Ground ground;
 	// for hearts display
 	int health;
-	//HeartImage heart = new HeartImage();
+	// HeartImage heart = new HeartImage();
 	ArrayList<HeartImage> hearts = new ArrayList<HeartImage>(3);
 	// list of platforms
 	ArrayList<Platform> platforms = new ArrayList<Platform>();
@@ -99,7 +99,7 @@ public class View extends JPanel {
 	ArrayList<Fact> facts;
 	ArrayList<Chest> chests;
 	// fact show/not show
-	boolean factTime;	
+	boolean factTime;
 	// chest open/closed
 	boolean chestStatus;
 	// game modes
@@ -110,12 +110,13 @@ public class View extends JPanel {
 	Image ChangeCharacterBird;
 	final private int ChangeCharacterMenuHeight = 500;
 	final private int ChangeCharacterMenuWidth = 700;
-	// game over screen
+	// game over screen fields
 	Image GameOverScreen;
 	final private int GameOverScreenHeight = (int) screenHeight - 100;
 	final private int GameOverScreenWidth = (int) screenWidth - 100;
 	final private int GameOverScreenXPos = 50;
 	final private int GameOverScreenYPos = 25;
+	// game over score positions
 	final private int GameOverScoreXPos = 75;
 	final private int GameOverScoreYPos = 275;
 	final private int GameOverHighScoreXPos = 75;
@@ -126,7 +127,7 @@ public class View extends JPanel {
 	// game time field
 	private int gameTimeLeft;
 	final private int GameTimeBarHeight = 35;
-	final private int GameTimeBarWidth = 300;
+	final private int GameTimeBarWidth = 600;
 	final private int GameTimeBarXPos = GameOverScreenWidth / 2 - GameTimeBarWidth / 2;
 	final private int GameTimeBarYPos = 5;
 	int dynamicTimeBar;
@@ -138,7 +139,6 @@ public class View extends JPanel {
 	// end of add question
 	private boolean gameIntroMode = true;
 	private int introSlideNumber;
-
 
 	// *************************************************
 	// Constructor
@@ -189,149 +189,6 @@ public class View extends JPanel {
 	// *************************************************
 	// Methods
 
-	// Add question methods****************************
-	// setting up the Question JFrame
-	/**
-	 * Creates the question frame
-	 * 
-	 * @param q
-	 * @return questionFrame - JFrame that has the question being asked
-	 */
-	public JFrame createQuestionFrame(Question q) {
-		questionFrame = new JFrame(q.getName());
-		int frameWidth = 500;
-		int frameHeight = 250;
-		questionFrame.setSize(frameWidth, frameHeight);
-		questionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// set the location of the questionFrame
-		int x = (int) (screenWidth / 2) - (frameWidth / 2);
-		int y = (int) (screenHeight / 2) - (frameHeight / 2);
-		questionFrame.setLocation(x, y);
-		
-		// add the question label onto the frame
-		JLabel questionLabel = new JLabel(q.getQuestion());
-		questionLabel.setHorizontalAlignment(JLabel.LEFT);
-		questionLabel.setHorizontalAlignment(JLabel.CENTER);
-		
-		questionBox = Box.createVerticalBox();
-		questionBox.add(questionLabel);
-		
-		JLabel label2 = new JLabel("After a delay, use UP and DOWN key to move and RIGHT key to select");
-		label2.setHorizontalAlignment(JLabel.LEFT);
-		label2.setHorizontalAlignment(JLabel.CENTER);
-		
-		questionBox.add(label2);
-		
-		JRadioButton a1 = new JRadioButton(q.getA1());
-		a1.setSelected(true);
-		buttons.add(a1);
-		questionBox.add(a1);
-		JRadioButton a2 = new JRadioButton(q.getA2());
-		buttons.add(a2);
-		questionBox.add(a2);
-		JRadioButton a3 = new JRadioButton(q.getA3());
-		buttons.add(a3);
-		questionBox.add(a3);
-		
-		questionBox.setVisible(true);
-		questionFrame.add(questionBox);
-
-		questionFrame.setVisible(true);
-		return questionFrame;
-	}
-
-	// implemented with arrow keys to visually display the selected options
-	/**
-	 * Updates the question frame
-	 * @param index
-	 */
-	public void updateQuestion(int index) {
-		JRadioButton selectedButton = buttons.get(index);
-		selectedButton.setSelected(true);
-
-		Iterator<JRadioButton> btnIter = buttons.iterator();
-		while (btnIter.hasNext()) {
-			JRadioButton btn = btnIter.next();
-			if (!(btn.equals(selectedButton))) {
-				btn.setSelected(false);
-			}
-		}
-		(buttons.get(index)).setSelected(true);
-	}
-
-	/**
-	 * Displays if the correct answer is chosen
-	 * @param q
-	 */
-	public void displayCorrect(Question q) {
-		removeButtons();
-		questionBox.setVisible(false);
-		
-		Box correctBox = Box.createVerticalBox();
-		JLabel question = new JLabel(q.getQuestion());
-		JLabel correctMessage = new JLabel(" CORRECT");
-		correctMessage.setHorizontalAlignment(JLabel.CENTER);
-		correctMessage.setFont(new Font("Serif", Font.BOLD, 30));
-		JLabel healthMessage = new JLabel("Congradulations you get an extra health\n");
-		JLabel continueMessage = new JLabel("Press the Right Key to continue your adventure");
-		correctBox.add(question);
-		correctBox.add(correctMessage);
-		correctBox.add(healthMessage);
-		correctBox.add(continueMessage);
-		correctBox.setVisible(true);
-		
-		questionFrame.add(correctBox);
-		
-	}
-
-	/**
-	 * Displays if the wrong answer is chosen
-	 * @param q
-	 */
-	public void displayWrong(Question q) {
-		removeButtons();
-		questionBox.setVisible(false);
-		
-		Box wrongBox = Box.createVerticalBox();
-		JLabel wrong = new JLabel("WRONG");
-		wrong.setFont(new Font("Serif", Font.BOLD, 30));
-		JLabel question = new JLabel(q.getQuestion());
-		JLabel message = new JLabel("The right answer is: ");
-		JLabel correctAnswer = new JLabel(q.getCorrectAnswer());
-		wrongBox.add(wrong);
-		wrongBox.add(question);
-		wrongBox.add(message);
-		wrongBox.add(correctAnswer);
-		wrongBox.add(new JLabel("Press the Right Key to continue your adventure"));
-		
-		wrongBox.setVisible(true);
-		
-		questionFrame.add(wrongBox);
-	}
-
-	/**
-	 * Makes the buttons on the question screen invisible after the question frame is done being used
-	 */
-	private void removeButtons() {
-		// set each JRadioButton to invisible
-		Iterator<JRadioButton> btnIter = buttons.iterator();
-		while (btnIter.hasNext()) {
-			JRadioButton btn = btnIter.next();
-			btn.setVisible(false);
-			btnIter.remove();
-		}
-	}
-
-	/**
-	 * Gets rid of the question frame when it is done being used
-	 */
-	public void TurnOffQuestionFrame() {
-		questionFrame.removeAll();
-		questionFrame.setVisible(false);
-	}
-	// end of question methods****************************
-
 	/**
 	 * Draws the characters, ground, and platform on the screen
 	 * 
@@ -340,18 +197,18 @@ public class View extends JPanel {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		dynamicTimeBar = 10*(gameTimeLeft/4);
+		dynamicTimeBar = 10 * (gameTimeLeft / 4);
 		if (!changeCharacterMode && !gameOverMode && !gameIntroMode) {
 			// paint score
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 50));
 			g.drawString("Score:" + score, (int) screenWidth - 225, 96);
-			
+
 			// paint timer bar
 			g.setColor(Color.RED);
-			g.fillRect(GameTimeBarXPos,GameTimeBarYPos, GameTimeBarWidth, GameTimeBarHeight);
+			g.fillRect(GameTimeBarXPos, GameTimeBarYPos, GameTimeBarWidth, GameTimeBarHeight);
 			g.setColor(Color.BLUE);
-			g.fillRect(GameTimeBarXPos,GameTimeBarYPos, dynamicTimeBar, GameTimeBarHeight);
-			
+			g.fillRect(GameTimeBarXPos, GameTimeBarYPos, dynamicTimeBar, GameTimeBarHeight);
+
 			// paint character image
 			if (playerCharacter == "researcher") {
 				g.drawImage(researcherImage.show(direct), playerX, playerY, researcherImage.getWidth(),
@@ -374,29 +231,28 @@ public class View extends JPanel {
 
 			// paint enemies
 			for (Enemy enemy : enemies) {
-				//g.drawRect((int)enemy.getX(), (int)enemy.getY(), (int)enemy.getWidth(), (int)enemy.getHeight());
+				// g.drawRect((int)enemy.getX(), (int)enemy.getY(), (int)enemy.getWidth(),
+				// (int)enemy.getHeight());
 				ImageObject enemyImg = characterImages.get(enemy.getName());
 				int direct = enemy.getDirection();
-				int imgX = (int)enemy.getX() - ( (  enemyImg.getWidth() - (int)enemy.getWidth() )/2 );
-				int imgY = (int)enemy.getY() - ( (  enemyImg.getHeight() - (int)enemy.getHeight() ) /2 );
-				g.drawImage(enemyImg.show(direct), imgX, imgY, enemyImg.getWidth(),
-						enemyImg.getHeight(), this);
+				int imgX = (int) enemy.getX() - ((enemyImg.getWidth() - (int) enemy.getWidth()) / 2);
+				int imgY = (int) enemy.getY() - ((enemyImg.getHeight() - (int) enemy.getHeight()) / 2);
+				g.drawImage(enemyImg.show(direct), imgX, imgY, enemyImg.getWidth(), enemyImg.getHeight(), this);
 			}
-			
+
 			// paint heart images
 			for (int heart = 0; heart < health; heart++) {
 				ImageObject heartImg = new HeartImage((int) (screenWidth - ((heart + 1) * 50)), 0);
 				g.drawImage(heartImg.show(0), (int) (screenWidth - ((heart + 1) * 50)), 0, heartImg.getWidth(),
 						heartImg.getHeight(), this);
 			}
-			
+
 			// paint ground
 			g.setColor(Color.GRAY);
 			g.fillRect((int) ground.getX(), (int) ground.getY(), (int) ground.getWidth(), (int) ground.getHeight());
 			ImageObject groundImg = characterImages.get(ground.getName());
 			g.drawImage(groundImg.show(0), (int) ground.getX(), (int) ground.getY(), (int) ground.getWidth(),
 					(int) ground.getHeight(), this);
-
 
 			// paint collectibles
 			for (Collectible collectible : collectibles) {
@@ -411,11 +267,11 @@ public class View extends JPanel {
 				g.drawImage(collectedImg.show(0), (int) collectible.getX(), (int) collectible.getY(),
 						(int) collectible.getWidth(), (int) collectible.getHeight(), this);
 			}
-			
+
 			// paint facts
 			for (Fact fact : facts) {
 				ImageObject factImg = characterImages.get(fact.getName());
-				g.drawImage(factImg.show(Fact.getPicIter()), (int) fact.getX(), (int) fact.getY(), 
+				g.drawImage(factImg.show(Fact.getPicIter()), (int) fact.getX(), (int) fact.getY(),
 						(int) fact.getWidth(), (int) fact.getHeight(), this);
 			}
 
@@ -426,7 +282,6 @@ public class View extends JPanel {
 						(int) chest.getHeight(), this);
 				chestStatus = chest.getIsOpen();
 			}
-			
 
 			// if game is in change character mode
 		} else if (changeCharacterMode && !gameOverMode) {
@@ -461,11 +316,11 @@ public class View extends JPanel {
 			g.drawImage(GameOverScreen, GameOverScreenXPos, GameOverScreenYPos, GameOverScreenWidth,
 					GameOverScreenHeight, this);
 			g.setFont(new Font("Comic Sans MS", Font.PLAIN, 85));
-			g.drawString("HIGHSCORE- "+ highScore, GameOverScoreXPos, GameOverHighScoreYPos);
+			g.drawString("HIGHSCORE- " + highScore, GameOverHighScoreXPos, GameOverHighScoreYPos);
 			g.drawString("Your Score- " + score, GameOverScoreXPos, GameOverScoreYPos);
-		}else if(gameIntroMode) {
+		} else if (gameIntroMode) {
 			try {
-				GameOverScreen = ImageIO.read(new File("images/IntroImages/Intro("+ introSlideNumber + ").png"));
+				GameOverScreen = ImageIO.read(new File("images/IntroImages/Intro(" + introSlideNumber + ").png"));
 			} catch (IOException e) {
 				System.out.println("Error with file upload");
 				e.printStackTrace();
@@ -513,6 +368,153 @@ public class View extends JPanel {
 	}
 
 	// *************************************************
+	// Question Methods
+
+	/**
+	 * Creates the question frame
+	 * 
+	 * @param q
+	 * @return questionFrame - JFrame that has the question being asked
+	 */
+	public JFrame createQuestionFrame(Question q) {
+		questionFrame = new JFrame(q.getName());
+		int frameWidth = 500;
+		int frameHeight = 250;
+		questionFrame.setSize(frameWidth, frameHeight);
+		questionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// set the location of the questionFrame
+		int x = (int) (screenWidth / 2) - (frameWidth / 2);
+		int y = (int) (screenHeight / 2) - (frameHeight / 2);
+		questionFrame.setLocation(x, y);
+
+		// add the question label onto the frame
+		JLabel questionLabel = new JLabel(q.getQuestion());
+		questionLabel.setHorizontalAlignment(JLabel.LEFT);
+		questionLabel.setHorizontalAlignment(JLabel.CENTER);
+
+		questionBox = Box.createVerticalBox();
+		questionBox.add(questionLabel);
+
+		JLabel label2 = new JLabel("After a delay, use UP and DOWN key to move and RIGHT key to select");
+		label2.setHorizontalAlignment(JLabel.LEFT);
+		label2.setHorizontalAlignment(JLabel.CENTER);
+
+		questionBox.add(label2);
+
+		JRadioButton a1 = new JRadioButton(q.getA1());
+		a1.setSelected(true);
+		buttons.add(a1);
+		questionBox.add(a1);
+		JRadioButton a2 = new JRadioButton(q.getA2());
+		buttons.add(a2);
+		questionBox.add(a2);
+		JRadioButton a3 = new JRadioButton(q.getA3());
+		buttons.add(a3);
+		questionBox.add(a3);
+
+		questionBox.setVisible(true);
+		questionFrame.add(questionBox);
+
+		questionFrame.setVisible(true);
+		return questionFrame;
+	}
+
+	// implemented with arrow keys to visually display the selected options
+	/**
+	 * Updates the question frame
+	 * 
+	 * @param index
+	 */
+	public void updateQuestion(int index) {
+		JRadioButton selectedButton = buttons.get(index);
+		selectedButton.setSelected(true);
+
+		Iterator<JRadioButton> btnIter = buttons.iterator();
+		while (btnIter.hasNext()) {
+			JRadioButton btn = btnIter.next();
+			if (!(btn.equals(selectedButton))) {
+				btn.setSelected(false);
+			}
+		}
+		(buttons.get(index)).setSelected(true);
+	}
+
+	/**
+	 * Displays if the correct answer is chosen
+	 * 
+	 * @param q
+	 */
+	public void displayCorrect(Question q) {
+		removeButtons();
+		questionBox.setVisible(false);
+
+		Box correctBox = Box.createVerticalBox();
+		JLabel question = new JLabel(q.getQuestion());
+		JLabel correctMessage = new JLabel(" CORRECT");
+		correctMessage.setHorizontalAlignment(JLabel.CENTER);
+		correctMessage.setFont(new Font("Serif", Font.BOLD, 30));
+		JLabel healthMessage = new JLabel("Congradulations you get an extra health\n");
+		JLabel continueMessage = new JLabel("Press the Right Key to continue your adventure");
+		correctBox.add(question);
+		correctBox.add(correctMessage);
+		correctBox.add(healthMessage);
+		correctBox.add(continueMessage);
+		correctBox.setVisible(true);
+
+		questionFrame.add(correctBox);
+
+	}
+
+	/**
+	 * Displays if the wrong answer is chosen
+	 * 
+	 * @param q
+	 */
+	public void displayWrong(Question q) {
+		removeButtons();
+		questionBox.setVisible(false);
+
+		Box wrongBox = Box.createVerticalBox();
+		JLabel wrong = new JLabel("WRONG");
+		wrong.setFont(new Font("Serif", Font.BOLD, 30));
+		JLabel question = new JLabel(q.getQuestion());
+		JLabel message = new JLabel("The right answer is: ");
+		JLabel correctAnswer = new JLabel(q.getCorrectAnswer());
+		wrongBox.add(wrong);
+		wrongBox.add(question);
+		wrongBox.add(message);
+		wrongBox.add(correctAnswer);
+		wrongBox.add(new JLabel("Press the Right Key to continue your adventure"));
+
+		wrongBox.setVisible(true);
+
+		questionFrame.add(wrongBox);
+	}
+
+	/**
+	 * Makes the buttons on the question screen invisible after the question frame
+	 * is done being used
+	 */
+	private void removeButtons() {
+		// set each JRadioButton to invisible
+		Iterator<JRadioButton> btnIter = buttons.iterator();
+		while (btnIter.hasNext()) {
+			JRadioButton btn = btnIter.next();
+			btn.setVisible(false);
+			btnIter.remove();
+		}
+	}
+
+	/**
+	 * Gets rid of the question frame when it is done being used
+	 */
+	public void TurnOffQuestionFrame() {
+		questionFrame.removeAll();
+		questionFrame.setVisible(false);
+	}
+
+	// *************************************************
 	// Getters
 
 	/**
@@ -539,13 +541,13 @@ public class View extends JPanel {
 	/**
 	 * Sets the Intro slide number to display
 	 * 
-	 * @param introSlideNumber - 
-	 * 						sets the slide number to display
+	 * @param introSlideNumber
+	 *            - sets the slide number to display
 	 */
 	public void setIntroSlideNumber(int introSlideNumber) {
 		this.introSlideNumber = introSlideNumber;
 	}
-	
+
 	/**
 	 * Set game to and from intro mode
 	 * 
@@ -553,7 +555,7 @@ public class View extends JPanel {
 	public void setIntroMode(boolean b) {
 		gameIntroMode = b;
 	}
-	
+
 	/**
 	 * This method sets game view into change character mode
 	 * 
@@ -589,7 +591,7 @@ public class View extends JPanel {
 	public void setScore(String score) {
 		this.score = score;
 	}
-	
+
 	/**
 	 * Sets the current GameTime
 	 * 
@@ -659,7 +661,7 @@ public class View extends JPanel {
 	public void setCollected(ArrayList<Collectible> collected) {
 		this.collected = collected;
 	}
-	
+
 	public void setFacts(ArrayList<Fact> facts) {
 		this.facts = facts;
 	}

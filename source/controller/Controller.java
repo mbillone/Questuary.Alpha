@@ -32,7 +32,7 @@ public class Controller {
 	Timer gameTimer;
 	ArrayList<Integer> keys = new ArrayList<Integer>();
 	// private Long startGameTime;
-	int gameTimeLeft = 120; // 2 minutes in seconds
+	int gameTimeLeft = 240; // 4 minutes in seconds
 
 	// question state
 	private boolean questionModeFlag = true;
@@ -225,6 +225,7 @@ public class Controller {
 				}
 
 				if(!model.getIsIntroMode()) {
+					
 					if (model.getIsGameOver()) {
 						switch (keys.get(0)) {
 							
