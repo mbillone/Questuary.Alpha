@@ -87,6 +87,7 @@ public class View extends JPanel {
 	Rectangle platform1;
 	// for hearts display
 	int health;
+	//HeartImage heart = new HeartImage();
 	ArrayList<HeartImage> hearts = new ArrayList<HeartImage>(3);
 	// list of platforms
 	ArrayList<Platform> platforms = new ArrayList<Platform>();
@@ -205,7 +206,7 @@ public class View extends JPanel {
 		label2.setHorizontalAlignment(JLabel.LEFT);
 		label2.setHorizontalAlignment(JLabel.CENTER);
 		questionFrame.add(label, BorderLayout.NORTH);
-		questionFrame.add(label2, BorderLayout.NORTH);
+		questionFrame.add(label2, BorderLayout.SOUTH);
 
 		// add the JRadio Buttons
 		Box buttonBox = Box.createVerticalBox();
