@@ -13,7 +13,6 @@ import javax.swing.Timer;
 import controller.Controller.QuestionKeyListener;
 import view.IntroductionView;
 import view.View;
-import view.fixed.QuestionsFrame;
 import model.Model;
 import model.fixed.Question;
 

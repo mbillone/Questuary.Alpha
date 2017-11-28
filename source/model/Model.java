@@ -16,9 +16,7 @@ import model.fixed.Fact;
 import model.fixed.Ground;
 import model.fixed.Platform;
 import model.fixed.Question;
-import model.fixed.Question2;
 import model.fixed.QuestionBank;
-import model.fixed.Questions2;
 
 import java.awt.Toolkit;
 import java.io.BufferedReader;
@@ -77,9 +75,6 @@ public class Model {
 	private boolean isQuestionMode = false;
 	private boolean isGamePaused = false;
 	private boolean isGameOver = false;
-	// question objects
-	private Questions2 questions = new Questions2();
-	private Question2 question2;
 	// character number
 	private int changeCharacterCount = 0;
 	// starting positions
@@ -367,18 +362,14 @@ public class Model {
 		for (Iterator<Chest> chestIter = chests.iterator(); chestIter.hasNext();) {
 			Chest c = chestIter.next();
 			if (player.intersects(c)) {
-				if(!c.getIsOpen())
-				{
+				if(!c.getIsOpen()) {
+					player.incrementScoreBy(10);
 					questionMode = true;
 					this.generateQuestion();
 					// picks question based on number of collected(facts)
 				}
-				player.incrementScoreBy(10);
 				c.setIsOpen(true);
 				System.out.println("Score: " + player.getScore());
-				// TODO: Finish Question & Power-Up Implementation
-				//setIsQuestionMode(true);
-				question2 = questions.pickQuestion(numCollected);
 			}
 		}
 	}
@@ -703,15 +694,6 @@ public class Model {
 	 */
 	public boolean getIsQuestionMode() {
 		return isQuestionMode;
-	}
-
-	/**
-	 * Getter for question that is chosen to be asked
-	 * 
-	 * @return Question- returns the question object
-	 */
-	public Question2 getQuestion2() {
-		return question2;
 	}
 
 	/**
