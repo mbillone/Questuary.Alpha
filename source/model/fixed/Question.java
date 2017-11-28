@@ -10,6 +10,7 @@ public class Question {
 	private String question;
 	private String[] answers;
 	private String correctAnswer;
+	int index = 0;
 
 	// *************************************************
 	// Constructor
@@ -22,21 +23,42 @@ public class Question {
 
 	// *************************************************
 	// Methods
-
-	public static void main(String[] args) {
-
-		// ArrayList<Questions> questions = new ArrayList<Questions>();
-
-		// Questions question1 = new Questions("What is your name?", new String[]{"Bob",
-		// "Dick", "Harry", "Jane"}, "Bob");
-		// Questions question2 = new Questions("What is your age?", new
-		// String[]{"Akash", "Andrew", "David", "Matt"}, "Matt");
-
+	public void up() {
+		if(index > 0)
+		{
+			index--;
+		}
+		System.out.println("index: " + index);
+	}
+	
+	public void down() {
+		if(index < 2)
+		{
+			index++;
+		}
+		System.out.println("index: " + index);
+	}
+	
+	public boolean right() {
+		System.out.println("Chose answer: " + answers[index]);
+		System.out.println("Correct answer: " + correctAnswer);
+		System.out.println("Correct: " + answers[index].equalsIgnoreCase(correctAnswer));
+		return (answers[index].equalsIgnoreCase(correctAnswer));
+	}
+	
+	public boolean checkAnswer(int index) {
+		if (answers[index-1] == correctAnswer) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	// *************************************************
 	// Getters
-
+	public int getIndex() {
+		return index;
+	}
 	/**
 	 * Getter for question
 	 * 
