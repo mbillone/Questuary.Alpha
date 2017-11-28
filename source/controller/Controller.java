@@ -27,14 +27,14 @@ public class Controller {
 	Model model;
 	View view;
 	JFrame frame;
-	//IntroductionView intro = new IntroductionView(frame);
+	// IntroductionView intro = new IntroductionView(frame);
 	Timer timer;
 	Timer gameTimer;
 	ArrayList<Integer> keys = new ArrayList<Integer>();
-	//private Long startGameTime;
-	int gameTimeLeft = 240; // 5 minutes in milli seconds 
-	
-	//question state
+	// private Long startGameTime;
+	int gameTimeLeft = 240; // 5 minutes in milli seconds
+
+	// question state
 	private boolean questionModeFlag = true;
 
 	// *************************************************
@@ -64,7 +64,7 @@ public class Controller {
 
 		// give view list of collected
 		view.setCollected(model.getCollected());
-		
+
 		// give view list of facts
 		view.setFacts(model.getFacts());
 
@@ -88,15 +88,13 @@ public class Controller {
 			}
 		});
 		gameTimer.start();
-		
-		
-		//gameTimer 
-		
-		//gameTimer = new Timer(1000, view.gameOverMode(););
-		//gameTimer.start();
+
+		// gameTimer
+
+		// gameTimer = new Timer(1000, view.gameOverMode(););
+		// gameTimer.start();
 
 	}
-	
 
 	// *************************************************
 	// Methods
@@ -124,9 +122,9 @@ public class Controller {
 		 */
 		public void actionPerformed(ActionEvent arg0) {
 			// test the player on falling and jumping
-			if(model.getIsGamePaused()) {
+			if (model.getIsGamePaused()) {
 				gameTimer.stop();
-			}else {
+			} else {
 				gameTimer.start();
 			}
 			view.setGameTime(gameTimeLeft);
@@ -140,7 +138,9 @@ public class Controller {
 			model.moveEnemies();
 			model.checkIsGameOver();
 			view.setPicNum();
-			
+			// update score
+			view.setScore(model.getScore());
+
 			// update the view and draw the image
 			view.setPlatforms(model.getPlatforms());
 			view.setEnemies(model.getEnemies());
@@ -162,7 +162,7 @@ public class Controller {
 			view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
 					model.getPlayerCharacter(), model.getPlayerHealth());
 			if (model.getIsGameOver() || gameTimeLeft == 0) {
-				if(!model.getIsGameOver()) {
+				if (!model.getIsGameOver()) {
 					model.setIsGameOver(true);
 				}
 				// controls for game over state
@@ -173,11 +173,9 @@ public class Controller {
 				}
 
 				view.setHighScore(model.getHighScore());
-				view.setScore(model.getScore());
 				view.gameOverMode();
-				//System.
 			}
-			
+
 		}
 
 	}
@@ -202,6 +200,14 @@ public class Controller {
 				keys.add(e.getKeyCode());
 			}
 			if (model.getIsGameOver()) {
+				switch (keys.get(0)) {
+				case (KeyEvent.VK_ESCAPE):
+				case (KeyEvent.VK_Q):
+					// if q or esc pressed then quit
+					System.exit(0);
+					break;
+				}
+				
 				if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
 					// something is selected from game over screen
 					frame.dispose();
@@ -245,10 +251,6 @@ public class Controller {
 						// if q or esc pressed then quit
 						System.exit(0);
 						break;
-					case (KeyEvent.VK_C):
-						model.setIsGameOver(true);
-						view.gameOverMode();
-						break;
 					}
 				} else if (model.getChangeCharacterMode() && !model.getIsGameOver()) {
 					// game is in change player mode
@@ -278,13 +280,18 @@ public class Controller {
 						QuestionsFrame.down();
 					case (KeyEvent.VK_UP):
 						QuestionsFrame.up();
+					case (KeyEvent.VK_ESCAPE):
+					case (KeyEvent.VK_Q):
+						// if q is press then quit
+						System.exit(0);
+						break;
 					}
-				} else if (model.getIsGameOver()) {
-					// controls for game over state
 				}
 
-			} // if more then 1 key is pressed
-			else if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
+			}  // if more then 1 key is pressed
+			else if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT))
+
+			{
 				// changes game mode to switching player
 				view.changeCharacterMode();
 				model.setChangePlayerMode();

@@ -11,68 +11,71 @@ import view.ImageObject;
 public class FactImage extends ImageObject {
 
 	// *************************************************
-		// Fields
+	// Fields
 
-		// set the image's dimensions
-		private int imgWidth = 100;
-		private int imgHeight = 60;
+	// set the image's dimensions
+	private int imgWidth;
+	private int imgHeight;
 
-		private int frameCount = 15;
+	private int frameCount = 15;
 
-		private BufferedImage[] pics = new BufferedImage[frameCount];
+	private BufferedImage[] pics = new BufferedImage[frameCount];
 
-		// *************************************************
-		// Constructor
+	// *************************************************
+	// Constructor
 
-		public FactImage() {
-			super.setName("fact");
-			// load in the images
-			for (int i = 0; i < frameCount; i++) {
-				BufferedImage image = createImage("images/facts/Fact (" + (i + 1) + ")" + ".png");
-				pics[i] = image;
-			}
+	public FactImage() {
+		super.setName("fact");
+		
+		imgWidth = (int) (super.getScreenWidth()/8);
+		imgHeight = (int) (super.getScreenHeight()/120);
+		
+		// load in the images
+		for (int i = 0; i < frameCount; i++) {
+			BufferedImage image = createImage("images/facts/Fact (" + (i + 1) + ")" + ".png");
+			pics[i] = image;
 		}
+	}
 
-		// *************************************************
-		// Methods
+	// *************************************************
+	// Methods
 
-		// The String imageFile is the input to the method, and is the file name
-		private BufferedImage createImage(String imageFile) {
-			BufferedImage bufferedImage;
-			try {
-				bufferedImage = ImageIO.read(new File(imageFile));
-				return bufferedImage;
-			} catch (IOException e) {
-				System.out.println("Error with file upload");
-				e.printStackTrace();
-			}
-			return null;
+	// The String imageFile is the input to the method, and is the file name
+	private BufferedImage createImage(String imageFile) {
+		BufferedImage bufferedImage;
+		try {
+			bufferedImage = ImageIO.read(new File(imageFile));
+			return bufferedImage;
+		} catch (IOException e) {
+			System.out.println("Error with file upload");
+			e.printStackTrace();
 		}
+		return null;
+	}
 
-		// return the image in the array
-		public BufferedImage show(int picNum) {
-			return pics[picNum-1];
-		}
+	// return the image in the array
+	public BufferedImage show(int picNum) {
+		return pics[picNum - 1];
+	}
 
-		// increment through the BirdImage
-		public void nextImage(boolean canAnimate) {
-/*			if (canAnimate) {
-				picNum = (picNum + 1) % frameCount;
-			}*/
-		}
+	// increment through the BirdImage
+	public void nextImage(boolean canAnimate) {
+		/*
+		 * if (canAnimate) { picNum = (picNum + 1) % frameCount; }
+		 */
+	}
 
-		// *************************************************
-		// Getters
+	// *************************************************
+	// Getters
 
-		// getter for the image width
-		public int getWidth() {
-			return imgWidth;
-		}
+	// getter for the image width
+	public int getWidth() {
+		return imgWidth;
+	}
 
-		// getter for the image height
-		public int getHeight() {
-			return imgHeight;
-		}
-
+	// getter for the image height
+	public int getHeight() {
+		return imgHeight;
+	}
 
 }

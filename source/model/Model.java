@@ -355,9 +355,7 @@ public class Model {
 		for (Iterator<Chest> chestIter = chests.iterator(); chestIter.hasNext();) {
 			Chest c = chestIter.next();
 			if (player.intersects(c)) {
-				for (int i = 0; i < 5; i++) {
-					player.incrementScoreBy(10);
-				}
+				player.incrementScoreBy(10);
 				c.setIsOpen(true);
 				System.out.println("Score: " + player.getScore());
 				// TODO: Finish Question & Power-Up Implementation
@@ -730,6 +728,10 @@ public class Model {
 	// get the player's health
 	public int getPlayerHealth() {
 		return player.getHealth();
+	}
+	
+	public int getNumCollected() {
+		return numCollected;
 	}
 
 	// get the list of enemies

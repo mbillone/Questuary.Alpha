@@ -178,6 +178,10 @@ public class View extends JPanel {
 	public void paint(Graphics g) {
 		dynamicTimeBar = 10*(gameTimeLeft/4);
 		if (!changeCharacterMode && !gameOverMode) {
+			// paint score
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+			g.drawString("Score:" + score, (int) screenWidth - 200, 96);
+			
 			// paint timer bar
 			g.setColor(Color.RED);
 			g.fillRect(GameTimeBarXPos,GameTimeBarYPos, GameTimeBarWidth, GameTimeBarHeight);
@@ -288,8 +292,8 @@ public class View extends JPanel {
 			g.drawImage(GameOverScreen, GameOverScreenXPos, GameOverScreenYPos, GameOverScreenWidth,
 					GameOverScreenHeight, this);
 			g.setFont(new Font("Comic Sans MS", Font.PLAIN, 85));
-			g.drawString(highScore, 625, 440);
-			g.drawString(score, 625, 310);
+			g.drawString(highScore, (int) (GameOverScreenWidth/2.4), (int) (GameOverScreenHeight/2.17));
+			g.drawString(score, (int) (GameOverScreenWidth/2.4), (int) (GameOverScreenHeight/3.08));
 		}
 	}
 
