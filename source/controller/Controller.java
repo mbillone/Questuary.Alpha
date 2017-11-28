@@ -33,13 +33,11 @@ public class Controller {
 	Timer gameTimer;
 	ArrayList<Integer> keys = new ArrayList<Integer>();
 	// private Long startGameTime;
-	int gameTimeLeft = 240; // 5 minutes in milli seconds
+	int gameTimeLeft = 240; // 5 minutes in milliseconds
 
 	// question state
 	private boolean questionModeFlag = true;
 
-	// question state
-	private boolean questionModeFlag = true;
 	boolean questionMode = false;
 	Question question;
 	QuestionsFrame questionFrame;
@@ -95,12 +93,6 @@ public class Controller {
 			}
 		});
 		gameTimer.start();
-
-		// gameTimer
-
-		// gameTimer = new Timer(1000, view.gameOverMode(););
-		// gameTimer.start();
-
 	}
 
 	// *************************************************
@@ -145,6 +137,14 @@ public class Controller {
 			model.moveEnemies();
 			model.checkIsGameOver();
 
+			// update the view and draw the image
+			view.setPlatforms(model.getPlatforms());
+			view.setEnemies(model.getEnemies());
+			view.setCollectibles(model.getCollectibles());
+			view.setCollected(model.getCollected());
+			view.setFacts(model.getFacts());
+			view.setChests(model.getChests());
+
 			// add checkQuestionMode
 			// if model is in question mode then create the JFrame in view with the
 			// questions
@@ -158,18 +158,6 @@ public class Controller {
 				view.displayQuestion(questionFrame.getQuestionFrame());
 				// questionFrame.requestFocus();
 			}
-
-			view.setPicNum();
-			// update score
-			view.setScore(model.getScore());
-
-			// update the view and draw the image
-			view.setPlatforms(model.getPlatforms());
-			view.setEnemies(model.getEnemies());
-			view.setCollectibles(model.getCollectibles());
-			view.setCollected(model.getCollected());
-			view.setFacts(model.getFacts());
-			view.setChests(model.getChests());
 
 			if (questionModeFlag && model.getIsQuestionMode() && !model.getIsGameOver()) {
 				questionModeFlag = false;
@@ -197,9 +185,6 @@ public class Controller {
 				view.setHighScore(model.getHighScore());
 				view.gameOverMode();
 			}
-
-		}
-
 		}
 	}
 
@@ -208,7 +193,6 @@ public class Controller {
 		private boolean pressedRightTwice = false;
 
 		public void keyPressed(KeyEvent arg0) {
-			// TODO Auto-generated method stub
 			switch (arg0.getKeyCode()) {
 			case (KeyEvent.VK_UP):
 				System.out.println("Question up key pressed");
@@ -234,7 +218,11 @@ public class Controller {
 					questionFrame.TurnOffQuestionFrame();
 				}
 				break;
-
+			case (KeyEvent.VK_ESCAPE):
+			case (KeyEvent.VK_Q):
+				// if q or esc pressed then quit
+				System.exit(0);
+				break;
 			}
 		}
 
@@ -267,14 +255,14 @@ public class Controller {
 			}
 			if (model.getIsGameOver()) {
 				switch (keys.get(0)) {
-				
+
 				case (KeyEvent.VK_ESCAPE):
 				case (KeyEvent.VK_Q):
 					// if q or esc pressed then quit
 					System.exit(0);
 					break;
 				}
-				
+
 				if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
 					// something is selected from game over screen
 					frame.dispose();
@@ -341,23 +329,10 @@ public class Controller {
 						break;
 					}
 
-				} else if (model.getIsQuestionMode() && !model.getIsGameOver()) {
-					switch (keys.get(0)) {
-					case (KeyEvent.VK_DOWN):
-						QuestionsFrame.down();
-					case (KeyEvent.VK_UP):
-						QuestionsFrame.up();
-					case (KeyEvent.VK_ESCAPE):
-					case (KeyEvent.VK_Q):
-						// if q is press then quit
-						System.exit(0);
-						break;
-					}
 				}
 
-			}  // if more then 1 key is pressed
+			} // if more then 1 key is pressed
 			else if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT))
-
 			{
 				// changes game mode to switching player
 				view.changeCharacterMode();
@@ -369,7 +344,6 @@ public class Controller {
 					model.makePlayerJump();
 					System.out.println("Executed: makePlayerJump()");
 				}
-
 			} else if (keys.contains(KeyEvent.VK_UP) && keys.contains(KeyEvent.VK_LEFT)) {
 				model.changeRoom();
 				model.playerMoveLeft();
@@ -423,8 +397,7 @@ public class Controller {
 		}
 	}
 
-		// *************************************************
-		// KeyListener Methods
+	// *************************************************
+	// KeyListener Methods
 
-	
 }
