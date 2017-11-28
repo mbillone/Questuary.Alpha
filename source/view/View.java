@@ -108,6 +108,10 @@ public class View extends JPanel {
 	final private int GameOverScreenWidth = (int) screenWidth - 100;
 	final private int GameOverScreenXPos = 50;
 	final private int GameOverScreenYPos = 25;
+	final private int GameOverScoreXPos = 75;
+	final private int GameOverScoreYPos = 275;
+	final private int GameOverHighScoreXPos = 75;
+	final private int GameOverHighScoreYPos = 400;
 	// high-score fields
 	public String highScore = "";
 	public String score = "";
@@ -118,6 +122,8 @@ public class View extends JPanel {
 	final private int GameTimeBarXPos = GameOverScreenWidth/2 - GameTimeBarWidth/2;
 	final private int GameTimeBarYPos = 5;
 	int dynamicTimeBar; 
+	private boolean gameIntroMode = true;
+	private int introSlideNumber;
 
 	// *************************************************
 	// Constructor
@@ -177,7 +183,7 @@ public class View extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		dynamicTimeBar = 10*(gameTimeLeft/4);
-		if (!changeCharacterMode && !gameOverMode) {
+		if (!changeCharacterMode && !gameOverMode && !gameIntroMode) {
 			// paint score
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 50));
 			g.drawString("Score:" + score, (int) screenWidth - 200, 96);
@@ -283,7 +289,7 @@ public class View extends JPanel {
 			// if game is done
 		} else if (gameOverMode) {
 			try {
-				GameOverScreen = ImageIO.read(new File("images/gameOver/Game_Over.png"));
+				GameOverScreen = ImageIO.read(new File("images/gameOver/Game_Over(1).png"));
 			} catch (IOException e) {
 				System.out.println("Error with file upload");
 				e.printStackTrace();
@@ -292,8 +298,18 @@ public class View extends JPanel {
 			g.drawImage(GameOverScreen, GameOverScreenXPos, GameOverScreenYPos, GameOverScreenWidth,
 					GameOverScreenHeight, this);
 			g.setFont(new Font("Comic Sans MS", Font.PLAIN, 85));
-			g.drawString(highScore, (int) (GameOverScreenWidth/2.4), (int) (GameOverScreenHeight/2.17));
-			g.drawString(score, (int) (GameOverScreenWidth/2.4), (int) (GameOverScreenHeight/3.08));
+			g.drawString("HIGHSCORE- "+ highScore, GameOverScoreXPos, GameOverHighScoreYPos);
+			g.drawString("Your Score- " + score, GameOverScoreXPos, GameOverScoreYPos);
+		}else if(gameIntroMode) {
+			try {
+				GameOverScreen = ImageIO.read(new File("images/IntroImages/Intro("+ introSlideNumber + ").png"));
+			} catch (IOException e) {
+				System.out.println("Error with file upload");
+				e.printStackTrace();
+			}
+
+			g.drawImage(GameOverScreen, GameOverScreenXPos, GameOverScreenYPos, GameOverScreenWidth,
+					GameOverScreenHeight, this);
 		}
 	}
 
@@ -357,6 +373,24 @@ public class View extends JPanel {
 	// *************************************************
 	// Setters
 
+	/**
+	 * Sets the Intro slide number to display
+	 * 
+	 * @param introSlideNumber - 
+	 * 						sets the slide number to display
+	 */
+	public void setIntroSlideNumber(int introSlideNumber) {
+		this.introSlideNumber = introSlideNumber;
+	}
+	
+	/**
+	 * Set game to and from intro mode
+	 * 
+	 */
+	public void setIntroMode(boolean b) {
+		gameIntroMode = b;
+	}
+	
 	/**
 	 * This method sets game view into change character mode
 	 * 

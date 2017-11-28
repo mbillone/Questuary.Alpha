@@ -87,6 +87,9 @@ public class Model {
 	private String highScore = "";
 	private String name = "";
 	private int gameTimeLeft;
+	//Intro Mode fields
+	private boolean isIntroMode = true; 
+	private int changeIntroSlideCount = 0;
 
 	// *************************************************
 	// Constructor
@@ -804,6 +807,24 @@ public class Model {
 	public int getGameTimeLeft() {
 		return gameTimeLeft;
 	}
+	
+	/**
+	 * Getter for the Game Intro Mode
+	 * 
+	 * @return boolean - Return if game is in Intro Mode
+	 */
+	public boolean getIsIntroMode() {
+		return isIntroMode;
+	}
+	
+	/**
+	 * Getter for the Game Intro Mode slide count
+	 * 
+	 * @return int - Value of which slide is being displayed
+	 */
+	public int getIntroSlideCount() {
+		return changeIntroSlideCount;
+	}
 
 	// *************************************************
 	// Setters
@@ -850,6 +871,27 @@ public class Model {
 	public void decrementChangeCharacterCount() {
 		changeCharacterCount--;
 	}
+	
+	/**
+	 * Increments the Intro Slide Count which is responsible for the slide
+	 *  you are currently viewing
+	 */
+	public void incrementIntroSlideCount() {
+		if(changeIntroSlideCount < 4) {
+			changeIntroSlideCount++;
+		}
+		
+	}
+
+	/**
+	 * Decrements the Intro Slide Count which is responsible for the slide 
+	 * you are currently viewing
+	 */
+	public void decrementIntroSlideCount() {
+		if(changeIntroSlideCount > 0) {
+			changeIntroSlideCount--;
+		}
+	}
 
 	/**
 	 * Sets the changeCharacterMode variable
@@ -865,11 +907,19 @@ public class Model {
 	 * 
 	 */
 	public void setIsGamePaused() {
-		if (getChangeCharacterMode() || getIsQuestionMode()) {
+		if (getChangeCharacterMode() || getIsQuestionMode() || getIsIntroMode()) {
 			isGamePaused = true;
 		} else {
 			isGamePaused = false;
 		}
+	}
+	
+	/**
+	 * Sets the isIntroMode variable to false
+	 * 
+	 */
+	public void setIsIntroModeOff() { 
+		isIntroMode = false;
 	}
 
 	/**
