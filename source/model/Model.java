@@ -486,8 +486,8 @@ public class Model {
 
 		// random crab & collectible generators
 		Random random = new Random(System.currentTimeMillis());
-		if ((numCollected % 3 == 0) && (numCollected > 0)) {
-			int randomPlat = random.nextInt(4);
+		if ((numCollected >= 3) && (numCollected > 0)) {
+			int randomPlat = random.nextInt(1);
 			chests.add(new Chest(platforms.get(randomPlat)));
 			System.out.println("New Chest Created");
 			chestCreated = true;
