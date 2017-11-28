@@ -17,6 +17,10 @@ public class QuestionsFrame {
 	private static boolean upFlag;
 	private static boolean downFlag;
 
+	/**
+	 * Constructor for the questions frame
+	 * @param question
+	 */
 	public QuestionsFrame(Question2 question) {
 		
 		String[] answers = question.getAnswers();
@@ -76,6 +80,9 @@ public class QuestionsFrame {
 		q.up();  //a 
 	}
 	*/
+	/**
+	 * Moves the selection for answer down 
+	 */
 	public static void down() {
 		if (downFlag) {
 			iter.next();
@@ -89,6 +96,9 @@ public class QuestionsFrame {
 		upFlag = true;
 	}
 	
+	/**
+	 * Moves the selection for the answer up
+	 */
 	public static void up() {
 		if (upFlag) {
 			iter.previous();

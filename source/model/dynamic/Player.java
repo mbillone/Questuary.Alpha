@@ -380,4 +380,7 @@ public class Player extends DynamicObject {
 		health = i;
 	}
 
+	public void incrementHealth() {
+		health++;
+	}
 }

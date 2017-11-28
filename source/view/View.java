@@ -201,7 +201,11 @@ public class View extends JPanel {
 		JLabel label = new JLabel(q.getQuestion());
 		label.setHorizontalAlignment(JLabel.LEFT);
 		label.setHorizontalAlignment(JLabel.CENTER);
+		JLabel label2 = new JLabel("Use UP and DOWN key to move and RIGHT key to select");
+		label2.setHorizontalAlignment(JLabel.LEFT);
+		label2.setHorizontalAlignment(JLabel.CENTER);
 		questionFrame.add(label, BorderLayout.NORTH);
+		questionFrame.add(label2, BorderLayout.NORTH);
 
 		// add the JRadio Buttons
 		Box buttonBox = Box.createVerticalBox();

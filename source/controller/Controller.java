@@ -416,7 +416,7 @@ public class Controller {
 						if(question.right())
 						{
 							view.displayCorrect(question);
-							//increment model.playerIncrementHealth
+							model.incrementPlayerHealth();
 						}
 						else						{
 							view.displayWrong(question);

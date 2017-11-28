@@ -777,6 +777,11 @@ public class Model {
 		return player.getHealth();
 	}
 
+	//increment player health by 1
+	public void incrementPlayerHealth() {
+		player.incrementHealth();
+	}
+	
 	// get the list of enemies
 	public ArrayList<Enemy> getEnemies() {
 		return enemies;
