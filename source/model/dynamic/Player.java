@@ -48,6 +48,14 @@ public class Player extends DynamicObject {
 	// *************************************************
 	// Constructor
 
+	/**
+	 * Constructor for the Player
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param gravity
+	 */
 	public Player(int x, int y, int width, int height, int gravity) {
 		// setLocation in Rectangle class used to set x and y coordinate
 		super.setLocation(x, y);
@@ -81,6 +89,11 @@ public class Player extends DynamicObject {
 
 	// determines if touching the ground with appropriate actions for jumping and
 	// falling
+	
+	/**
+	 * Enacts gravity on the player
+	 * @param ground
+	 */
 	public void gravityEffect(Ground ground) {
 
 		if (falling && !jumping) {
@@ -121,6 +134,9 @@ public class Player extends DynamicObject {
 	}
 
 	// make the player fall
+	/**
+	 * Makes the player fall
+	 */
 	public void playerFalling() {
 		System.out.println("Executed: playerFalling()");
 		if (super.getDy() <= maxDy) {
@@ -130,6 +146,9 @@ public class Player extends DynamicObject {
 	}
 
 	// make the player jump
+	/**
+	 * Makes the player jump
+	 */
 	public void playerJumping() {
 		System.out.println("Executed: playerJumping()");
 		if (super.getDy() >= minDy) {
@@ -139,6 +158,10 @@ public class Player extends DynamicObject {
 	}
 
 	// collision between player and platforms
+	/**
+	 * Stops the player from moving forward when they hit a platform
+	 * @param plat
+	 */
 	public void playerPlatCollision(Platform plat) {
 		if (this.intersects(plat.getLeft()) && this.getDirection() == 1) {
 			this.setDx(0);
@@ -147,6 +170,9 @@ public class Player extends DynamicObject {
 		}
 	}
 
+	/**
+	 * Moves the player with a certain velocity
+	 */
 	public void move() {
 		int x = (int) super.getX() + super.getDx();
 		int y = (int) super.getY() + super.getDy();
@@ -162,6 +188,10 @@ public class Player extends DynamicObject {
 	// Getters
 
 	// getter for jumping
+	/**
+	 * Gets the jumping boolean
+	 * @return - 
+	 */
 	public boolean getJumping() {
 		return jumping;
 	}

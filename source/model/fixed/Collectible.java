@@ -10,8 +10,7 @@ public class Collectible extends StaticObject {
 
 	// *************************************************
 	// Fields
-
-	String fact;
+	
 	// values for the collected collectibles display location
 	private static int heightIter;
 	private static int xLoc;

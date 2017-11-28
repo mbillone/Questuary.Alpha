@@ -12,6 +12,7 @@ import model.dynamic.EnemyCrab;
 import model.dynamic.EnemyOsprey;
 import model.fixed.Chest;
 import model.fixed.Collectible;
+import model.fixed.Fact;
 import model.fixed.Ground;
 import model.fixed.Platform;
 import model.fixed.Question;
@@ -48,7 +49,6 @@ public class Model {
 	private int yBoundary;
 	// platform fields
 	private Ground ground;
-	private Platform platform1;
 	private Platform p1;
 	private Platform p2;
 	private Platform p3;
@@ -60,10 +60,13 @@ public class Model {
 	private ArrayList<Platform> platforms = new ArrayList<Platform>();
 	// fields for all other world objects
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>(3);
+	private ArrayList<Collectible> collectibles = new ArrayList<Collectible>(1);
 	private ArrayList<Collectible> collected = new ArrayList<Collectible>();
+	private ArrayList<Fact> facts = new ArrayList<Fact>(1);
 	private ArrayList<Chest> chests = new ArrayList<Chest>(1);
+	// number of collectibles collected
 	private int numCollected = 0;
+	// to make sure only 1 chest is created per screen
 	private boolean chestCreated = false;
 	// fixed gravity constant
 	private int gravity = 10;
@@ -106,10 +109,6 @@ public class Model {
 		player = new Player(startingX, startingY, ((int) (playerWidth * .75)), playerHeight, gravity);
 		// create Ground object
 		ground = new Ground(-500, (int) (screenHeight - groundOffSet), (int) (screenWidth * 2), groundOffSet);
-		// create first platform object
-		/*platform1 = new Platform((int) ThreadLocalRandom.current().nextInt(300, 1000),
-				(int) ThreadLocalRandom.current().nextInt(765, 900), 350, 50);
-		*/
 
 		// make 5 platforms
 		for (int i = 0; i < 5; i++) {
@@ -205,7 +204,7 @@ public class Model {
 	}
 
 	/**
-	 * Moves the player left
+	 * Moves the player right
 	 *
 	 * @see Player#setDirection(int)
 	 * @see Player#getX()
@@ -270,6 +269,14 @@ public class Model {
 	}
 
 	// if player collided with the enemy
+	/**
+	 * Checks if player collides an enemy
+	 * 
+	 * @see Enemy#isKillable()
+	 * @see Enemy#isDead()
+	 * @see 
+	 * 
+	 */
 	private void checkCollisionEnemy() {
 		for (Enemy enemy : enemies) {
 			if (enemy.isKillable()) {
@@ -322,7 +329,10 @@ public class Model {
 		for (Iterator<Collectible> collectIter = collectibles.iterator(); collectIter.hasNext();) {
 			Collectible c = collectIter.next();
 			if (player.intersects(c)) {
-				// TODO: display collectible fact
+				// ensure that no more than one fact is displayed at a time
+				facts.clear();
+				// generate new fact object
+				facts.add(new Fact());
 				// add collectible to collected
 				collected.add(new Collectible(numCollected));
 				// increment number collected and score
@@ -336,6 +346,11 @@ public class Model {
 		}
 	}
 
+	/**
+	 * Checks if the player collides with a chest
+	 * 
+	 * 
+	 */
 	private void checkCollisionChest() {
 		for (Iterator<Chest> chestIter = chests.iterator(); chestIter.hasNext();) {
 			Chest c = chestIter.next();
@@ -371,9 +386,11 @@ public class Model {
 	 *
 	 */
 	private void createNewPlatform() {
+		// clear screen in order to rewrite objects/images
 		platforms.clear();
 		enemies.clear();
 		collectibles.clear();
+		facts.clear();
 		chests.clear();
 
 		for (int i = 0; i < 5; i++) {
@@ -726,6 +743,10 @@ public class Model {
 
 	public ArrayList<Collectible> getCollected() {
 		return collected;
+	}
+	
+	public ArrayList<Fact> getFacts() {
+		return facts;
 	}
 
 	public ArrayList<Chest> getChests() {

@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import view.dynamic.ResearcherImage;
 import view.fixed.ChestImage;
 import view.fixed.CollectibleImage;
+import view.fixed.FactImage;
 import view.fixed.GroundImage;
 import view.fixed.HeartImage;
 import view.fixed.PlatformImage;
@@ -29,6 +30,7 @@ import view.dynamic.*;
 import model.dynamic.*;
 import model.fixed.Chest;
 import model.fixed.Collectible;
+import model.fixed.Fact;
 import model.fixed.Ground;
 import model.fixed.Platform;
 
@@ -76,7 +78,6 @@ public class View extends JPanel {
 	String playerCharacter = "researcher";
 	// ground
 	Ground ground;
-	Rectangle platform1;
 	// for hearts display
 	int health;
 	ArrayList<HeartImage> hearts = new ArrayList<HeartImage>(3);
@@ -87,7 +88,10 @@ public class View extends JPanel {
 	// list of collectibles & chests
 	ArrayList<Collectible> collectibles;
 	ArrayList<Collectible> collected;
+	ArrayList<Fact> facts;
 	ArrayList<Chest> chests;
+	// fact show/not show
+	boolean factTime;	
 	// chest open/closed
 	boolean chestStatus;
 	// game modes
@@ -133,6 +137,7 @@ public class View extends JPanel {
 		characterImages.put("greenCrab", new CrabImage());
 		characterImages.put("osprey", new OspreyImage());
 		characterImages.put("collectible", new CollectibleImage());
+		characterImages.put("fact", new FactImage());
 		characterImages.put("chest", new ChestImage());
 
 		// set up background and add view object to the frame
@@ -172,12 +177,13 @@ public class View extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		dynamicTimeBar = 10*(gameTimeLeft/4);
-		// paint character image
 		if (!changeCharacterMode && !gameOverMode) {
-			g.setColor(Color.BLUE);
-			g.fillRect(GameTimeBarXPos,GameTimeBarYPos, GameTimeBarWidth, GameTimeBarHeight);
+			// paint timer bar
 			g.setColor(Color.RED);
+			g.fillRect(GameTimeBarXPos,GameTimeBarYPos, GameTimeBarWidth, GameTimeBarHeight);
+			g.setColor(Color.BLUE);
 			g.fillRect(GameTimeBarXPos,GameTimeBarYPos, dynamicTimeBar, GameTimeBarHeight);
+			// paint character image
 			if (playerCharacter == "researcher") {
 				g.drawImage(researcherImage.show(direct), playerX, playerY, researcherImage.getWidth(),
 						researcherImage.getHeight(), this);
@@ -212,13 +218,6 @@ public class View extends JPanel {
 
 			}
 
-			/*
-			 * // generate hearts location
-			 *  hearts.clear();
-			 *  for (int i = 0; i < health; i++) { 
-			 *  hearts.add(new HeartImage((int) (screenWidth - ((i+1) * 50)), 0)); }
-			 */
-
 			// paint heart images
 			for (int heart = 0; heart < health; heart++) {
 				ImageObject heartImg = new HeartImage((int) (screenWidth - ((heart + 1) * 50)), 0);
@@ -231,7 +230,6 @@ public class View extends JPanel {
 				ImageObject collectibleImg = characterImages.get(collectible.getName());
 				g.drawImage(collectibleImg.show(0), (int) collectible.getX(), (int) collectible.getY(),
 						(int) collectible.getWidth(), (int) collectible.getHeight(), this);
-
 			}
 
 			// paint collected
@@ -239,6 +237,13 @@ public class View extends JPanel {
 				ImageObject collectedImg = characterImages.get(collectible.getName());
 				g.drawImage(collectedImg.show(0), (int) collectible.getX(), (int) collectible.getY(),
 						(int) collectible.getWidth(), (int) collectible.getHeight(), this);
+			}
+			
+			// paint facts
+			for (Fact fact : facts) {
+				ImageObject factImg = characterImages.get(fact.getName());
+				g.drawImage(factImg.show(Fact.getPicIter()), (int) fact.getX(), (int) fact.getY(), 
+						(int) fact.getWidth(), (int) fact.getHeight(), this);
 			}
 
 			// paint chests
@@ -317,6 +322,8 @@ public class View extends JPanel {
 		ospreyImage.nextImage(animate);
 		ImageObject collectibleImage = characterImages.get("collectible");
 		collectibleImage.nextImage(animate);
+		ImageObject factImage = characterImages.get("fact");
+		factImage.nextImage(factTime);
 		ImageObject chestImage = characterImages.get("chest");
 		chestImage.nextImage(chestStatus);
 		frame.repaint();
@@ -440,19 +447,23 @@ public class View extends JPanel {
 		this.ground = ground;
 	}
 
-	public void setEnemies(ArrayList<Enemy> e) {
-		enemies = e;
+	public void setEnemies(ArrayList<Enemy> enemies) {
+		this.enemies = enemies;
 	}
 
-	public void setCollectibles(ArrayList<Collectible> collect) {
-		collectibles = collect;
+	public void setCollectibles(ArrayList<Collectible> collectibles) {
+		this.collectibles = collectibles;
 	}
 
-	public void setCollected(ArrayList<Collectible> collect) {
-		collected = collect;
+	public void setCollected(ArrayList<Collectible> collected) {
+		this.collected = collected;
+	}
+	
+	public void setFacts(ArrayList<Fact> facts) {
+		this.facts = facts;
 	}
 
-	public void setChests(ArrayList<Chest> chest) {
-		chests = chest;
+	public void setChests(ArrayList<Chest> chests) {
+		this.chests = chests;
 	}
 }

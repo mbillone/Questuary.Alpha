@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import view.IntroductionView;
 import view.View;
 import view.fixed.QuestionsFrame;
 import model.Model;
@@ -23,10 +24,10 @@ public class Controller {
 
 	// *************************************************
 	// Fields
-
 	Model model;
 	View view;
 	JFrame frame;
+	//IntroductionView intro = new IntroductionView(frame);
 	Timer timer;
 	Timer gameTimer;
 	ArrayList<Integer> keys = new ArrayList<Integer>();
@@ -63,6 +64,9 @@ public class Controller {
 
 		// give view list of collected
 		view.setCollected(model.getCollected());
+		
+		// give view list of facts
+		view.setFacts(model.getFacts());
 
 		// give view list of chests
 		view.setChests(model.getChests());
@@ -141,6 +145,9 @@ public class Controller {
 			view.setPlatforms(model.getPlatforms());
 			view.setEnemies(model.getEnemies());
 			view.setCollectibles(model.getCollectibles());
+			view.setCollected(model.getCollected());
+			view.setFacts(model.getFacts());
+			view.setChests(model.getChests());
 
 			if (questionModeFlag && model.getIsQuestionMode() && !model.getIsGameOver()) {
 				questionModeFlag = false;
