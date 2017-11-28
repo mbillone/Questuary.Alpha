@@ -1,6 +1,6 @@
 ***This project is a joint effort between [vgutta](https://github.com/vgutta), [mbillone](https://github.com/mbillone), [akash0996](https://github.com/akash0996), [mingchan96](https://github.com/mingchan96), and myself for our Cisc275: Introduction to Software Engineering class at the University of Delaware.***
 
-# Questuary: A Platformer to Teach Kids About Estuaries
+# Questuary: A Platformer That Teaches Kids About Estuaries
 
 Questuary is an educational game written in Java. It uses Mario-like gameplay to teach children about estuaries.
 
