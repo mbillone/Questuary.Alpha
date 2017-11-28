@@ -274,7 +274,6 @@ public class Model {
 	 * 
 	 * @see Enemy#isKillable()
 	 * @see Enemy#isDead()
-	 * @see 
 	 * 
 	 */
 	private void checkCollisionEnemy() {

@@ -27,7 +27,7 @@ public class Fact extends StaticObject {
 		}
 
 		// set the dimensions
-		super.setSize(100, 60);
+		super.setSize(400, 100);
 
 		xLoc = (int) (super.getScreenWidth() / 2 - this.width / 2);
 		yLoc = 40;

@@ -14,8 +14,8 @@ public class FactImage extends ImageObject {
 	// Fields
 
 	// set the image's dimensions
-	private int imgWidth;
-	private int imgHeight;
+	private int imgWidth = 400;
+	private int imgHeight = 100;
 
 	private int frameCount = 15;
 
@@ -26,9 +26,6 @@ public class FactImage extends ImageObject {
 
 	public FactImage() {
 		super.setName("fact");
-		
-		imgWidth = (int) (super.getScreenWidth()/8);
-		imgHeight = (int) (super.getScreenHeight()/120);
 		
 		// load in the images
 		for (int i = 0; i < frameCount; i++) {

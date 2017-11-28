@@ -201,6 +201,7 @@ public class Controller {
 			}
 			if (model.getIsGameOver()) {
 				switch (keys.get(0)) {
+				
 				case (KeyEvent.VK_ESCAPE):
 				case (KeyEvent.VK_Q):
 					// if q or esc pressed then quit
