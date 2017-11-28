@@ -190,7 +190,11 @@ public class Player extends DynamicObject {
 	// getter for jumping
 	/**
 	 * Gets the jumping boolean
+<<<<<<< HEAD
 	 * @return jumping - boolean determining whether or not the player is jumping
+=======
+	 * @return - 
+>>>>>>> e3a5bd1a6cf7a06fef76f771e78d3bb4d30b3b92
 	 */
 	public boolean getJumping() {
 		return jumping;

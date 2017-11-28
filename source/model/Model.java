@@ -90,6 +90,10 @@ public class Model {
 	private String name = "";
 	private int gameTimeLeft;
 
+	//Intro Mode fields
+	private boolean isIntroMode = true; 
+	private int changeIntroSlideCount = 0;
+
 	//add Question variables and QuestionMode flag
 	private boolean questionMode = false;
 	//Object containing the questions
@@ -283,7 +287,6 @@ public class Model {
 	 * 
 	 * @see Enemy#isKillable()
 	 * @see Enemy#isDead()
-	 * @see 
 	 * 
 	 */
 	private void checkCollisionEnemy() {
@@ -364,17 +367,13 @@ public class Model {
 		for (Iterator<Chest> chestIter = chests.iterator(); chestIter.hasNext();) {
 			Chest c = chestIter.next();
 			if (player.intersects(c)) {
-				for (int i = 0; i < 5; i++) {
-					player.incrementScoreBy(10);
-				}
-				
 				if(!c.getIsOpen())
 				{
 					questionMode = true;
 					this.generateQuestion();
 					// picks question based on number of collected(facts)
 				}
-				
+				player.incrementScoreBy(10);
 				c.setIsOpen(true);
 				System.out.println("Score: " + player.getScore());
 				// TODO: Finish Question & Power-Up Implementation
@@ -776,6 +775,10 @@ public class Model {
 	public int getPlayerHealth() {
 		return player.getHealth();
 	}
+	
+	public int getNumCollected() {
+		return numCollected;
+	}
 
 	//increment player health by 1
 	public void incrementPlayerHealth() {
@@ -852,6 +855,24 @@ public class Model {
 	public int getGameTimeLeft() {
 		return gameTimeLeft;
 	}
+	
+	/**
+	 * Getter for the Game Intro Mode
+	 * 
+	 * @return boolean - Return if game is in Intro Mode
+	 */
+	public boolean getIsIntroMode() {
+		return isIntroMode;
+	}
+	
+	/**
+	 * Getter for the Game Intro Mode slide count
+	 * 
+	 * @return int - Value of which slide is being displayed
+	 */
+	public int getIntroSlideCount() {
+		return changeIntroSlideCount;
+	}
 
 	// *************************************************
 	// Setters
@@ -898,6 +919,27 @@ public class Model {
 	public void decrementChangeCharacterCount() {
 		changeCharacterCount--;
 	}
+	
+	/**
+	 * Increments the Intro Slide Count which is responsible for the slide
+	 *  you are currently viewing
+	 */
+	public void incrementIntroSlideCount() {
+		if(changeIntroSlideCount < 4) {
+			changeIntroSlideCount++;
+		}
+		
+	}
+
+	/**
+	 * Decrements the Intro Slide Count which is responsible for the slide 
+	 * you are currently viewing
+	 */
+	public void decrementIntroSlideCount() {
+		if(changeIntroSlideCount > 0) {
+			changeIntroSlideCount--;
+		}
+	}
 
 	/**
 	 * Sets the changeCharacterMode variable
@@ -913,11 +955,19 @@ public class Model {
 	 * 
 	 */
 	public void setIsGamePaused() {
-		if (getChangeCharacterMode() || getIsQuestionMode()) {
+		if (getChangeCharacterMode() || getIsQuestionMode() || getIsIntroMode()) {
 			isGamePaused = true;
 		} else {
 			isGamePaused = false;
 		}
+	}
+	
+	/**
+	 * Sets the isIntroMode variable to false
+	 * 
+	 */
+	public void setIsIntroModeOff() { 
+		isIntroMode = false;
 	}
 
 	/**

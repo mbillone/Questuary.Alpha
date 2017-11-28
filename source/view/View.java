@@ -36,6 +36,7 @@ import view.dynamic.*;
 import model.dynamic.*;
 import model.fixed.Chest;
 import model.fixed.Collectible;
+import model.fixed.Fact;
 import model.fixed.Ground;
 import model.fixed.Platform;
 import model.fixed.Question;
@@ -84,7 +85,6 @@ public class View extends JPanel {
 	String playerCharacter = "researcher";
 	// ground
 	Ground ground;
-	Rectangle platform1;
 	// for hearts display
 	int health;
 	//HeartImage heart = new HeartImage();
@@ -96,7 +96,10 @@ public class View extends JPanel {
 	// list of collectibles & chests
 	ArrayList<Collectible> collectibles;
 	ArrayList<Collectible> collected;
+	ArrayList<Fact> facts;
 	ArrayList<Chest> chests;
+	// fact show/not show
+	boolean factTime;	
 	// chest open/closed
 	boolean chestStatus;
 	// game modes
@@ -113,6 +116,10 @@ public class View extends JPanel {
 	final private int GameOverScreenWidth = (int) screenWidth - 100;
 	final private int GameOverScreenXPos = 50;
 	final private int GameOverScreenYPos = 25;
+	final private int GameOverScoreXPos = 75;
+	final private int GameOverScoreYPos = 275;
+	final private int GameOverHighScoreXPos = 75;
+	final private int GameOverHighScoreYPos = 400;
 	// high-score fields
 	public String highScore = "";
 	public String score = "";
@@ -128,6 +135,9 @@ public class View extends JPanel {
 	JFrame questionFrame;
 	ArrayList<JRadioButton> buttons = new ArrayList<JRadioButton>();
 	// end of add question
+	private boolean gameIntroMode = true;
+	private int introSlideNumber;
+
 
 	// *************************************************
 	// Constructor
@@ -306,13 +316,18 @@ public class View extends JPanel {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		dynamicTimeBar = 10 * (gameTimeLeft / 4);
-		if (!changeCharacterMode && !gameOverMode) {
+		dynamicTimeBar = 10*(gameTimeLeft/4);
+		if (!changeCharacterMode && !gameOverMode && !gameIntroMode) {
+			// paint score
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+			g.drawString("Score:" + score, (int) screenWidth - 200, 96);
+			
 			// paint timer bar
 			g.setColor(Color.RED);
-			g.fillRect(GameTimeBarXPos, GameTimeBarYPos, GameTimeBarWidth, GameTimeBarHeight);
+			g.fillRect(GameTimeBarXPos,GameTimeBarYPos, GameTimeBarWidth, GameTimeBarHeight);
 			g.setColor(Color.BLUE);
-			g.fillRect(GameTimeBarXPos, GameTimeBarYPos, dynamicTimeBar, GameTimeBarHeight);
+			g.fillRect(GameTimeBarXPos,GameTimeBarYPos, dynamicTimeBar, GameTimeBarHeight);
+			
 			// paint character image
 			if (playerCharacter == "researcher") {
 				g.drawImage(researcherImage.show(direct), playerX, playerY, researcherImage.getWidth(),
@@ -368,6 +383,13 @@ public class View extends JPanel {
 				g.drawImage(collectedImg.show(0), (int) collectible.getX(), (int) collectible.getY(),
 						(int) collectible.getWidth(), (int) collectible.getHeight(), this);
 			}
+			
+			// paint facts
+			for (Fact fact : facts) {
+				ImageObject factImg = characterImages.get(fact.getName());
+				g.drawImage(factImg.show(Fact.getPicIter()), (int) fact.getX(), (int) fact.getY(), 
+						(int) fact.getWidth(), (int) fact.getHeight(), this);
+			}
 
 			// paint chests
 			for (Chest chest : chests) {
@@ -376,6 +398,7 @@ public class View extends JPanel {
 						(int) chest.getHeight(), this);
 				chestStatus = chest.getIsOpen();
 			}
+			
 
 			// if game is in change character mode
 		} else if (changeCharacterMode && !gameOverMode) {
@@ -401,7 +424,7 @@ public class View extends JPanel {
 			// if game is done
 		} else if (gameOverMode) {
 			try {
-				GameOverScreen = ImageIO.read(new File("images/gameOver/Game_Over.png"));
+				GameOverScreen = ImageIO.read(new File("images/gameOver/Game_Over(1).png"));
 			} catch (IOException e) {
 				System.out.println("Error with file upload");
 				e.printStackTrace();
@@ -410,8 +433,18 @@ public class View extends JPanel {
 			g.drawImage(GameOverScreen, GameOverScreenXPos, GameOverScreenYPos, GameOverScreenWidth,
 					GameOverScreenHeight, this);
 			g.setFont(new Font("Comic Sans MS", Font.PLAIN, 85));
-			g.drawString(highScore, 625, 440);
-			g.drawString(score, 625, 310);
+			g.drawString("HIGHSCORE- "+ highScore, GameOverScoreXPos, GameOverHighScoreYPos);
+			g.drawString("Your Score- " + score, GameOverScoreXPos, GameOverScoreYPos);
+		}else if(gameIntroMode) {
+			try {
+				GameOverScreen = ImageIO.read(new File("images/IntroImages/Intro("+ introSlideNumber + ").png"));
+			} catch (IOException e) {
+				System.out.println("Error with file upload");
+				e.printStackTrace();
+			}
+
+			g.drawImage(GameOverScreen, GameOverScreenXPos, GameOverScreenYPos, GameOverScreenWidth,
+					GameOverScreenHeight, this);
 		}
 	}
 
@@ -444,6 +477,8 @@ public class View extends JPanel {
 		ospreyImage.nextImage(animate);
 		ImageObject collectibleImage = characterImages.get("collectible");
 		collectibleImage.nextImage(animate);
+		ImageObject factImage = characterImages.get("fact");
+		factImage.nextImage(factTime);
 		ImageObject chestImage = characterImages.get("chest");
 		chestImage.nextImage(chestStatus);
 		frame.repaint();
@@ -473,6 +508,24 @@ public class View extends JPanel {
 	// *************************************************
 	// Setters
 
+	/**
+	 * Sets the Intro slide number to display
+	 * 
+	 * @param introSlideNumber - 
+	 * 						sets the slide number to display
+	 */
+	public void setIntroSlideNumber(int introSlideNumber) {
+		this.introSlideNumber = introSlideNumber;
+	}
+	
+	/**
+	 * Set game to and from intro mode
+	 * 
+	 */
+	public void setIntroMode(boolean b) {
+		gameIntroMode = b;
+	}
+	
 	/**
 	 * This method sets game view into change character mode
 	 * 
@@ -508,7 +561,7 @@ public class View extends JPanel {
 	public void setScore(String score) {
 		this.score = score;
 	}
-
+	
 	/**
 	 * Sets the current GameTime
 	 * 
@@ -567,39 +620,23 @@ public class View extends JPanel {
 		this.ground = ground;
 	}
 
-	/**
-	 * Sets the enemies on the screen
-	 * 
-	 * @param e
-	 */
-	public void setEnemies(ArrayList<Enemy> e) {
-		enemies = e;
+	public void setEnemies(ArrayList<Enemy> enemies) {
+		this.enemies = enemies;
 	}
 
-	/**
-	 * Sets collectibles on the screen
-	 * 
-	 * @param collect
-	 */
-	public void setCollectibles(ArrayList<Collectible> collect) {
-		collectibles = collect;
+	public void setCollectibles(ArrayList<Collectible> collectibles) {
+		this.collectibles = collectibles;
 	}
 
-	/**
-	 * Sets the collected collectibles in the top right
-	 * 
-	 * @param collect
-	 */
-	public void setCollected(ArrayList<Collectible> collect) {
-		collected = collect;
+	public void setCollected(ArrayList<Collectible> collected) {
+		this.collected = collected;
+	}
+	
+	public void setFacts(ArrayList<Fact> facts) {
+		this.facts = facts;
 	}
 
-	/**
-	 * Sets the chest object on the screen
-	 * 
-	 * @param chest
-	 */
-	public void setChests(ArrayList<Chest> chest) {
-		chests = chest;
+	public void setChests(ArrayList<Chest> chests) {
+		this.chests = chests;
 	}
 }
