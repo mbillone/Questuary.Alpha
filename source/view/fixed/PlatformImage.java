@@ -10,6 +10,10 @@ import javax.imageio.ImageIO;
 import model.fixed.Platform;
 import view.ImageObject;
 
+
+/**
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
 public class PlatformImage extends ImageObject {
 
 	// *************************************************

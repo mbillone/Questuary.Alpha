@@ -12,10 +12,6 @@ import view.ImageObject;
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
  */
-
-// Researcher Image from --
-// "https://www.gameart2d.com/temple-run---free-sprites.html"
-
 public class ResearcherImage extends ImageObject {
 
 	// *************************************************

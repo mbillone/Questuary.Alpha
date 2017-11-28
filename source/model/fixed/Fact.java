@@ -18,7 +18,7 @@ public class Fact extends StaticObject {
 	// Constructor
 
 	/**
-	 * Constructor for the fact
+	 * Constructor for the facts
 	 */
 	public Fact() {
 		super.setName("fact");
@@ -32,11 +32,12 @@ public class Fact extends StaticObject {
 		// set the dimensions
 		super.setSize(400, 100);
 
-		xLoc = (int) (super.getScreenWidth() / 2 - this.width / 2);
-		yLoc = 40;
-
 		super.setLocation(xLoc, yLoc);
 	}
+	
+	// *************************************************
+	// Getters
+
 
 	/**
 	 * Gets the x location of the fact
@@ -61,5 +62,17 @@ public class Fact extends StaticObject {
 	public static int getPicIter() {
 		return picIter;
 	}
+	
+	// *************************************************
+	// Setters
+	
+	public static void setxLoc(int i) {
+		xLoc = i;
+	}
+	
+	public static void setyLoc(int i) {
+		yLoc = i;
+	}
+
 
 }

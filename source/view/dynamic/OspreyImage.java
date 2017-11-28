@@ -9,6 +9,10 @@ import javax.imageio.ImageIO;
 
 import view.ImageObject;
 
+
+/**
+ * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+ */
 public class OspreyImage extends ImageObject {
 
 	// *************************************************

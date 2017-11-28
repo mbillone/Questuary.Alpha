@@ -131,6 +131,8 @@ public class View extends JPanel {
 	final private int GameTimeBarXPos = GameOverScreenWidth / 2 - GameTimeBarWidth / 2;
 	final private int GameTimeBarYPos = 5;
 	int dynamicTimeBar;
+	// set fact location depending on time bar
+	
 
 	// Add question JFrame
 	JFrame questionFrame;
@@ -226,7 +228,6 @@ public class View extends JPanel {
 				ImageObject platformImg = characterImages.get(platform.getName());
 				g.drawImage(platformImg.show(0), (int) platform.getX(), (int) platform.getY(),
 						(int) platform.getWidth(), (int) platform.getHeight(), this);
-
 			}
 
 			// paint enemies
@@ -269,6 +270,8 @@ public class View extends JPanel {
 			}
 
 			// paint facts
+			Fact.setxLoc(GameTimeBarXPos + 25);
+			Fact.setyLoc(GameTimeBarYPos + GameTimeBarHeight);
 			for (Fact fact : facts) {
 				ImageObject factImg = characterImages.get(fact.getName());
 				g.drawImage(factImg.show(Fact.getPicIter()), (int) fact.getX(), (int) fact.getY(),

@@ -11,7 +11,6 @@ import view.ImageObject;
 
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
- *         Collectible Image from -- "https://opengameart.org/content/spincoin"
  */
 public class CollectibleImage extends ImageObject {
 
