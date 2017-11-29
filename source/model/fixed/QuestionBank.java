@@ -1,4 +1,5 @@
 package model.fixed;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,13 +8,12 @@ import java.util.Random;
 
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
- * Creates an instance of a question
+ *         Creates an instance of a question
  */
 public class QuestionBank {
-	
-	
+
 	ArrayList<Question> questions = new ArrayList<Question>();
-	
+
 	/**
 	 * Constructor for QuestionBank object
 	 */
@@ -24,53 +24,43 @@ public class QuestionBank {
 			fr = new FileReader("Questions.txt");
 			br = new BufferedReader(fr);
 			String text;
-			while((text = br.readLine()) != null)
-			{
+			while ((text = br.readLine()) != null) {
 				String question = text;
 				String a1 = br.readLine();
 				String a2 = br.readLine();
 				String a3 = br.readLine();
 				String cAns = br.readLine();
-				String[] answers = {a1,a2,a3};
-				questions.add(new Question(question,answers,cAns));
+				String[] answers = { a1, a2, a3 };
+				questions.add(new Question(question, answers, cAns));
 			}
-		}catch (IOException e) {
+		} catch (IOException e) {
 			System.out.println("Error with file reading");
 			e.printStackTrace();
-		}finally {
+		} finally {
 			try {
-				if(br != null)
-				{
+				if (br != null) {
 					br.close();
 				}
-				if(fr != null)
-				{
+				if (fr != null) {
 					fr.close();
 				}
-			}catch(IOException e){
+			} catch (IOException e) {
 				System.out.println("Error in closing bufferedreader or filereader");
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	/**
 	 * Picks a question from the ArrayList of questions
-	 * @return Question  
-	*/
+	 * 
+	 * @param num
+	 *            - Index in questions array to return
+	 * 
+	 * @return Question - Question object to be used
+	 */
 	public Question pickQuestion(int num) {
 		int size = questions.size();
-		/*Random random = new Random(System.nanoTime());
-		System.out.println("Question input number: " + num);
-		int numCollected = num;
-		if(num < 0)
-		{
-			numCollected *= -1;
-		}
-		
-		int questionLimit = Math.abs(num % size);*/
-		
-		//int index = random.nextInt(num % size);
 		return questions.get(num % size);
 	}
 }

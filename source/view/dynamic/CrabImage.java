@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 
 import view.ImageObject;
 
-
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
  */
@@ -50,8 +49,10 @@ public class CrabImage extends ImageObject {
 	// The String imageFile is the input to the method, and is the file name
 	/**
 	 * Creates the image on screen
+	 * 
 	 * @param imageFile
-	 * @return null or bufferedImage - bufferedImage is returned if there is no exception with uploading the image
+	 * @return null or bufferedImage - bufferedImage is returned if there is no
+	 *         exception with uploading the image
 	 */
 	private BufferedImage createImage(String imageFile) {
 		BufferedImage bufferedImage;
@@ -68,7 +69,10 @@ public class CrabImage extends ImageObject {
 	// return the image
 	/**
 	 * Shows the image from the array
+	 * 
 	 * @param direct
+	 *            - Unnecessary parameter, here since super class requires
+	 *            implementation with this parameter list
 	 */
 	public BufferedImage show(int direct) {
 		// check to see if the next index exists
@@ -77,7 +81,10 @@ public class CrabImage extends ImageObject {
 
 	/**
 	 * Increments through the crab images, creating an animation
+	 * 
 	 * @param canAnimate
+	 *            - Unnecessary parameter, here since super class requires
+	 *            implementation with this parameter list
 	 */
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists

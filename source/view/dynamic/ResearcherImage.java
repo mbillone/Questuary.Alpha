@@ -51,8 +51,10 @@ public class ResearcherImage extends ImageObject {
 	// The String imageFile is the input to the method, and is the file name
 	/**
 	 * Creates the image on screen
+	 * 
 	 * @param imageFile
-	 * @return null or bufferedImage - bufferedImage is returned if there is no exception with uploading the image
+	 * @return null or bufferedImage - bufferedImage is returned if there is no
+	 *         exception with uploading the image
 	 */
 	private BufferedImage createImage(String imageFile) {
 		BufferedImage bufferedImage;
@@ -69,6 +71,7 @@ public class ResearcherImage extends ImageObject {
 	// method used to flip the image
 	/**
 	 * Flips the image
+	 * 
 	 * @param image
 	 * @return mimg - flipped image
 	 */
@@ -89,7 +92,9 @@ public class ResearcherImage extends ImageObject {
 	// return the image in the array
 	/**
 	 * Shows the image from the array
+	 * 
 	 * @param direct
+	 *            - Which direction the researcher is facing
 	 */
 	public BufferedImage show(int direct) {
 		return pics[direct][picNum];
@@ -98,7 +103,9 @@ public class ResearcherImage extends ImageObject {
 	// increment through the ResearcherImage
 	/**
 	 * Increments through the researcher images, creating an animation
+	 * 
 	 * @param canAnimate
+	 *            - Boolean for whether or not to show the next image
 	 */
 	public void nextImage(boolean canAnimate) {
 		if (canAnimate) {

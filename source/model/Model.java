@@ -85,17 +85,16 @@ public class Model {
 	private String name = "";
 	private int gameTimeLeft;
 
-	//Intro Mode fields
-	private boolean isIntroMode = true; 
+	// Intro Mode fields
+	private boolean isIntroMode = true;
 	private int changeIntroSlideCount = 0;
 
-	//add Question variables and QuestionMode flag
+	// add Question variables and QuestionMode flag
 	private boolean questionMode = false;
-	//Object containing the questions
+	// Object containing the questions
 	private QuestionBank QB = new QuestionBank();
 	private Question question;
-	
-	
+
 	// *************************************************
 	// Constructor
 
@@ -121,28 +120,33 @@ public class Model {
 		// make 5 platforms
 		for (int i = 0; i < 5; i++) {
 			if (i == 0) {
-				p1 = new Platform((int) ThreadLocalRandom.current().nextInt((int)(screenWidth/4), (int)(screenWidth/3)),
-						(int) ThreadLocalRandom.current().nextInt((int) (screenHeight/2), (int)(screenHeight/1.5)), 350, 50);
+				p1 = new Platform(
+						(int) ThreadLocalRandom.current().nextInt((int) (screenWidth / 4), (int) (screenWidth / 3)),
+						(int) ThreadLocalRandom.current().nextInt((int) (screenHeight / 2), (int) (screenHeight / 1.5)),
+						350, 50);
 				platforms.add(p1);
 			} else if (i == 1) {
-				p2 = new Platform((int) (p1.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth/4))), (int) (p1.getY()
-						+ ThreadLocalRandom.current().nextInt(0,(int)(screenHeight/5)) - ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))),
+				p2 = new Platform((int) (p1.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth / 4))),
+						(int) (p1.getY() + ThreadLocalRandom.current().nextInt(0, (int) (screenHeight / 5))
+								- ThreadLocalRandom.current().nextInt(0, (int) (screenHeight / 5))),
 						350, 50);
 				platforms.add(p2);
 			} else if (i == 2) {
-				p3 = new Platform((int) (p2.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth/4))), (int) (p2.getY()
-						+ ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5)) - ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))),
+				p3 = new Platform((int) (p2.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth / 4))),
+						(int) (p2.getY() + ThreadLocalRandom.current().nextInt(0, (int) (screenHeight / 5))
+								- ThreadLocalRandom.current().nextInt(0, (int) (screenHeight / 5))),
 						350, 50);
 				platforms.add(p3);
 			} else if (i == 3) {
-				p4 = new Platform((int) (p3.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth/4))), (int) (p3.getY()
-						+ ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5)) - ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))),
+				p4 = new Platform((int) (p3.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth / 4))),
+						(int) (p3.getY() + ThreadLocalRandom.current().nextInt(0, (int) (screenHeight / 5))
+								- ThreadLocalRandom.current().nextInt(0, (int) (screenHeight / 5))),
 						350, 50);
 				platforms.add(p4);
 			} else if (i == 4) {
-				p5 = new Platform((int) (p4.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth/4))),
-						(int) (p4.getCenterY() + ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))
-								- ThreadLocalRandom.current().nextInt(0, (int)(screenHeight/5))),
+				p5 = new Platform((int) (p4.getX() + ThreadLocalRandom.current().nextInt(350, (int) (screenWidth / 4))),
+						(int) (p4.getCenterY() + ThreadLocalRandom.current().nextInt(0, (int) (screenHeight / 5))
+								- ThreadLocalRandom.current().nextInt(0, (int) (screenHeight / 5))),
 						350, 50);
 				platforms.add(p5);
 			}
@@ -172,9 +176,9 @@ public class Model {
 			player.move();
 		}
 	}
-	
+
 	/**
-	 * Moves enemy 
+	 * Moves enemy
 	 *
 	 */
 	public void moveEnemies() {
@@ -240,7 +244,7 @@ public class Model {
 	/**
 	 * Checks if the player is colliding
 	 *
-	 * @see Player#gravityEffect(Rectangle)
+	 * @see Player#gravityEffect(Ground)
 	 */
 	public void gravity() {
 		player.gravityEffect(ground);
@@ -330,7 +334,9 @@ public class Model {
 
 	/**
 	 * Handles horizontal collisions with an enemy
-	 * @param enemy - enemy you're colliding with
+	 * 
+	 * @param enemy
+	 *            - enemy you're colliding with
 	 * @return true if collision, false if no collision
 	 */
 	private boolean horizontalCollision(Enemy enemy) {
@@ -346,12 +352,10 @@ public class Model {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Handles Collectible collisions with a player
-	 * Generates new fact after clearing previous fact
-	 * adds collectible to collected
-	 * Increments score by 5
+	 * Handles Collectible collisions with a player Generates new fact after
+	 * clearing previous fact adds collectible to collected Increments score by 5
 	 */
 	private void checkCollisionCollectible() {
 		for (Iterator<Collectible> collectIter = collectibles.iterator(); collectIter.hasNext();) {
@@ -375,17 +379,15 @@ public class Model {
 	}
 
 	/**
-	 * Checks if the player collides with a chest
-	 * Opens the chest
-	 * sets questionMode to true
-	 * And then generates a question
+	 * Checks if the player collides with a chest Opens the chest sets questionMode
+	 * to true And then generates a question
 	 */
 	private void checkCollisionChest() {
 		for (Iterator<Chest> chestIter = chests.iterator(); chestIter.hasNext();) {
 			Chest c = chestIter.next();
 			if (player.intersects(c)) {
 				// when player hits chest that has not been opened
-				if(!c.getIsOpen()) {
+				if (!c.getIsOpen()) {
 					// ensure no fact is shown when player hits the chest
 					facts.clear();
 					player.incrementScoreBy(10);
@@ -412,24 +414,23 @@ public class Model {
 			createNewPlatform();
 		}
 	}
-	
+
 	/**
 	 * Method to increment health
 	 */
 	public void incrementPlayerHealth() {
 		player.incrementHealth();
 	}
-		
+
 	/**
 	 * Generates new question
 	 */
 	private void generateQuestion() {
 		question = QB.pickQuestion(this.numCollected);
 	}
-	
-	//end of Question methods
-	
-	
+
+	// end of Question methods
+
 	/**
 	 * Randomly generate new room
 	 *
@@ -521,7 +522,7 @@ public class Model {
 	 */
 	public void updateHighScore() {
 		highScore = name + ": " + player.getScore();
-		File scoreFile = new File("highscore.dat");
+		File scoreFile = new File("HighScore.dat");
 		if (!scoreFile.exists()) {
 			try {
 				scoreFile.createNewFile();
@@ -659,7 +660,7 @@ public class Model {
 	public int getPlayerDx() {
 		return player.getDx();
 	}
-	
+
 	/**
 	 * returns player y position
 	 *
@@ -668,7 +669,7 @@ public class Model {
 	public int getPlayerDy() {
 		return player.getDy();
 	}
-	
+
 	/**
 	 * Getter for ground
 	 *
@@ -681,7 +682,7 @@ public class Model {
 	/**
 	 * Getter for platforms
 	 *
-	 * @return ArrayList<Platform> - ArrayList containing platforms
+	 * @return ArrayList - ArrayList containing platforms
 	 */
 	public ArrayList<Platform> getPlatforms() {
 		return platforms;
@@ -722,7 +723,7 @@ public class Model {
 	public boolean getIsQuestionMode() {
 		return isQuestionMode;
 	}
-	
+
 	/**
 	 * Getter for question
 	 * 
@@ -801,7 +802,7 @@ public class Model {
 	public int getPlayerHealth() {
 		return player.getHealth();
 	}
-	
+
 	/**
 	 * Getter for number of collected collectibles
 	 *
@@ -810,11 +811,11 @@ public class Model {
 	public int getNumCollected() {
 		return numCollected;
 	}
-	
+
 	/**
 	 * Getter for enemies
 	 *
-	 * @return ArrayList<Enemy> - enemies
+	 * @return ArrayList - ArrayList of enemies
 	 */
 	public ArrayList<Enemy> getEnemies() {
 		return enemies;
@@ -827,7 +828,7 @@ public class Model {
 	public ArrayList<Collectible> getCollected() {
 		return collected;
 	}
-	
+
 	public ArrayList<Fact> getFacts() {
 		return facts;
 	}
@@ -835,9 +836,10 @@ public class Model {
 	public ArrayList<Chest> getChests() {
 		return chests;
 	}
-	
+
 	/**
 	 * Checks for question mode
+	 * 
 	 * @return boolean - questionMode
 	 */
 	public boolean isQuestionMode() {
@@ -864,7 +866,7 @@ public class Model {
 		BufferedReader reader = null;
 
 		try {
-			readFile = new FileReader("highscore.dat");
+			readFile = new FileReader("HighScore.dat");
 			reader = new BufferedReader(readFile);
 			// return reader.readLine();
 			return reader.readLine();
@@ -884,7 +886,7 @@ public class Model {
 			}
 		}
 	}
-	
+
 	/**
 	 * Getter for the Game Timer
 	 * 
@@ -893,7 +895,7 @@ public class Model {
 	public int getGameTimeLeft() {
 		return gameTimeLeft;
 	}
-	
+
 	/**
 	 * Getter for the Game Intro Mode
 	 * 
@@ -902,7 +904,7 @@ public class Model {
 	public boolean getIsIntroMode() {
 		return isIntroMode;
 	}
-	
+
 	/**
 	 * Getter for the Game Intro Mode slide count
 	 * 
@@ -914,14 +916,16 @@ public class Model {
 
 	// *************************************************
 	// Setters
-	
+
 	/**
 	 * Sets the game timer
-	 * @param currentGameTime 
+	 * 
+	 * @param currentGameTime
+	 *            - The current time of the game
 	 * 
 	 */
 	public void setGameTimeLeft(int currentGameTime) {
-		this.gameTimeLeft  = gameTimeLeft;
+		this.gameTimeLeft = currentGameTime;
 	}
 
 	/**
@@ -936,7 +940,7 @@ public class Model {
 	/**
 	 * Sets the player's jumping mode
 	 * 
-	 * @see Player#setJumping()
+	 * @see Player#setJumping(boolean)
 	 */
 	public void makePlayerJump() {
 		player.setJumping(true);
@@ -957,24 +961,24 @@ public class Model {
 	public void decrementChangeCharacterCount() {
 		changeCharacterCount--;
 	}
-	
+
 	/**
-	 * Increments the Intro Slide Count which is responsible for the slide
-	 *  you are currently viewing
+	 * Increments the Intro Slide Count which is responsible for the slide you are
+	 * currently viewing
 	 */
 	public void incrementIntroSlideCount() {
-		if(changeIntroSlideCount < 4) {
+		if (changeIntroSlideCount < 4) {
 			changeIntroSlideCount++;
 		}
-		
+
 	}
 
 	/**
-	 * Decrements the Intro Slide Count which is responsible for the slide 
-	 * you are currently viewing
+	 * Decrements the Intro Slide Count which is responsible for the slide you are
+	 * currently viewing
 	 */
 	public void decrementIntroSlideCount() {
-		if(changeIntroSlideCount > 0) {
+		if (changeIntroSlideCount > 0) {
 			changeIntroSlideCount--;
 		}
 	}
@@ -999,17 +1003,20 @@ public class Model {
 			isGamePaused = false;
 		}
 	}
-	
+
 	/**
 	 * Sets the isIntroMode variable to false
 	 * 
 	 */
-	public void setIsIntroModeOff() { 
+	public void setIsIntroModeOff() {
 		isIntroMode = false;
 	}
 
 	/**
 	 * Sets the isGamePaused variable
+	 * 
+	 * @param value
+	 *            - Boolean for whether or not to pause game in Question Mode
 	 * 
 	 */
 	public void setIsQuestionMode(boolean value) {
@@ -1017,9 +1024,17 @@ public class Model {
 	}
 
 	/**
-	 * Checks the player's health
+	 * Checks for question mode
 	 * 
-	 * And sets isGameOver accordingly
+	 * @param b
+	 *            - Boolean for turning question mode on/off
+	 */
+	public void setQuestionMode(boolean b) {
+		questionMode = b;
+	}
+
+	/**
+	 * Checks the player's health and sets isGameOver accordingly
 	 */
 	public void checkIsGameOver() {
 		if (player.getHealth() <= 0) {
@@ -1032,6 +1047,7 @@ public class Model {
 	/**
 	 * Sets the isGameOver variable
 	 * 
+	 * @param value - Boolean for whether game is over or not
 	 */
 	public void setIsGameOver(boolean value) {
 		isGameOver = value;
@@ -1044,19 +1060,12 @@ public class Model {
 
 	/**
 	 * Sets the name of the user
+	 * 
+	 * @param name
+	 *            - Name of the object
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-
-	/**
-	 * Checks for question mode
-	 * @return - questionMode
-	 */
-	public void setQuestionMode(boolean b){
-		questionMode = b;
-	}
-	
 
 }

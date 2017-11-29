@@ -13,8 +13,11 @@ public class EnemyOsprey extends Enemy {
 
 	/**
 	 * Constructor for the osprey enemy
+	 * 
 	 * @param xbound
+	 *            - X Boundary
 	 * @param ybound
+	 *            - Y Boundary
 	 */
 	public EnemyOsprey(int xbound, int ybound) {
 		System.out.println("Platform boundary: " + xbound + "-" + ybound);

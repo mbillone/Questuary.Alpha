@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 
 import view.ImageObject;
 
-
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
  */
@@ -35,8 +34,11 @@ public class HeartImage extends ImageObject {
 
 	/**
 	 * Heart image constructor
+	 * 
 	 * @param x
+	 *            - X Location
 	 * @param y
+	 *            - Y Location
 	 */
 	public HeartImage(int x, int y) {
 		this.x = x;
@@ -54,6 +56,7 @@ public class HeartImage extends ImageObject {
 	// The String imageFile is the input to the method, and is the file name
 	/**
 	 * Creates image
+	 * 
 	 * @param imageFile
 	 * @return bufferedImage - image created if exception is not thrown
 	 */
@@ -72,7 +75,10 @@ public class HeartImage extends ImageObject {
 	// return the image
 	/**
 	 * Shows the image
+	 * 
 	 * @param direct
+	 *            - Unnecessary parameter, here since super class requires
+	 *            implementation with this parameter list
 	 */
 	public BufferedImage show(int direct) {
 		return pics[picNum];
@@ -81,6 +87,10 @@ public class HeartImage extends ImageObject {
 	// increment through the image
 	/**
 	 * Increment through image array
+	 * 
+	 * @param canAnimate
+	 *            - Unnecessary parameter, here since super class requires
+	 *            implementation with this parameter list
 	 */
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists
@@ -96,6 +106,7 @@ public class HeartImage extends ImageObject {
 
 	/**
 	 * Gets x coordinate
+	 * 
 	 * @return x - int for x coordinate
 	 */
 	public int getX() {
@@ -104,6 +115,7 @@ public class HeartImage extends ImageObject {
 
 	/**
 	 * Gets y coordinate
+	 * 
 	 * @return y - int for y coordinate
 	 */
 	public int getY() {

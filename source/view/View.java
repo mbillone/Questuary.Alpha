@@ -132,7 +132,6 @@ public class View extends JPanel {
 	final private int GameTimeBarYPos = 5;
 	int dynamicTimeBar;
 	// set fact location depending on time bar
-	
 
 	// Add question JFrame
 	JFrame questionFrame;
@@ -346,6 +345,8 @@ public class View extends JPanel {
 	 *            - Player's direction
 	 * @param playerCharacter
 	 *            - Player's state (researcher/bird)
+	 * @param healthLeft
+	 *            - Player's current health
 	 */
 	public void updateView(int playerX, int playerY, int direct, String playerCharacter, int healthLeft) {
 		this.playerX = playerX;
@@ -377,6 +378,7 @@ public class View extends JPanel {
 	 * Creates the question frame
 	 * 
 	 * @param q
+	 *            - Question object being used
 	 * @return questionFrame - JFrame that has the question being asked
 	 */
 	public JFrame createQuestionFrame(Question q) {
@@ -428,6 +430,7 @@ public class View extends JPanel {
 	 * Updates the question frame
 	 * 
 	 * @param index
+	 *            - Location of the player's answer choice
 	 */
 	public void updateQuestion(int index) {
 		JRadioButton selectedButton = buttons.get(index);
@@ -447,6 +450,7 @@ public class View extends JPanel {
 	 * Displays if the correct answer is chosen
 	 * 
 	 * @param q
+	 *            - Question object to be used
 	 */
 	public void displayCorrect(Question q) {
 		removeButtons();
@@ -473,6 +477,7 @@ public class View extends JPanel {
 	 * Displays if the wrong answer is chosen
 	 * 
 	 * @param q
+	 *            - Question object to be used
 	 */
 	public void displayWrong(Question q) {
 		removeButtons();
@@ -554,6 +559,9 @@ public class View extends JPanel {
 	/**
 	 * Set game to and from intro mode
 	 * 
+	 * @param b
+	 *            - Boolean for setting Intro Mode
+	 * 
 	 */
 	public void setIntroMode(boolean b) {
 		gameIntroMode = b;
@@ -589,7 +597,7 @@ public class View extends JPanel {
 	 * Sets the players current Score
 	 * 
 	 * @param score
-	 *            - Sets the score to String score
+	 *            - Sets the Score to String Score
 	 */
 	public void setScore(String score) {
 		this.score = score;
@@ -598,8 +606,8 @@ public class View extends JPanel {
 	/**
 	 * Sets the current GameTime
 	 * 
-	 * @param score
-	 *            - Sets the score to String score
+	 * @param gameTimeLeft
+	 *            - Sets the gameTimeLeft to int gameTimeLeft
 	 */
 	public void setGameTime(int gameTimeLeft) {
 		this.gameTimeLeft = gameTimeLeft;
@@ -636,8 +644,8 @@ public class View extends JPanel {
 	 * Sets the View.platform1 to the playerform1 passed in, to be drawn by another
 	 * method
 	 * 
-	 * @param platform1
-	 *            - The platform the player will be interacting with
+	 * @param platformList
+	 *            - The platforms the player will be interacting with
 	 */
 	public void setPlatforms(ArrayList<Platform> platformList) {
 		platforms = platformList;

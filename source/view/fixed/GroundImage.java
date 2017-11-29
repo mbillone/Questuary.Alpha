@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 
 import view.ImageObject;
 
-
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
  */
@@ -52,6 +51,7 @@ public class GroundImage extends ImageObject {
 	// The String imageFile is the input to the method, and is the file name
 	/**
 	 * Creates image
+	 * 
 	 * @param imageFile
 	 * @return bufferedImage - image returned if no exception thrown
 	 */
@@ -70,7 +70,10 @@ public class GroundImage extends ImageObject {
 	// return the image
 	/**
 	 * Shows the image
+	 * 
 	 * @param direct
+	 *            - Unnecessary parameter, here since super class requires
+	 *            implementation with this parameter list
 	 */
 	public BufferedImage show(int direct) {
 		return pics[picNum];
@@ -78,7 +81,10 @@ public class GroundImage extends ImageObject {
 
 	/**
 	 * Increments to next image in the image array
+	 * 
 	 * @param canAnimate
+	 *            - Unnecessary parameter, here since super class requires
+	 *            implementation with this parameter list
 	 */
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists

@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 
 import view.ImageObject;
 
-
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
  */
@@ -24,9 +23,9 @@ public class OspreyImage extends ImageObject {
 	final private double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	final private double screenRatio = screenWidth / screenHeight;
 	double width = (0.07 * screenWidth);
-	double height = (0.07* screenHeight);
-	private int imgWidth = (int)(1.5 * width);
-	private int imgHeight = (int)(1.5 * height);
+	double height = (0.07 * screenHeight);
+	private int imgWidth = (int) (1.5 * width);
+	private int imgHeight = (int) (1.5 * height);
 
 	private int frameCount = 9;
 	private int picNum = 0;
@@ -61,8 +60,10 @@ public class OspreyImage extends ImageObject {
 	// The String imageFile is the input to the method, and is the file name
 	/**
 	 * Creates the image on screen
+	 * 
 	 * @param imageFile
-	 * @return null or bufferedImage - bufferedImage is returned if there is no exception with uploading the image
+	 * @return null or bufferedImage - bufferedImage is returned if there is no
+	 *         exception with uploading the image
 	 */
 	private BufferedImage createImage(String imageFile) {
 		BufferedImage bufferedImage;
@@ -79,7 +80,9 @@ public class OspreyImage extends ImageObject {
 	// return the image
 	/**
 	 * Shows the image from the array
+	 * 
 	 * @param direct
+	 *            - Which direction the osprey is facing
 	 */
 	public BufferedImage show(int direct) {
 		return pics[direct][picNum];
@@ -87,7 +90,10 @@ public class OspreyImage extends ImageObject {
 
 	/**
 	 * Increments through the osprey images, creating an animation
+	 * 
 	 * @param canAnimate
+	 *            - Unnecessary parameter, here since super class requires
+	 *            implementation with this parameter list
 	 */
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists

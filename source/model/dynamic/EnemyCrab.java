@@ -14,7 +14,9 @@ public class EnemyCrab extends Enemy {
 
 	/**
 	 * Constructor for the crab enemy
+	 * 
 	 * @param platform
+	 *            - Platform to generate the enemy on
 	 */
 	public EnemyCrab(Rectangle platform) {
 

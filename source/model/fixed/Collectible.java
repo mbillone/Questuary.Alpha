@@ -10,7 +10,7 @@ public class Collectible extends StaticObject {
 
 	// *************************************************
 	// Fields
-	
+
 	// values for the collected collectibles display location
 	private static int heightIter;
 	private static int xLoc;
@@ -22,7 +22,9 @@ public class Collectible extends StaticObject {
 	// for regular display
 	/**
 	 * Constructor for the collectible displayed in the play area
+	 * 
 	 * @param platform
+	 *            - Platform to generate the collectible on
 	 */
 	public Collectible(Platform platform) {
 		super.setName("collectible");
@@ -38,8 +40,11 @@ public class Collectible extends StaticObject {
 
 	// for collected display
 	/**
-	 * Constructor for the collectible displayed in the collected display in the top right corner of the screen
+	 * Constructor for the collectible displayed in the collected display in the top
+	 * right corner of the screen
+	 * 
 	 * @param numCollected
+	 *            - Number of collected collectibles
 	 */
 	public Collectible(int numCollected) {
 		super.setName("collectible");
@@ -70,7 +75,9 @@ public class Collectible extends StaticObject {
 
 	/**
 	 * Controls the y coordinate for the collected collectibles in the top right
+	 * 
 	 * @param i
+	 *            - Iterator to make sure the collected list displays in rows
 	 */
 	public static void setHeightIter(int i) {
 		heightIter = i;

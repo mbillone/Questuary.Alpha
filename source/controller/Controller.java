@@ -32,7 +32,7 @@ public class Controller {
 	Timer gameTimer;
 	ArrayList<Integer> keys = new ArrayList<Integer>();
 	// private Long startGameTime;
-	int gameTimeLeft = 180; //minutes in seconds
+	int gameTimeLeft = 180; // minutes in seconds
 
 	// question state
 	private boolean questionModeFlag = true;
@@ -40,8 +40,8 @@ public class Controller {
 	boolean questionMode = false;
 	Question question;
 	JFrame questionFrame;
-	//end question
-	
+	// end question
+
 	// *************************************************
 	// Constructor
 
@@ -71,9 +71,9 @@ public class Controller {
 
 		// give view list of collected
 		view.setCollected(model.getCollected());
-		
+
 		// give view list of facts
-		//view.setFacts(model.getFacts());
+		// view.setFacts(model.getFacts());
 
 		// give view list of facts
 		view.setFacts(model.getFacts());
@@ -98,9 +98,8 @@ public class Controller {
 			}
 		});
 		gameTimer.start();
-		
+
 	}
-	
 
 	// *************************************************
 	// Methods
@@ -127,22 +126,23 @@ public class Controller {
 		 *            - Basic argument for a the actionPerformed function
 		 */
 		public void actionPerformed(ActionEvent arg0) {
-			if(!questionMode) {
-			
+			if (!questionMode) {
+
 				// introduction mode
 				view.setIntroMode(model.getIsIntroMode());
-				if(model.getIsGamePaused()) {
+				if (model.getIsGamePaused()) {
 					gameTimer.stop();
-					if(model.getIsIntroMode()) {
+					if (model.getIsIntroMode()) {
 						view.setIntroSlideNumber(model.getIntroSlideCount());
 					}
 				} else {
 					gameTimer.start();
 					timer.start();
 				}
-				
+
 				// add checkQuestionMode
-				// if model is in question mode then create the JFrame in view with the questions
+				// if model is in question mode then create the JFrame in view with the
+				// questions
 				questionMode = model.isQuestionMode();
 				if (questionMode) {
 					// pause the game timer
@@ -152,7 +152,7 @@ public class Controller {
 					questionFrame.requestFocus();
 				}
 				// end of QuestionMode
-				
+
 				view.setGameTime(gameTimeLeft);
 				model.setGameTimeLeft(gameTimeLeft);
 				model.changeRoom();
@@ -163,7 +163,7 @@ public class Controller {
 				// move the enemies
 				model.moveEnemies();
 				model.checkIsGameOver();
-				
+
 				// update the view and draw the image
 				view.setPlatforms(model.getPlatforms());
 				view.setEnemies(model.getEnemies());
@@ -171,16 +171,16 @@ public class Controller {
 				view.setCollected(model.getCollected());
 				view.setFacts(model.getFacts());
 				view.setChests(model.getChests());
-				
+
 				view.setScore(model.getScore());
 				view.setPicNum();
-	
+
 				if (model.getPlayerDx() != 0 || model.getPlayerDy() != 0) {
 					view.setAnimation(true);
 				} else {
 					view.setAnimation(false);
 				}
-				
+
 				view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
 						model.getPlayerCharacter(), model.getPlayerHealth());
 				if (model.getIsGameOver() || gameTimeLeft == 0) {
@@ -193,277 +193,270 @@ public class Controller {
 						model.setName(name);
 						model.updateHighScore();
 					}
-	
+
 					view.setHighScore(model.getHighScore());
 					view.gameOverMode();
 				}
 			} else {
-			questionMode = model.isQuestionMode();
+				questionMode = model.isQuestionMode();
 			}
 		}
 	}
-	
-	// *************************************************
-		// KeyListener Methods
 
+	// *************************************************
+	// KeyListener Methods
+
+	/**
+	 * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+	 *         ArrowKeyListener used by all aspects of game except for questionMode
+	 */
+	public class ArrowKeyListener implements KeyListener {
 		/**
-		 * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
-		 * ArrowKeyListener used by all aspects of game except for questionMode
+		 * Listener method to handle whenever a key is pressed
+		 * 
+		 * @param e
+		 *            - KeyEvent argument passed in whenever the listener catches a key
+		 *            press
 		 */
-		public class ArrowKeyListener implements KeyListener {
-			/**
-			 * Listener method to handle whenever a key is pressed
-			 * 
-			 * @param e
-			 *            - KeyEvent argument passed in whenever the listener catches a key
-			 *            press
-			 */
-			public void keyPressed(KeyEvent e) {
-				// add key code in arrayList if pressed and not already there
-				if (!keys.contains(e.getKeyCode())) {
-					keys.add(e.getKeyCode());
+		public void keyPressed(KeyEvent e) {
+			// add key code in arrayList if pressed and not already there
+			if (!keys.contains(e.getKeyCode())) {
+				keys.add(e.getKeyCode());
+			}
+
+			if (!model.getIsIntroMode()) {
+
+				if (model.getIsGameOver()) {
+					switch (keys.get(0)) {
+
+					case (KeyEvent.VK_ESCAPE):
+					case (KeyEvent.VK_Q):
+						// if q or esc pressed then quit
+						System.exit(0);
+						break;
+					}
+
+					if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
+						// something is selected from game over screen
+						frame.dispose();
+						Controller newGame = new Controller();
+					}
 				}
 
-				if(!model.getIsIntroMode()) {
-					
-					if (model.getIsGameOver()) {
+				// if only 1 key is pressed
+				if (keys.size() == 1) {
+					// checks if game is not in Change player mode
+					if (!model.getChangeCharacterMode() && !model.getIsGameOver()) {
 						switch (keys.get(0)) {
-							
+						case (KeyEvent.VK_RIGHT):
+							// if x is less than the xBoundary then increment by xVelocity
+							// make player go right in model
+							model.changeRoom();
+							model.playerMoveRight();
+							view.setAnimation(true);
+							System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")"
+									+ model.getPlayerDirectionString());
+							break;
+						case (KeyEvent.VK_LEFT):
+							// make player go left in model
+							model.changeRoom();
+							model.playerMoveLeft();
+							view.setAnimation(true);
+							System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")"
+									+ model.getPlayerDirectionString());
+							break;
+						case (KeyEvent.VK_UP):
+							if (!(model.isPlayerFalling())) {
+								model.makePlayerJump();
+								System.out.println("Executed: makePlayerJump()");
+							}
+							System.out.println("Up Key Pressed");
+							System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")"
+									+ model.getPlayerDirectionString());
+							break;
 						case (KeyEvent.VK_ESCAPE):
 						case (KeyEvent.VK_Q):
 							// if q or esc pressed then quit
 							System.exit(0);
 							break;
 						}
-						
-						if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
-							// something is selected from game over screen
-							frame.dispose();
-							Controller newGame = new Controller();
+					} else if (model.getChangeCharacterMode() && !model.getIsGameOver()) {
+						// game is in change player mode
+						switch (keys.get(0)) {
+						case (KeyEvent.VK_RIGHT):
+							// increment the player selector loop
+							model.incrementChangeCharacterCount();
+							view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
+									model.getPlayerCharacter(), model.getPlayerHealth());
+							break;
+						case (KeyEvent.VK_LEFT):
+							// increment the player selector loop
+							model.decrementChangeCharacterCount();
+							view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
+									model.getPlayerCharacter(), model.getPlayerHealth());
+							break;
+						case (KeyEvent.VK_ESCAPE):
+						case (KeyEvent.VK_Q):
+							// if q is press then quit
+							System.exit(0);
+							break;
 						}
+
 					}
 
-					// if only 1 key is pressed
-					if (keys.size() == 1) {
-						// checks if game is not in Change player mode
-						if (!model.getChangeCharacterMode() && !model.getIsGameOver()) {
-							switch (keys.get(0)) {
-							case (KeyEvent.VK_RIGHT):
-								// if x is less than the xBoundary then increment by xVelocity
-								// make player go right in model
-								model.changeRoom();
-								model.playerMoveRight();
-								view.setAnimation(true);
-								System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")"
-										+ model.getPlayerDirectionString());
-								break;
-							case (KeyEvent.VK_LEFT):
-								// make player go left in model
-								model.changeRoom();
-								model.playerMoveLeft();
-								view.setAnimation(true);
-								System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")"
-										+ model.getPlayerDirectionString());
-								break;
-							case (KeyEvent.VK_UP):
-								if (!(model.isPlayerFalling())) {
-									model.makePlayerJump();
-									System.out.println("Executed: makePlayerJump()");
-								}
-								System.out.println("Up Key Pressed");
-								System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")"
-										+ model.getPlayerDirectionString());
-								break;
-							case (KeyEvent.VK_ESCAPE):
-							case (KeyEvent.VK_Q):
-								// if q or esc pressed then quit
-								System.exit(0);
-								break;
-							}
-						} else if (model.getChangeCharacterMode() && !model.getIsGameOver()) {
-							// game is in change player mode
-							switch (keys.get(0)) {
-							case (KeyEvent.VK_RIGHT):
-								// increment the player selector loop
-								model.incrementChangeCharacterCount();
-								view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
-										model.getPlayerCharacter(), model.getPlayerHealth());
-								break;
-							case (KeyEvent.VK_LEFT):
-								// increment the player selector loop
-								model.decrementChangeCharacterCount();
-								view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
-										model.getPlayerCharacter(), model.getPlayerHealth());
-								break;
-							case (KeyEvent.VK_ESCAPE):
-							case (KeyEvent.VK_Q):
-								// if q is press then quit
-								System.exit(0);
-								break;
-							}
-
-						} 
-
-					}  // if more then 1 key is pressed
-					else if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT))
-					{
-						// changes game mode to switching player
-						view.changeCharacterMode();
-						model.setChangePlayerMode();
-					} else if (keys.contains(KeyEvent.VK_UP) && keys.contains(KeyEvent.VK_RIGHT)) {
-						model.changeRoom();
-						model.playerMoveRight();
-						if (!(model.isPlayerFalling())) {
-							model.makePlayerJump();
-							System.out.println("Executed: makePlayerJump()");
-						}
-
-					} else if (keys.contains(KeyEvent.VK_UP) && keys.contains(KeyEvent.VK_LEFT)) {
-						model.changeRoom();
-						model.playerMoveLeft();
-						if (!(model.isPlayerFalling())) {
-							model.makePlayerJump();
-							System.out.println("Executed: makePlayerJump()");
-						}
+				} // if more then 1 key is pressed
+				else if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
+					// changes game mode to switching player
+					view.changeCharacterMode();
+					model.setChangePlayerMode();
+				} else if (keys.contains(KeyEvent.VK_UP) && keys.contains(KeyEvent.VK_RIGHT)) {
+					model.changeRoom();
+					model.playerMoveRight();
+					if (!(model.isPlayerFalling())) {
+						model.makePlayerJump();
+						System.out.println("Executed: makePlayerJump()");
 					}
 
-				} else {
-					if (keys.size() == 1) {
-						if (keys.contains(KeyEvent.VK_RIGHT)) {
-							model.incrementIntroSlideCount();
-						}else if(keys.contains(KeyEvent.VK_LEFT)) {
-							model.decrementIntroSlideCount();
-						}
-					} else if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
-						gameTimer.start();
-						timer.start();
-						model.setIsIntroModeOff();
-						model.setIsGamePaused();
+				} else if (keys.contains(KeyEvent.VK_UP) && keys.contains(KeyEvent.VK_LEFT)) {
+					model.changeRoom();
+					model.playerMoveLeft();
+					if (!(model.isPlayerFalling())) {
+						model.makePlayerJump();
+						System.out.println("Executed: makePlayerJump()");
 					}
 				}
-			}
 
-			/**
-			 * KeyListener method for whenever a key is typed (required for ArrowKeyListener
-			 * class, will be unused
-			 * 
-			 * @param e
-			 *            - KeyEvent argument passed in whenever the listener catches a key
-			 *            typed
-			 */
-			public void keyTyped(KeyEvent e) {
-			}
-
-			/**
-			 * KeyListener method for whenever a key is released
-			 * 
-			 * @param e
-			 *            - KeyEvent argument passed in whenever the listener catches a key
-			 *            release
-			 */
-			public void keyReleased(KeyEvent e) {
-				// removes key code from arrayList once released
-				if (keys.contains(e.getKeyCode())) {
-					keys.remove(keys.indexOf(e.getKeyCode()));
+			} else {
+				if (keys.size() == 1) {
+					if (keys.contains(KeyEvent.VK_RIGHT)) {
+						model.incrementIntroSlideCount();
+					} else if (keys.contains(KeyEvent.VK_LEFT)) {
+						model.decrementIntroSlideCount();
+					}
+				} else if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
+					gameTimer.start();
+					timer.start();
+					model.setIsIntroModeOff();
+					model.setIsGamePaused();
 				}
-				switch (e.getKeyCode()) {
-				// when right arrow is released the dx is 0
-				case (KeyEvent.VK_RIGHT):
-					model.setPlayerDxOff();
-					view.setAnimation(false);
-					System.out.println("Right Key Released");
-					break;
-				case (KeyEvent.VK_LEFT):
-					// make player go left in model
-					model.setPlayerDxOff();
-					view.setAnimation(false);
-					System.out.println("Left Key Released");
-					break;
-				}
-
 			}
 		}
-		
+
 		/**
-		 * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
-		 * QuestionKeyListener used only by questionMode
+		 * KeyListener method for whenever a key is typed (required for ArrowKeyListener
+		 * class, will be unused
+		 * 
+		 * @param e
+		 *            - KeyEvent argument passed in whenever the listener catches a key
+		 *            typed
 		 */
-		public class QuestionKeyListener implements KeyListener {
+		public void keyTyped(KeyEvent e) {
+		}
 
-			private boolean pressedRightTwice = false;
-			
-			boolean allowInput = false;
-			Timer delay = new Timer(1500, new ActionListener() {
-				public void actionPerformed(ActionEvent e)
-				{
-					allowInput = true;
-					delay.stop();
-				}
-			});
-			
-			/**
-			 * Delays key inputs in Question mode so that player doesn't accidentally submit empty answer
-			 */
-			public QuestionKeyListener() {
-				delay.start();
+		/**
+		 * KeyListener method for whenever a key is released
+		 * 
+		 * @param e
+		 *            - KeyEvent argument passed in whenever the listener catches a key
+		 *            release
+		 */
+		public void keyReleased(KeyEvent e) {
+			// removes key code from arrayList once released
+			if (keys.contains(e.getKeyCode())) {
+				keys.remove(keys.indexOf(e.getKeyCode()));
 			}
-			
-			/**
-			 * Used to navigate the radio buttons for answer options
-			 * @param - Up- selects the answer on top of current answer
-			 * 		Down - selects answer below the current answer
-			 * 		Right - submits the current chosen answer
-			 */
-			public void keyPressed(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				if(allowInput)
-				{
-					switch(arg0.getKeyCode()) {
-					case (KeyEvent.VK_UP):
-						System.out.println("Question up key pressed");
-						question.up();
-						view.updateQuestion(question.getIndex());
-						break;
-					case (KeyEvent.VK_DOWN):
-						System.out.println("Question down key pressed");
-						question.down();
-						view.updateQuestion(question.getIndex());
-						break;
-					case (KeyEvent.VK_RIGHT):
-						System.out.println("Question right key pressed");
-						if(!pressedRightTwice)
-						{
-							if(question.right())
-							{
-								view.displayCorrect(question);
-								model.incrementPlayerHealth();
-							
-							}
-							else						{
-								view.displayWrong(question);
-							}
-							pressedRightTwice = true;
+			switch (e.getKeyCode()) {
+			// when right arrow is released the dx is 0
+			case (KeyEvent.VK_RIGHT):
+				model.setPlayerDxOff();
+				view.setAnimation(false);
+				System.out.println("Right Key Released");
+				break;
+			case (KeyEvent.VK_LEFT):
+				// make player go left in model
+				model.setPlayerDxOff();
+				view.setAnimation(false);
+				System.out.println("Left Key Released");
+				break;
+			}
+
+		}
+	}
+
+	/**
+	 * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
+	 *         QuestionKeyListener used only by questionMode
+	 */
+	public class QuestionKeyListener implements KeyListener {
+
+		private boolean pressedRightTwice = false;
+
+		boolean allowInput = false;
+		Timer delay = new Timer(1500, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				allowInput = true;
+				delay.stop();
+			}
+		});
+
+		/**
+		 * Delays key inputs in Question mode so that player doesn't accidentally submit
+		 * empty answer
+		 */
+		public QuestionKeyListener() {
+			delay.start();
+		}
+
+		/**
+		 * Used to navigate the radio buttons for answer options
+		 * 
+		 * @param arg0
+		 *            - Which key is pressed
+		 */
+		public void keyPressed(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			if (allowInput) {
+				switch (arg0.getKeyCode()) {
+				case (KeyEvent.VK_UP):
+					System.out.println("Question up key pressed");
+					question.up();
+					view.updateQuestion(question.getIndex());
+					break;
+				case (KeyEvent.VK_DOWN):
+					System.out.println("Question down key pressed");
+					question.down();
+					view.updateQuestion(question.getIndex());
+					break;
+				case (KeyEvent.VK_RIGHT):
+					System.out.println("Question right key pressed");
+					if (!pressedRightTwice) {
+						if (question.right()) {
+							view.displayCorrect(question);
+							model.incrementPlayerHealth();
+
+						} else {
+							view.displayWrong(question);
 						}
-						else
-						{
-							model.setQuestionMode(false);
-							view.TurnOffQuestionFrame();
-							//Turn game timer back on
-						}
-						break;
+						pressedRightTwice = true;
+					} else {
+						model.setQuestionMode(false);
+						view.TurnOffQuestionFrame();
+						// Turn game timer back on
 					}
+					break;
 				}
-			}
-
-			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			public void keyTyped(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				
 			}
 		}
-	
+
+		public void keyReleased(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void keyTyped(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+
+		}
+	}
+
 }

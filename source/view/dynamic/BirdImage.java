@@ -11,7 +11,7 @@ import view.ImageObject;
 
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
- *      
+ * 
  */
 public class BirdImage extends ImageObject {
 
@@ -52,8 +52,10 @@ public class BirdImage extends ImageObject {
 	// The String imageFile is the input to the method, and is the file name
 	/**
 	 * Creates the image on screen
+	 * 
 	 * @param imageFile
-	 * @return null or bufferedImage - bufferedImage is returned if there is no exception with uploading the image
+	 * @return null or bufferedImage - bufferedImage is returned if there is no
+	 *         exception with uploading the image
 	 */
 	private BufferedImage createImage(String imageFile) {
 		BufferedImage bufferedImage;
@@ -70,6 +72,7 @@ public class BirdImage extends ImageObject {
 	// method used to flip the image
 	/**
 	 * Flips the image
+	 * 
 	 * @param image
 	 * @return mimg - flipped image
 	 */
@@ -90,7 +93,9 @@ public class BirdImage extends ImageObject {
 	// return the image in the array
 	/**
 	 * Shows the image from the array
+	 * 
 	 * @param direct
+	 *            - Which direction the bird is facing
 	 */
 	public BufferedImage show(int direct) {
 		return pics[direct][picNum];
@@ -99,7 +104,9 @@ public class BirdImage extends ImageObject {
 	// increment through the BirdImage
 	/**
 	 * Increments through the bird images, creating an animation
+	 * 
 	 * @param canAnimate
+	 *            - Boolean for whether or not to show next image
 	 */
 	public void nextImage(boolean canAnimate) {
 		if (canAnimate) {

@@ -45,6 +45,7 @@ public class CollectibleImage extends ImageObject {
 	// The String imageFile is the input to the method, and is the file name
 	/**
 	 * Creates image
+	 * 
 	 * @param imageFile
 	 * @return bufferedImage - BufferedImage displayed unless excpetion is thrown
 	 */
@@ -63,7 +64,10 @@ public class CollectibleImage extends ImageObject {
 	// return the image
 	/**
 	 * Shows the image
+	 * 
 	 * @param direct
+	 *            - Unnecessary parameter, here since super class requires
+	 *            implementation with this parameter list
 	 */
 	public BufferedImage show(int direct) {
 		return pics[picNum];
@@ -71,7 +75,10 @@ public class CollectibleImage extends ImageObject {
 
 	/**
 	 * Shows the next image in the array
+	 * 
 	 * @param canAnimate
+	 *            - Unnecessary parameter, here since super class requires
+	 *            implementation with this parameter list
 	 */
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists

@@ -7,17 +7,18 @@ import javax.swing.*;
 /**
  *
  * @author Rob Camick
- * @see <a href="https://tips4java.wordpress.com/2008/10/12/background-panel/">https://tips4java.wordpress.com/2008/10/12/background-panel/</a>
+ * @see <a href=
+ *      "https://tips4java.wordpress.com/2008/10/12/background-panel/">https://tips4java.wordpress.com/2008/10/12/background-panel/</a>
  * 
- * <p>
- * Supports custom painting on a panel in the form of
+ *      <p>
+ *      Supports custom painting on a panel in the form of
  *
- * a) images - that can be scaled, tiled or painted at original size 
- * b) not solid painting - that can be done by using a Paint object
+ *      a) images - that can be scaled, tiled or painted at original size b) not
+ *      solid painting - that can be done by using a Paint object
  *
- * Also, any component added directly to this panel will be made non-opaque so
- * that the custom painting can show through.
- * </p>
+ *      Also, any component added directly to this panel will be made non-opaque
+ *      so that the custom painting can show through.
+ *      </p>
  * 
  */
 public class BackgroundPanel extends JPanel {
@@ -34,6 +35,9 @@ public class BackgroundPanel extends JPanel {
 
 	/**
 	 * Set image as the background with the SCALED style
+	 * 
+	 * @param image
+	 *            - Image to be set as the background
 	 */
 	public BackgroundPanel(Image image) {
 		this(image, SCALED);
@@ -41,6 +45,11 @@ public class BackgroundPanel extends JPanel {
 
 	/**
 	 * Set image as the background with the specified style
+	 * 
+	 * @param image
+	 *            - Image to be set as the background
+	 * @param style
+	 *            - Which style to use for the image
 	 */
 	public BackgroundPanel(Image image, int style) {
 		setImage(image);
@@ -50,6 +59,15 @@ public class BackgroundPanel extends JPanel {
 
 	/**
 	 * Set image as the background with the specified style and alignment
+	 * 
+	 * @param image
+	 *            - Image to be set as the background
+	 * @param style
+	 *            - Which style to use for the image
+	 * @param alignmentX
+	 *            - X Alignment for the image
+	 * @param alignmentY
+	 *            - Y Alignment for the image
 	 */
 	public BackgroundPanel(Image image, int style, float alignmentX, float alignmentY) {
 		setImage(image);
@@ -61,6 +79,8 @@ public class BackgroundPanel extends JPanel {
 
 	/**
 	 * Use the Paint interface to paint a background
+	 * 
+	 * @param painter - Painter to be used as the background image
 	 */
 	public BackgroundPanel(Paint painter) {
 		setPaint(painter);
@@ -69,6 +89,9 @@ public class BackgroundPanel extends JPanel {
 
 	/**
 	 * Set the image used as the background
+	 * 
+	 * @param image
+	 *            - Image to be set as the background
 	 */
 	public void setImage(Image image) {
 		this.image = image;
@@ -85,6 +108,9 @@ public class BackgroundPanel extends JPanel {
 
 	/**
 	 * Set the Paint object used to paint the background
+	 * 
+	 * @param painter
+	 *            - Painter to be used for the background
 	 */
 	public void setPaint(Paint painter) {
 		this.painter = painter;
@@ -93,6 +119,10 @@ public class BackgroundPanel extends JPanel {
 
 	/**
 	 * Specify the horizontal alignment of the image when using ACTUAL style
+	 * 
+	 * @param alignmentX
+	 *            - Value for horizontal alignment of the image when using ACTUAL
+	 *            style
 	 */
 	public void setImageAlignmentX(float alignmentX) {
 		this.alignmentX = alignmentX > 1.0f ? 1.0f : alignmentX < 0.0f ? 0.0f : alignmentX;
@@ -100,7 +130,11 @@ public class BackgroundPanel extends JPanel {
 	}
 
 	/**
-	 * Specify the horizontal alignment of the image when using ACTUAL style
+	 * Specify the vertical alignment of the image when using ACTUAL style
+	 * 
+	 * @param alignmentY
+	 *            - Value for vertical alignment of the image when using ACTUAL
+	 *            style
 	 */
 	public void setImageAlignmentY(float alignmentY) {
 		this.alignmentY = alignmentY > 1.0f ? 1.0f : alignmentY < 0.0f ? 0.0f : alignmentY;
@@ -109,6 +143,9 @@ public class BackgroundPanel extends JPanel {
 
 	/**
 	 * Override method so we can make the component transparent
+	 * 
+	 * @param component
+	 *            - JComponent to used to make the component transparent
 	 */
 	public void add(JComponent component) {
 		add(component, null);
@@ -127,6 +164,11 @@ public class BackgroundPanel extends JPanel {
 
 	/**
 	 * Override method so we can make the component transparent
+	 * 
+	 * @param component
+	 *            - JComponent to used to make the component transparent
+	 * @param constraints
+	 *            - Object with constraints for the image
 	 */
 	public void add(JComponent component, Object constraints) {
 		if (isTransparentAdd) {
@@ -140,6 +182,10 @@ public class BackgroundPanel extends JPanel {
 	 * Controls whether components added to this panel should automatically be made
 	 * transparent. That is, setOpaque(false) will be invoked. The default is set to
 	 * true.
+	 * 
+	 * @param isTransparentAdd
+	 *            - Boolean for whether or not components added will be made
+	 *            transparent
 	 */
 	public void setTransparentAdd(boolean isTransparentAdd) {
 		this.isTransparentAdd = isTransparentAdd;
@@ -149,7 +195,9 @@ public class BackgroundPanel extends JPanel {
 	 * Try to make the component transparent. For components that use renderers,
 	 * like JTable, you will also need to change the renderer to be transparent. An
 	 * easy way to do this it to set the background of the table to a Color using an
-	 * alpha value of 0.
+	 * 
+	 * @param component
+	 *            - JComponent to make transparent
 	 */
 	private void makeComponentTransparent(JComponent component) {
 		component.setOpaque(false);
@@ -168,6 +216,10 @@ public class BackgroundPanel extends JPanel {
 
 	/**
 	 * Add custom painting
+	 * 
+	 * @param g
+	 *            - Graphics to be painted on
+	 * 
 	 */
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -207,6 +259,9 @@ public class BackgroundPanel extends JPanel {
 
 	/**
 	 * Custom painting code for drawing a SCALED image as the background
+	 * 
+	 * @param g
+	 *            - Graphics to draw the scaled image on
 	 */
 	private void drawScaled(Graphics g) {
 		Dimension d = getSize();
@@ -215,6 +270,9 @@ public class BackgroundPanel extends JPanel {
 
 	/**
 	 * Custom painting code for drawing TILED images as the background
+	 * 
+	 * @param g
+	 *            - Graphics to draw the tiled image on
 	 */
 	private void drawTiled(Graphics g) {
 		Dimension d = getSize();
@@ -232,6 +290,9 @@ public class BackgroundPanel extends JPanel {
 	 * Custom painting code for drawing the ACTUAL image as the background. The
 	 * image is positioned in the panel based on the horizontal and vertical
 	 * alignments specified.
+	 * 
+	 * @param g
+	 *            - Graphics to draw the actual image on
 	 */
 	private void drawActual(Graphics g) {
 		Dimension d = getSize();

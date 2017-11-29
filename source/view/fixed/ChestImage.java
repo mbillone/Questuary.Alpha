@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 
 import view.ImageObject;
 
-
 /**
  * @author Andrew Baldwin, Matt Billone, David Chan, Akash Sharma, Vineeth Gutta
  */
@@ -32,7 +31,7 @@ public class ChestImage extends ImageObject {
 	 */
 	public ChestImage() {
 		super.setName("chest");
-		
+
 		int xLoc = 0;
 		int yLoc = 0;
 
@@ -50,8 +49,10 @@ public class ChestImage extends ImageObject {
 	// The String imageFile is the input to the method, and is the file name
 	/**
 	 * Creates image
+	 * 
 	 * @param imageFile
-	 * @return null or bufferedImage - bufferedImage is returned if there is no exception with uploading the image
+	 * @return null or bufferedImage - bufferedImage is returned if there is no
+	 *         exception with uploading the image
 	 */
 	private BufferedImage createImage(String imageFile) {
 		BufferedImage bufferedImage;
@@ -68,7 +69,10 @@ public class ChestImage extends ImageObject {
 	// return the image
 	/**
 	 * Shows the image from the array
+	 * 
 	 * @param direct
+	 *            - Unnecessary parameter, here since super class requires
+	 *            implementation with this parameter list
 	 */
 	public BufferedImage show(int direct) {
 		return pics[picNum];
@@ -76,7 +80,9 @@ public class ChestImage extends ImageObject {
 
 	/**
 	 * Goes to the next image in the image array
+	 * 
 	 * @param canAnimate
+	 *            - Boolean for whether or not to switch to the open image
 	 */
 	public void nextImage(boolean canAnimate) {
 		// check to see if the next index exists

@@ -4,3 +4,4 @@ model.dynamic
 model.fixed
 view
 view.dynamic
+view.fixed
