@@ -86,14 +86,15 @@ public class Model {
 	private int gameTimeLeft;
 
 	// Intro Mode fields
-	private boolean isIntroMode = true;
-	private int changeIntroSlideCount = 0;
+	private boolean isIntroMode;
+	int introRoomNum = 0;
 
 	// add Question variables and QuestionMode flag
 	private boolean questionMode = false;
 	// Object containing the questions
 	private QuestionBank QB = new QuestionBank();
 	private Question question;
+	
 
 	// *************************************************
 	// Constructor
@@ -101,8 +102,9 @@ public class Model {
 	/**
 	 * Constructor for Model
 	 */
-	public Model() {
+	public Model(boolean isIntroMode) {
 
+		this.isIntroMode = isIntroMode;
 		int playerWidth = (int) (screenWidth * 0.1);
 		int playerHeight = (int) (playerWidth * screenRatio);
 
@@ -161,6 +163,14 @@ public class Model {
 		collectibles.add(firstCollectible);
 		System.out.println("First Collectible Created");
 
+		if(isIntroMode) {
+			platforms.clear();
+			enemies.clear();
+			collectibles.clear();
+			facts.clear();
+			chests.clear();
+		}
+		
 	}
 
 	// *************************************************
@@ -411,7 +421,18 @@ public class Model {
 	public void changeRoom() {
 		if (player.getX() > xBoundary || player.getY() > yBoundary) {
 			player.setLocation(startingX, startingY);
-			createNewPlatform();
+			introRoomNum++;
+			platforms.clear();
+			if(!isIntroMode) {
+				createNewPlatform();
+			}else {
+				switch (introRoomNum) {
+				case 1: setPlatform(500,700); // use this method to place custom platforms for intro
+				break;
+				case 2: setPlatform(700,200); 
+				break;
+				}
+			}
 		}
 	}
 
@@ -430,7 +451,6 @@ public class Model {
 	}
 
 	// end of Question methods
-
 	/**
 	 * Randomly generate new room
 	 *
@@ -472,6 +492,7 @@ public class Model {
 			}
 
 		}
+		
 
 		// random crab & collectible generators
 		Random random = new Random(System.currentTimeMillis());
@@ -557,7 +578,7 @@ public class Model {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Hello World");
-		Model model = new Model();
+		Model model = new Model(false);
 
 		for (int i = 0; i < 10; i++) {
 			System.out.println();
@@ -594,6 +615,15 @@ public class Model {
 	// *************************************************
 	// Getters
 
+	/**
+	 * Returns the intro room number
+	 *
+	 * @return int - room number of Intro
+	 */
+	public int getIntroRoomNum() {
+		return introRoomNum;
+	}
+	
 	/**
 	 * Returns the screen X-Boundary
 	 *
@@ -896,26 +926,24 @@ public class Model {
 		return gameTimeLeft;
 	}
 
-	/**
-	 * Getter for the Game Intro Mode
-	 * 
-	 * @return boolean - Return if game is in Intro Mode
-	 */
-	public boolean getIsIntroMode() {
-		return isIntroMode;
-	}
-
-	/**
-	 * Getter for the Game Intro Mode slide count
-	 * 
-	 * @return int - Value of which slide is being displayed
-	 */
-	public int getIntroSlideCount() {
-		return changeIntroSlideCount;
-	}
 
 	// *************************************************
 	// Setters
+	
+	
+	/**
+	 * Create a single platform in a certain location
+	 * 
+	 * @param x
+	 *            - The x location of platform
+	 * @param y
+	 *            - The y location of platform
+	 * 
+	 */
+	public void setPlatform(int x , int y) {
+		p1 = new Platform(x,y, 350, 50);
+		platforms.add(p1);
+	}
 
 	/**
 	 * Sets the game timer
@@ -962,26 +990,6 @@ public class Model {
 		changeCharacterCount--;
 	}
 
-	/**
-	 * Increments the Intro Slide Count which is responsible for the slide you are
-	 * currently viewing
-	 */
-	public void incrementIntroSlideCount() {
-		if (changeIntroSlideCount < 4) {
-			changeIntroSlideCount++;
-		}
-
-	}
-
-	/**
-	 * Decrements the Intro Slide Count which is responsible for the slide you are
-	 * currently viewing
-	 */
-	public void decrementIntroSlideCount() {
-		if (changeIntroSlideCount > 0) {
-			changeIntroSlideCount--;
-		}
-	}
 
 	/**
 	 * Sets the changeCharacterMode variable
@@ -997,20 +1005,13 @@ public class Model {
 	 * 
 	 */
 	public void setIsGamePaused() {
-		if (getChangeCharacterMode() || getIsQuestionMode() || getIsIntroMode()) {
+		if (getChangeCharacterMode() || getIsQuestionMode()) {
 			isGamePaused = true;
 		} else {
 			isGamePaused = false;
 		}
 	}
 
-	/**
-	 * Sets the isIntroMode variable to false
-	 * 
-	 */
-	public void setIsIntroModeOff() {
-		isIntroMode = false;
-	}
 
 	/**
 	 * Sets the isGamePaused variable

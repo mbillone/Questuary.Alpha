@@ -23,6 +23,7 @@ public class ResearcherImage extends ImageObject {
 
 	private int frameCount = 10;
 	private int picNum = 0;
+	private BufferedImage[] idleImage = new BufferedImage[2];
 
 	private BufferedImage[][] pics = new BufferedImage[2][frameCount];
 
@@ -35,6 +36,8 @@ public class ResearcherImage extends ImageObject {
 	public ResearcherImage() {
 		super.setName("researcher");
 		// load in the images
+		idleImage[0] = flip(createImage("images/researcher/Idle__000.png"));
+		idleImage[1] = createImage("images/researcher/Idle__000.png");
 		for (int i = 0; i < frameCount; i++) {
 			BufferedImage image = createImage("images/researcher/Run (" + (i + 1) + ")" + ".png");
 			pics[1][i] = image;
@@ -97,6 +100,10 @@ public class ResearcherImage extends ImageObject {
 	 *            - Which direction the researcher is facing
 	 */
 	public BufferedImage show(int direct) {
+		if(picNum == 11) {
+			picNum = 0;
+			return idleImage[direct];
+		}
 		return pics[direct][picNum];
 	}
 
@@ -110,6 +117,8 @@ public class ResearcherImage extends ImageObject {
 	public void nextImage(boolean canAnimate) {
 		if (canAnimate) {
 			picNum = (picNum + 1) % frameCount;
+		}else {
+			picNum = 11;
 		}
 	}
 
