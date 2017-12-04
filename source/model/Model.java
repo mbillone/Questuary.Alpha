@@ -558,7 +558,12 @@ public class Model {
 	 * 
 	 */
 	public void updateHighScore() {
-		highScore = name + ": " + player.getScore();
+		if(isNewHighScore()) {
+			highScore = name + ": " + player.getScore();
+		}else {
+			highScore = name + ": " + highScore.split(": ")[1];
+		}
+		
 		File scoreFile = new File("HighScore.dat");
 		if (!scoreFile.exists()) {
 			try {
@@ -1119,45 +1124,46 @@ public class Model {
 	public void addBadWord() {
 		String wordToAdd = (getHighScore().split(": ")[0]).toLowerCase();
 		String score = getHighScore().split(": ")[1];
-		BufferedWriter writer = null;
-		FileWriter writeFile = null;
-		
-		try {
-			File file = new File("bad-words.txt");
-
-			// if file doesnt exists, then create it
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-
-			// true = append file
-			writeFile = new FileWriter(file.getAbsoluteFile(), true);
-			writer = new BufferedWriter(writeFile);
-			writer.newLine();
-			writer.write(wordToAdd);
-
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		} finally {
-
+		if(wordToAdd != "nobody") {
+			BufferedWriter writer = null;
+			FileWriter writeFile = null;
+			
 			try {
+				File file = new File("bad-words.txt");
 
-				if (writer != null)
-					writer.close();
+				// if file doesnt exists, then create it
+				if (!file.exists()) {
+					file.createNewFile();
+				}
 
-				if (writeFile != null)
-					writeFile.close();
+				// true = append file
+				writeFile = new FileWriter(file.getAbsoluteFile(), true);
+				writer = new BufferedWriter(writeFile);
+				writer.newLine();
+				writer.write(wordToAdd);
 
-			} catch (IOException ex) {
 
-				ex.printStackTrace();
+			} catch (IOException e) {
 
+				e.printStackTrace();
+
+			} finally {
+
+				try {
+
+					if (writer != null)
+						writer.close();
+
+					if (writeFile != null)
+						writeFile.close();
+
+				} catch (IOException ex) {
+
+					ex.printStackTrace();
+
+				}
 			}
 		}
-		highScore = "Nobody: "+ score;
 
 	}
 	
