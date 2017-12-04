@@ -40,6 +40,7 @@ public class Controller {
 	boolean questionMode = false;
 	Question question;
 	JFrame questionFrame;
+	boolean isIntroMode = false;
 	// end question
 
 	// *************************************************
@@ -50,11 +51,11 @@ public class Controller {
 	 */
 	public Controller() {
 		// create the Model and View
-		model = new Model();
+		model = new Model(isIntroMode);
 		view = new View();
 		// pauses the game in beginning for intro mode
-		model.setIsGamePaused();
-
+		//model.setIsGamePaused();
+		
 		// get the ground from model
 		view.setGroundImage(model.getGround());
 
@@ -126,20 +127,13 @@ public class Controller {
 		 *            - Basic argument for a the actionPerformed function
 		 */
 		public void actionPerformed(ActionEvent arg0) {
+			if (model.getIsGamePaused()) {
+				gameTimer.stop();
+			} else {
+				gameTimer.start();
+			}
+			
 			if (!questionMode) {
-
-				// introduction mode
-				view.setIntroMode(model.getIsIntroMode());
-				if (model.getIsGamePaused()) {
-					gameTimer.stop();
-					if (model.getIsIntroMode()) {
-						view.setIntroSlideNumber(model.getIntroSlideCount());
-					}
-				} else {
-					gameTimer.start();
-					timer.start();
-				}
-
 				// add checkQuestionMode
 				// if model is in question mode then create the JFrame in view with the
 				// questions
@@ -192,9 +186,12 @@ public class Controller {
 						String name = view.getName();
 						model.setName(name);
 						model.updateHighScore();
+					}else {
+						model.setName(model.getHighScore().split(": ")[0]);
+						model.updateHighScore();
 					}
-
 					view.setHighScore(model.getHighScore());
+					
 					view.gameOverMode();
 				}
 			} else {
@@ -224,122 +221,111 @@ public class Controller {
 				keys.add(e.getKeyCode());
 			}
 
-			if (!model.getIsIntroMode()) {
+			if (model.getIsGameOver()) {
+				switch (keys.get(0)) {
 
-				if (model.getIsGameOver()) {
+				
+				case (KeyEvent.VK_ESCAPE):
+				case (KeyEvent.VK_Q):
+					// if q or esc pressed then quit
+					System.exit(0);
+					break;
+				}
+
+				if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
+					// something is selected from game over screen
+					frame.dispose();
+					Controller newGame = new Controller();
+				}else if(keys.contains(KeyEvent.VK_SPACE) && keys.contains(KeyEvent.VK_F)) {
+					model.addBadWord();
+					view.setHighScore(model.getHighScore());
+					
+				}
+			}
+
+			// if only 1 key is pressed
+			if (keys.size() == 1) {
+				// checks if game is not in Change player mode
+				if (!model.getChangeCharacterMode() && !model.getIsGameOver()) {
 					switch (keys.get(0)) {
-
+					
+					case (KeyEvent.VK_RIGHT):
+						// if x is less than the xBoundary then increment by xVelocity
+						// make player go right in model
+						model.changeRoom();
+						model.playerMoveRight();
+						view.setAnimation(true);
+						System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")"
+								+ model.getPlayerDirectionString());
+						break;
+					case (KeyEvent.VK_LEFT):
+						// make player go left in model
+						model.changeRoom();
+						model.playerMoveLeft();
+						view.setAnimation(true);
+						System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")"
+								+ model.getPlayerDirectionString());
+						break;
+					case (KeyEvent.VK_UP):
+						if (!(model.isPlayerFalling())) {
+							model.makePlayerJump();
+							System.out.println("Executed: makePlayerJump()");
+						}
+						System.out.println("Up Key Pressed");
+						System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")"
+								+ model.getPlayerDirectionString());
+						break;
 					case (KeyEvent.VK_ESCAPE):
 					case (KeyEvent.VK_Q):
 						// if q or esc pressed then quit
 						System.exit(0);
 						break;
 					}
-
-					if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
-						// something is selected from game over screen
-						frame.dispose();
-						Controller newGame = new Controller();
+				} else if (model.getChangeCharacterMode() && !model.getIsGameOver()) {
+					// game is in change player mode
+					switch (keys.get(0)) {
+					case (KeyEvent.VK_RIGHT):
+						// increment the player selector loop
+						model.incrementChangeCharacterCount();
+						view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
+								model.getPlayerCharacter(), model.getPlayerHealth());
+						break;
+					case (KeyEvent.VK_LEFT):
+						// increment the player selector loop
+						model.decrementChangeCharacterCount();
+						view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
+								model.getPlayerCharacter(), model.getPlayerHealth());
+						break;
+					case (KeyEvent.VK_ESCAPE):
+					case (KeyEvent.VK_Q):
+						// if q is press then quit
+						System.exit(0);
+						break;
 					}
+
 				}
 
-				// if only 1 key is pressed
-				if (keys.size() == 1) {
-					// checks if game is not in Change player mode
-					if (!model.getChangeCharacterMode() && !model.getIsGameOver()) {
-						switch (keys.get(0)) {
-						case (KeyEvent.VK_RIGHT):
-							// if x is less than the xBoundary then increment by xVelocity
-							// make player go right in model
-							model.changeRoom();
-							model.playerMoveRight();
-							view.setAnimation(true);
-							System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")"
-									+ model.getPlayerDirectionString());
-							break;
-						case (KeyEvent.VK_LEFT):
-							// make player go left in model
-							model.changeRoom();
-							model.playerMoveLeft();
-							view.setAnimation(true);
-							System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")"
-									+ model.getPlayerDirectionString());
-							break;
-						case (KeyEvent.VK_UP):
-							if (!(model.isPlayerFalling())) {
-								model.makePlayerJump();
-								System.out.println("Executed: makePlayerJump()");
-							}
-							System.out.println("Up Key Pressed");
-							System.out.println("(" + model.getPlayerX() + "," + model.getPlayerY() + ")"
-									+ model.getPlayerDirectionString());
-							break;
-						case (KeyEvent.VK_ESCAPE):
-						case (KeyEvent.VK_Q):
-							// if q or esc pressed then quit
-							System.exit(0);
-							break;
-						}
-					} else if (model.getChangeCharacterMode() && !model.getIsGameOver()) {
-						// game is in change player mode
-						switch (keys.get(0)) {
-						case (KeyEvent.VK_RIGHT):
-							// increment the player selector loop
-							model.incrementChangeCharacterCount();
-							view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
-									model.getPlayerCharacter(), model.getPlayerHealth());
-							break;
-						case (KeyEvent.VK_LEFT):
-							// increment the player selector loop
-							model.decrementChangeCharacterCount();
-							view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(),
-									model.getPlayerCharacter(), model.getPlayerHealth());
-							break;
-						case (KeyEvent.VK_ESCAPE):
-						case (KeyEvent.VK_Q):
-							// if q is press then quit
-							System.exit(0);
-							break;
-						}
-
-					}
-
-				} // if more then 1 key is pressed
-				else if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
-					// changes game mode to switching player
-					view.changeCharacterMode();
-					model.setChangePlayerMode();
-				} else if (keys.contains(KeyEvent.VK_UP) && keys.contains(KeyEvent.VK_RIGHT)) {
-					model.changeRoom();
-					model.playerMoveRight();
-					if (!(model.isPlayerFalling())) {
-						model.makePlayerJump();
-						System.out.println("Executed: makePlayerJump()");
-					}
-
-				} else if (keys.contains(KeyEvent.VK_UP) && keys.contains(KeyEvent.VK_LEFT)) {
-					model.changeRoom();
-					model.playerMoveLeft();
-					if (!(model.isPlayerFalling())) {
-						model.makePlayerJump();
-						System.out.println("Executed: makePlayerJump()");
-					}
+			} // if more then 1 key is pressed
+			else if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
+				// changes game mode to switching player
+				view.changeCharacterMode();
+				model.setChangePlayerMode();
+			} else if (keys.contains(KeyEvent.VK_UP) && keys.contains(KeyEvent.VK_RIGHT)) {
+				model.changeRoom();
+				model.playerMoveRight();
+				if (!(model.isPlayerFalling())) {
+					model.makePlayerJump();
+					System.out.println("Executed: makePlayerJump()");
 				}
 
-			} else {
-				if (keys.size() == 1) {
-					if (keys.contains(KeyEvent.VK_RIGHT)) {
-						model.incrementIntroSlideCount();
-					} else if (keys.contains(KeyEvent.VK_LEFT)) {
-						model.decrementIntroSlideCount();
-					}
-				} else if (keys.contains(KeyEvent.VK_DOWN) && keys.contains(KeyEvent.VK_RIGHT)) {
-					gameTimer.start();
-					timer.start();
-					model.setIsIntroModeOff();
-					model.setIsGamePaused();
+			} else if (keys.contains(KeyEvent.VK_UP) && keys.contains(KeyEvent.VK_LEFT)) {
+				model.changeRoom();
+				model.playerMoveLeft();
+				if (!(model.isPlayerFalling())) {
+					model.makePlayerJump();
+					System.out.println("Executed: makePlayerJump()");
 				}
-			}
+			}	
 		}
 
 		/**
