@@ -200,6 +200,18 @@ public class IntroView extends JPanel {
 							(int) platform.getWidth(), (int) platform.getHeight(), this);
 				}
 			}
+			if (!enemies.isEmpty()) {
+				// paint enemies
+				for (Enemy enemy : enemies) {
+					// g.drawRect((int)enemy.getX(), (int)enemy.getY(), (int)enemy.getWidth(),
+					// (int)enemy.getHeight());
+					ImageObject enemyImg = characterImages.get(enemy.getName());
+					int direct = enemy.getDirection();
+					int imgX = (int) enemy.getX() - ((enemyImg.getWidth() - (int) enemy.getWidth()) / 2);
+					int imgY = (int) enemy.getY() - ((enemyImg.getHeight() - (int) enemy.getHeight()) / 2);
+					g.drawImage(enemyImg.show(direct), imgX, imgY, enemyImg.getWidth(), enemyImg.getHeight(), this);
+				}
+			}
 			
 
 			// paint ground
@@ -288,9 +300,7 @@ public class IntroView extends JPanel {
 			case 3: 
 				
 			break;
-			case 4: 
-				
-			break;
+			
 		}
 	}
 

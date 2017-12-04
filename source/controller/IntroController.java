@@ -46,6 +46,14 @@ public class IntroController {
 
 			view.setPlatforms(model.getPlatforms());
 			// update the view of the player's location
+			
+			view.setEnemies(model.getEnemies());
+			view.setCollectibles(model.getCollectibles());
+			view.setCollected(model.getCollected());
+			view.setFacts(model.getFacts());
+			view.setChests(model.getChests());
+			view.setScore(model.getScore());
+			
 			view.updateView(model.getPlayerX(), model.getPlayerY(), model.getPlayerDirection(), model.getPlayerCharacter(),
 					model.getPlayerHealth());
 
@@ -95,15 +103,17 @@ public class IntroController {
 			// move the enemies
 			model.moveEnemies();
 			model.checkIsGameOver();
+			
 			// update the view and draw the image
 			view.setPlatforms(model.getPlatforms());
+			
 			view.setEnemies(model.getEnemies());
 			view.setCollectibles(model.getCollectibles());
 			view.setCollected(model.getCollected());
 			view.setFacts(model.getFacts());
 			view.setChests(model.getChests());
-
 			view.setScore(model.getScore());
+			
 			view.setPicNum();
 
 			if (model.getPlayerDx() != 0 || model.getPlayerDy() != 0) {
@@ -230,7 +240,7 @@ public class IntroController {
 					System.out.println("Executed: makePlayerJump()");
 				}
 			}
-			if (model.getIntroRoomNum() > 4) {
+			if (model.getIntroRoomNum() > 3) {
 				frame.dispose();
 				Controller StartGame = new Controller();
 			}

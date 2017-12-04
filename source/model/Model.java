@@ -319,7 +319,10 @@ public class Model {
 			}
 
 			if ((!enemy.isDead()) && enemy.intersects(player) && !(enemy.getHasAttacked())) {
-				enemy.damage(player);
+				
+				if(!isIntroMode) {
+					enemy.damage(player);
+				}
 				enemy.setHasAttacked(true);
 
 				if (!(this.horizontalCollision(enemy))) {
@@ -423,13 +426,26 @@ public class Model {
 			player.setLocation(startingX, startingY);
 			introRoomNum++;
 			platforms.clear();
+			collectibles.clear();
+			chests.clear();
+			facts.clear();
+			enemies.clear();
 			if(!isIntroMode) {
 				createNewPlatform();
 			}else {
 				switch (introRoomNum) {
 				case 1: setPlatform(500,700); // use this method to place custom platforms for intro
 				break;
-				case 2: setPlatform(700,200); 
+				case 2: 
+					setPlatform(400,800); 
+					collectibles.add(new Collectible(platforms.get(0)));
+					setPlatform(800,800); 
+					chests.add(new Chest(platforms.get(1)));
+				break;
+				case 3:
+					setPlatform(400,800); 
+					enemies.add(new EnemyCrab(platforms.get(0)));
+					enemies.add(new EnemyOsprey((int) screenWidth, (int) screenHeight));
 				break;
 				}
 			}
@@ -1038,7 +1054,7 @@ public class Model {
 	 * Checks the player's health and sets isGameOver accordingly
 	 */
 	public void checkIsGameOver() {
-		if (player.getHealth() <= 0) {
+		if (player.getHealth() <= 0  || getGameTimeLeft() == 0 && !isIntroMode) {
 			setIsGameOver(true);
 		} else {
 			setIsGameOver(false);
@@ -1067,6 +1083,83 @@ public class Model {
 	 */
 	public void setName(String name) {
 		this.name = name;
+		FileReader readFile = null;
+		BufferedReader reader = null;
+
+		try {
+			readFile = new FileReader("bad-words.txt");
+			reader = new BufferedReader(readFile);
+			// return reader.readLine();
+			String testWord = ""; 
+			while((testWord = reader.readLine()) != null) {
+				if((this.name.toLowerCase()).contains(testWord)) {
+					this.name = "Nobody";
+				}
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
+	
+	/**
+	 * Adds new word to bad words list
+	 * 
+	 */
+	public void addBadWord() {
+		String wordToAdd = (getHighScore().split(": ")[0]).toLowerCase();
+		String score = getHighScore().split(": ")[1];
+		BufferedWriter writer = null;
+		FileWriter writeFile = null;
+		
+		try {
+			File file = new File("bad-words.txt");
+
+			// if file doesnt exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			// true = append file
+			writeFile = new FileWriter(file.getAbsoluteFile(), true);
+			writer = new BufferedWriter(writeFile);
+			writer.newLine();
+			writer.write(wordToAdd);
+
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			try {
+
+				if (writer != null)
+					writer.close();
+
+				if (writeFile != null)
+					writeFile.close();
+
+			} catch (IOException ex) {
+
+				ex.printStackTrace();
+
+			}
+		}
+		highScore = "Nobody: "+ score;
+
+	}
+	
 
 }

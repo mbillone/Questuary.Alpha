@@ -186,9 +186,12 @@ public class Controller {
 						String name = view.getName();
 						model.setName(name);
 						model.updateHighScore();
+					}else {
+						model.setName(model.getHighScore().split(": ")[0]);
+						model.updateHighScore();
 					}
-
 					view.setHighScore(model.getHighScore());
+					
 					view.gameOverMode();
 				}
 			} else {
@@ -233,6 +236,10 @@ public class Controller {
 					// something is selected from game over screen
 					frame.dispose();
 					Controller newGame = new Controller();
+				}else if(keys.contains(KeyEvent.VK_SPACE) && keys.contains(KeyEvent.VK_F)) {
+					model.addBadWord();
+					view.setHighScore(model.getHighScore());
+					
 				}
 			}
 
