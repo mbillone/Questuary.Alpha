@@ -1161,46 +1161,6 @@ public class Model {
 
 			}
 		}
-		highScore = "Nobody: "+ score;
-		
-		if(wordToAdd != "nobody") {
-			
-			try {
-				File file = new File("BadWords.txt");
-
-				// if file doesnt exists, then create it
-				if (!file.exists()) {
-					file.createNewFile();
-				}
-
-				// true = append file
-				writeFile = new FileWriter(file.getAbsoluteFile(), true);
-				writer = new BufferedWriter(writeFile);
-				writer.newLine();
-				writer.write(wordToAdd);
-
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-
-			} finally {
-
-				try {
-
-					if (writer != null)
-						writer.close();
-
-					if (writeFile != null)
-						writeFile.close();
-
-				} catch (IOException ex) {
-
-					ex.printStackTrace();
-
-				}
-			}
-		}
 
 	}
 	
