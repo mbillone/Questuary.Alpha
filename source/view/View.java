@@ -127,7 +127,7 @@ public class View extends JPanel {
 	// game time field
 	private int gameTimeLeft;
 	final private int GameTimeBarHeight = 35;
-	final private int GameTimeBarWidth = 450;
+	final private int GameTimeBarWidth = 600;
 	final private int GameTimeBarXPos = GameOverScreenWidth / 2 - GameTimeBarWidth / 2;
 	final private int GameTimeBarYPos = 5;
 	int dynamicTimeBar;
@@ -195,7 +195,11 @@ public class View extends JPanel {
 	 */
 	@Override
 	public void paint(Graphics g) {
+<<<<<<< HEAD
 		dynamicTimeBar = 10 * (gameTimeLeft / 4);
+=======
+		dynamicTimeBar = 10 * (gameTimeLeft / 3);
+>>>>>>> akash0996-master3
 		if (!changeCharacterMode && !gameOverMode ) {
 			// paint score
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 50));
