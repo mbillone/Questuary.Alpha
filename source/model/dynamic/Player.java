@@ -242,7 +242,7 @@ public class Player extends DynamicObject {
 			state = "researcher";
 			return "researcher";
 		} else {
-			maxJumpingHeight = (int) (height * 1.5);
+			maxJumpingHeight = (int) (height * 1.7);
 			state = "bird";
 			return "bird";
 		}
