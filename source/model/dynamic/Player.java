@@ -108,7 +108,7 @@ public class Player extends DynamicObject {
 			playerFalling();
 		}
 
-		else if (y < 0) {
+		else if (y < ( -(super.getHeight()) *(0.75) ) ) {
 			falling = true;
 			jumping = false;
 		}

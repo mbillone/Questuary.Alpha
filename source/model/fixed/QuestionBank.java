@@ -31,7 +31,8 @@ public class QuestionBank {
 				String a3 = br.readLine();
 				String cAns = br.readLine();
 				String[] answers = { a1, a2, a3 };
-				questions.add(new Question(question, answers, cAns));
+				String reason = br.readLine();
+				questions.add(new Question(question, answers, cAns, reason));
 			}
 		} catch (IOException e) {
 			System.out.println("Error with file reading");
@@ -52,7 +53,7 @@ public class QuestionBank {
 	}
 
 	/**
-	 * Picks a question from the ArrayList of questions
+	 * Randomly picks a question from the ArrayList of questions
 	 * 
 	 * @param num
 	 *            - Index in questions array to return
@@ -61,6 +62,8 @@ public class QuestionBank {
 	 */
 	public Question pickQuestion(int num) {
 		int size = questions.size();
-		return questions.get(num % size);
+		Random r = new Random(System.nanoTime());
+		int index = r.nextInt(num);
+		return questions.get((index) % size);
 	}
 }

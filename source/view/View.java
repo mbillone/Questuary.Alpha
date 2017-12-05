@@ -18,11 +18,13 @@ import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 
 import view.dynamic.ResearcherImage;
 import view.fixed.ChestImage;
@@ -371,8 +373,8 @@ public class View extends JPanel {
 	 */
 	public JFrame createQuestionFrame(Question q) {
 		questionFrame = new JFrame(q.getName());
-		int frameWidth = 500;
-		int frameHeight = 250;
+		int frameWidth = 700;
+		int frameHeight = 350;
 		questionFrame.setSize(frameWidth, frameHeight);
 		questionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -382,9 +384,10 @@ public class View extends JPanel {
 		questionFrame.setLocation(x, y);
 
 		// add the question label onto the frame
-		JLabel questionLabel = new JLabel(q.getQuestion());
+		JLabel questionLabel = new JLabel("<html>" + q.getQuestion() + "<html>");
 		questionLabel.setHorizontalAlignment(JLabel.LEFT);
 		questionLabel.setHorizontalAlignment(JLabel.CENTER);
+		questionLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
 
 		questionBox = Box.createVerticalBox();
 		questionBox.add(questionLabel);
@@ -397,13 +400,16 @@ public class View extends JPanel {
 
 		JRadioButton a1 = new JRadioButton(q.getA1());
 		a1.setSelected(true);
+		a1.setFont(new Font("Serif", Font.BOLD, 20));
 		buttons.add(a1);
 		questionBox.add(a1);
 		JRadioButton a2 = new JRadioButton(q.getA2());
+		a2.setFont(new Font("Serif", Font.BOLD, 20));
 		buttons.add(a2);
 		questionBox.add(a2);
 		JRadioButton a3 = new JRadioButton(q.getA3());
 		buttons.add(a3);
+		a3.setFont(new Font("Serif", Font.BOLD, 20));
 		questionBox.add(a3);
 
 		questionBox.setVisible(true);
@@ -445,15 +451,26 @@ public class View extends JPanel {
 		questionBox.setVisible(false);
 
 		Box correctBox = Box.createVerticalBox();
-		JLabel question = new JLabel(q.getQuestion());
-		JLabel correctMessage = new JLabel(" CORRECT");
+		
+		JLabel question = new JLabel("<html>" + q.getQuestion() + "<html>");
+		question.setFont(new Font("SansSerif", Font.BOLD, 25));
+		
+		JLabel correctMessage = new JLabel("CORRECT");
 		correctMessage.setHorizontalAlignment(JLabel.CENTER);
 		correctMessage.setFont(new Font("Serif", Font.BOLD, 30));
-		JLabel healthMessage = new JLabel("Congradulations you get an extra health\n");
+		correctMessage.setForeground(Color.GREEN);
+		
+		JLabel healthMessage = new JLabel( "<html>" + "Congradulations you get an extra health" + "<html>");
+		healthMessage.setFont(new Font("Monospaced",Font.BOLD,20));
+		ImageIcon heart = new ImageIcon("images/world/Heart.png");
+		JLabel icon = new JLabel(heart);
+		
 		JLabel continueMessage = new JLabel("Press the Right Key to continue your adventure");
+		
 		correctBox.add(question);
 		correctBox.add(correctMessage);
 		correctBox.add(healthMessage);
+		correctBox.add(icon);
 		correctBox.add(continueMessage);
 		correctBox.setVisible(true);
 
@@ -472,17 +489,28 @@ public class View extends JPanel {
 		questionBox.setVisible(false);
 
 		Box wrongBox = Box.createVerticalBox();
-		JLabel wrong = new JLabel("WRONG");
+		
+
+		JLabel question = new JLabel("<html>" + q.getQuestion() + "<html>");
+		question.setFont(new Font("SansSerif", Font.BOLD, 25));
+		JLabel wrong = new JLabel("SORRY, WRONG");
 		wrong.setFont(new Font("Serif", Font.BOLD, 30));
-		JLabel question = new JLabel(q.getQuestion());
-		JLabel message = new JLabel("The right answer is: ");
-		JLabel correctAnswer = new JLabel(q.getCorrectAnswer());
-		wrongBox.add(wrong);
+		wrong.setForeground(Color.RED);
+		JLabel message = new JLabel("The right answer is:.... ");
+		JLabel correctAnswer = new JLabel("<html>" + q.getCorrectAnswer()+ "<html>");
+		correctAnswer.setFont(new Font("Serif", Font.BOLD, 18));
+		
+		JLabel reason = new JLabel("<html>" + "Explanation: " + q.getReason() + "<html>");
+		reason.setFont(new Font("Monospaced", Font.BOLD, 25));
+		
 		wrongBox.add(question);
+		wrongBox.add(wrong);
 		wrongBox.add(message);
 		wrongBox.add(correctAnswer);
+		wrongBox.add(reason);
 		wrongBox.add(new JLabel("Press the Right Key to continue your adventure"));
-
+		
+		
 		wrongBox.setVisible(true);
 
 		questionFrame.add(wrongBox);
@@ -528,7 +556,12 @@ public class View extends JPanel {
 	 * @return String - name of the user
 	 */
 	public String getName() {
-		return JOptionPane.showInputDialog("You set a new highscore. What is your name?");
+		String name = JOptionPane.showInputDialog("You set a new highscore. What is your name?");
+		if(name == null || name.equalsIgnoreCase(""))
+		{
+			return "Nobody";
+		}
+		return name;
 	}
 
 	// *************************************************
