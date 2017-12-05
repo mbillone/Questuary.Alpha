@@ -6,6 +6,7 @@ public class Question {
 	String question;
 	String[] answers;
 	String correctAnswer;
+	String reason;
 	int index = 0;
 	
 	/**
@@ -13,11 +14,13 @@ public class Question {
 	 * @param q - the question statement
 	 * @param ans - the possible answers that will be incorrect
 	 * @param cAns - the answer that is the correct answer
+	 * @param res - reason why the correct answer is correct
 	 */
-	public Question(String q, String[] ans, String cAns) {
+	public Question(String q, String[] ans, String cAns, String res) {
 		question = q;
 		answers = ans;
 		correctAnswer = cAns;
+		reason = res;
 	}
 	
 	/**
@@ -107,6 +110,13 @@ public class Question {
 	 */
 	public String getA3() {
 		return answers[2];
+	}
+	/**
+	 * Get the reason why the correct answer is correct
+	 * @return reason - reasoning of the correct answer
+	 */
+	public String getReason() {
+		return reason;
 	}
 	
 	/**
