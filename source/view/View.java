@@ -195,11 +195,8 @@ public class View extends JPanel {
 	 */
 	@Override
 	public void paint(Graphics g) {
-<<<<<<< HEAD
-		dynamicTimeBar = 10 * (gameTimeLeft / 4);
-=======
 		dynamicTimeBar = 10 * (gameTimeLeft / 3);
->>>>>>> akash0996-master3
+		
 		if (!changeCharacterMode && !gameOverMode ) {
 			// paint score
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 50));

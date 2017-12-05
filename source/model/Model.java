@@ -1032,11 +1032,6 @@ public class Model {
 			isGamePaused = false;
 		}
 	}
-<<<<<<< HEAD
-
-=======
-
->>>>>>> akash0996-master3
 
 	/**
 	 * Sets the isGamePaused variable
@@ -1096,11 +1091,7 @@ public class Model {
 		BufferedReader reader = null;
 
 		try {
-<<<<<<< HEAD
-			readFile = new FileReader("bad-words.txt");
-=======
 			readFile = new FileReader("BadWords.txt");
->>>>>>> akash0996-master3
 			reader = new BufferedReader(readFile);
 			// return reader.readLine();
 			String testWord = ""; 
@@ -1132,12 +1123,11 @@ public class Model {
 	public void addBadWord() {
 		String wordToAdd = (getHighScore().split(": ")[0]).toLowerCase();
 		String score = getHighScore().split(": ")[1];
-<<<<<<< HEAD
 		BufferedWriter writer = null;
 		FileWriter writeFile = null;
 		
 		try {
-			File file = new File("bad-words.txt");
+			File file = new File("BadWords.txt");
 
 			// if file doesnt exists, then create it
 			if (!file.exists()) {
@@ -1172,10 +1162,8 @@ public class Model {
 			}
 		}
 		highScore = "Nobody: "+ score;
-=======
+		
 		if(wordToAdd != "nobody") {
-			BufferedWriter writer = null;
-			FileWriter writeFile = null;
 			
 			try {
 				File file = new File("BadWords.txt");
@@ -1213,7 +1201,6 @@ public class Model {
 				}
 			}
 		}
->>>>>>> akash0996-master3
 
 	}
 	
