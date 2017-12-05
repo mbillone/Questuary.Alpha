@@ -127,7 +127,7 @@ public class View extends JPanel {
 	// game time field
 	private int gameTimeLeft;
 	final private int GameTimeBarHeight = 35;
-	final private int GameTimeBarWidth = 450;
+	final private int GameTimeBarWidth = 600;
 	final private int GameTimeBarXPos = GameOverScreenWidth / 2 - GameTimeBarWidth / 2;
 	final private int GameTimeBarYPos = 5;
 	int dynamicTimeBar;
@@ -137,9 +137,6 @@ public class View extends JPanel {
 	JFrame questionFrame;
 	ArrayList<JRadioButton> buttons = new ArrayList<JRadioButton>();
 	Box questionBox;
-	// end of add question
-	private boolean gameIntroMode = true;
-	private int introSlideNumber;
 
 	// *************************************************
 	// Constructor
@@ -198,8 +195,8 @@ public class View extends JPanel {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		dynamicTimeBar = 10 * (gameTimeLeft / 4);
-		if (!changeCharacterMode && !gameOverMode && !gameIntroMode) {
+		dynamicTimeBar = 10 * (gameTimeLeft / 3);
+		if (!changeCharacterMode && !gameOverMode ) {
 			// paint score
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 50));
 			g.drawString("Score:" + score, (int) screenWidth - 225, 96);
@@ -320,16 +317,6 @@ public class View extends JPanel {
 			g.setFont(new Font("Comic Sans MS", Font.PLAIN, 85));
 			g.drawString("HIGHSCORE- " + highScore, GameOverHighScoreXPos, GameOverHighScoreYPos);
 			g.drawString("Your Score- " + score, GameOverScoreXPos, GameOverScoreYPos);
-		} else if (gameIntroMode) {
-			try {
-				GameOverScreen = ImageIO.read(new File("images/IntroImages/Intro(" + introSlideNumber + ").png"));
-			} catch (IOException e) {
-				System.out.println("Error with file upload");
-				e.printStackTrace();
-			}
-
-			g.drawImage(GameOverScreen, GameOverScreenXPos, GameOverScreenYPos, GameOverScreenWidth,
-					GameOverScreenHeight, this);
 		}
 	}
 
@@ -545,27 +532,6 @@ public class View extends JPanel {
 
 	// *************************************************
 	// Setters
-
-	/**
-	 * Sets the Intro slide number to display
-	 * 
-	 * @param introSlideNumber
-	 *            - sets the slide number to display
-	 */
-	public void setIntroSlideNumber(int introSlideNumber) {
-		this.introSlideNumber = introSlideNumber;
-	}
-
-	/**
-	 * Set game to and from intro mode
-	 * 
-	 * @param b
-	 *            - Boolean for setting Intro Mode
-	 * 
-	 */
-	public void setIntroMode(boolean b) {
-		gameIntroMode = b;
-	}
 
 	/**
 	 * This method sets game view into change character mode
